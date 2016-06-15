@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserRoleService {
     @Autowired
+
     private UserRoleDao userRoleDao;
     public UserRole getUserRoleByName (String userRoleName) {
         return userRoleDao.getRoleByName(userRoleName);
