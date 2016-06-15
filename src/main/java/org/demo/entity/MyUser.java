@@ -9,8 +9,8 @@ import java.util.Set;
 
 @Entity(name = "users")
 public class MyUser {
-    @Autowired
-    private UserRoleService userRoleService;
+//    @Autowired
+//    private UserRoleService userRoleService;
 
     @Id
     @Column (name = "username")
@@ -65,11 +65,12 @@ public class MyUser {
         return result;
     }
 
-    public MyUser(String username, String password, String userRole) {
+    public MyUser(String username, String password, Set<UserRole> userRoles) {
         setUsername(username);
         setPassword(password);
-        HashSet<UserRole> userRoles = new HashSet<>(1);
-        userRoles.add(userRoleService.getUserRoleByName(userRole));
         setUserRole(userRoles);
+    }
+
+    public MyUser() {
     }
 }

@@ -18,6 +18,7 @@ public class MyUserService {
 
     public MyUser CreateUser (MyUser myUser) {
         userDao.persist(myUser);
+        System.out.println();
         return userDao.getByUserName(myUser.getUsername());
     }
 

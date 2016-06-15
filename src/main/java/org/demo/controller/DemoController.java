@@ -110,8 +110,9 @@ public class DemoController {
         System.out.println("roler = " + userRoleName);
         System.out.println(passwordEncoder.encode(password));
 
-
-        MyUser myUser = new MyUser(username, password, userRoleName);
+        HashSet<UserRole> userRoles = new HashSet<>(1);
+        userRoles.add(userRoleService.getUserRoleByName(userRoleName));
+        MyUser myUser = new MyUser(username, password, userRoles);
 
         myUser = myUserService.CreateUser(myUser);
 
