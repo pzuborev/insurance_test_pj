@@ -24,6 +24,19 @@
                 </td>
             </tr>
             <tr>
+                <td>
+                    <label id="role-label">Role:</label>
+                </td>
+                <td>
+
+                    <select name="userRoleName">
+                        <option value="ADMIN">Admin</option>
+                        <option value="USER">User</option>
+                    </select>
+
+                </td>
+            </tr>
+            <tr>
                 <td colspan="2">
                     <button id="register" onclick="submit">Register</button>
                 </td>
