@@ -43,12 +43,17 @@ public class RestAuthController {
     @RequestMapping(path = "/user/create", method = RequestMethod.POST)
     public RestResponse<Empty> createUser (@RequestBody UserDto userDto) {
         try {
+            System.out.println("******************* createUser");
+            System.out.println("roles count = " + userDto.getRoles().size());
+
             userService.CreateUser(userDto);
         } catch (Exception e) {
             return new RestResponse(Status.Failure(e));
         }
         return  new RestResponse(Status.Success());
     }
+
+
 
 
 }

@@ -14,10 +14,10 @@ public class MyUser {
     @Column(name = "password")
     String password;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="userrolelink", joinColumns = @JoinColumn(name = "username"),
             inverseJoinColumns = @JoinColumn(name="userroleid"))
-    Set<UserRole> userRole;
+    Set<MyUserRole> myUserRole;
 
     public String getUsername() {
         return username;
@@ -35,12 +35,12 @@ public class MyUser {
         this.password = password;
     }
 
-    public Set<UserRole> getUserRole() {
-        return userRole;
+    public Set<MyUserRole> getMyUserRole() {
+        return myUserRole;
     }
 
-    public void setUserRole(Set<UserRole> userRole) {
-        this.userRole = userRole;
+    public void setMyUserRole(Set<MyUserRole> myUserRole) {
+        this.myUserRole = myUserRole;
     }
 
     @Override
@@ -61,10 +61,10 @@ public class MyUser {
         return result;
     }
 
-    public MyUser(String username, String password, Set<UserRole> userRoles) {
+    public MyUser(String username, String password, Set<MyUserRole> myUserRoles) {
         setUsername(username);
         setPassword(password);
-        setUserRole(userRoles);
+        setMyUserRole(myUserRoles);
     }
 
     public MyUser() {

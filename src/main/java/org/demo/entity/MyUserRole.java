@@ -5,9 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity(name = "userroles")
-public class UserRole {
+public class MyUserRole {
     @Id
-    @Column
+    @Column()
     String id;
     @Column(name = "name")
     String name;
@@ -28,23 +28,32 @@ public class UserRole {
         this.name = name;
     }
 
+    public MyUserRole() {
+    }
+
+    public MyUserRole(String name) {
+        this.name = name;
+    }
+
+    public MyUserRole(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof MyUserRole)) return false;
 
-        UserRole userRole = (UserRole) o;
+        MyUserRole that = (MyUserRole) o;
 
-        if (!id.equals(userRole.id)) return false;
-        return name.equals(userRole.name);
+        return getName().equals(that.getName());
 
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + name.hashCode();
-        return result;
+        return getName().hashCode();
     }
 
     @Override

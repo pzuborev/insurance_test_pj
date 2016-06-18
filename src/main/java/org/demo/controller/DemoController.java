@@ -1,11 +1,9 @@
 package org.demo.controller;
 
 import org.demo.dto.UserDto;
-import org.demo.entity.MyUser;
-import org.demo.entity.UserRole;
+import org.demo.entity.MyUserRole;
 import org.demo.service.MyUserService;
 
-import org.demo.service.MyUserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -32,8 +30,7 @@ public class DemoController {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private MyUserService myUserService;
-    @Autowired
-    private MyUserRoleService myUserRoleService;
+
     @Autowired
     private AuthenticationManagerBuilder auth;
 
@@ -98,8 +95,8 @@ public class DemoController {
         System.out.println("roler = " + userRoleName);
         System.out.println(passwordEncoder.encode(password));
 
-        HashSet<UserRole> userRoles = new HashSet<>(1);
-        userRoles.add(myUserRoleService.getUserRoleByName(userRoleName));
+        HashSet<MyUserRole> myUserRoles = new HashSet<>(1);
+        myUserRoles.add(myUserService.getUserRoleByName(userRoleName));
         UserDto userDto = new UserDto();
         userDto.setUsername(username);
         userDto.setPassword(password);

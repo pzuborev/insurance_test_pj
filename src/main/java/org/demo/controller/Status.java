@@ -11,7 +11,11 @@ public class Status {
         return new Status(SUCCESS, "");
     }
     public static final Status Failure (Throwable throwable) {
-        return new Status(FAILURE, throwable.getMessage());
+        throwable.printStackTrace();
+        if (throwable.getMessage().isEmpty())
+            return new Status(FAILURE, throwable.toString());
+        else
+            return new Status(FAILURE, throwable.getMessage());
     }
 
     public String getResult() {
