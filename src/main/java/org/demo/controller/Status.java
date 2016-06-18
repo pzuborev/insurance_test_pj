@@ -12,10 +12,7 @@ public class Status {
     }
     public static final Status Failure (Throwable throwable) {
         throwable.printStackTrace();
-        if (throwable.getMessage().isEmpty())
-            return new Status(FAILURE, throwable.toString());
-        else
-            return new Status(FAILURE, throwable.getMessage());
+        return new Status(FAILURE, throwable.getMessage());
     }
 
     public String getResult() {

@@ -21,9 +21,6 @@ import java.util.Properties;
 @ComponentScan({"org.demo.*"})
 @Import({MySecurityConfig.class})
 public class MyAppConfig {
-    @Autowired
-    private Environment environment;
-
     @Bean
     public InternalResourceViewResolver viewResolver() {
         System.out.println("********************** MyAppConfig.viewResolver()");
