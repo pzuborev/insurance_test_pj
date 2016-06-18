@@ -1,7 +1,9 @@
 package org.demo.service;
 
 import org.demo.dao.UserDao;
+import org.demo.dto.UserDto;
 import org.demo.entity.MyUser;
+import org.demo.entity.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,10 +18,13 @@ public class MyUserService {
         this.userDao = userDao;
     }
 
-    public MyUser CreateUser (MyUser myUser) {
+    public void CreateUser (UserDto userDto) {
+        MyUser myUser = new MyUser();
+        myUser.setUsername(userDto.getUsername());
+        myUser.setPassword(userDto.getPassword());
         userDao.persist(myUser);
-        System.out.println();
-        return userDao.getByUserName(myUser.getUsername());
+        //myUser = userDao.getByUserName(myUser.getUsername());
     }
+
 
 }

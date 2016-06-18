@@ -62,26 +62,26 @@ public class HibernateConfiguration {
         return txManager;
     }
 
-    @Bean
-    public UserDao userDao () {
-        UserDao userDao = new UserDao();
-        userDao.setSessionFactory(sessionFactory().getObject());
-
-        return  userDao;
-    }
-
-    @Bean
-    public UserRoleDao userRoleDao () {
-        UserRoleDao userRoleDao = new UserRoleDao();
-        userRoleDao.setSessionFactory(sessionFactory().getObject());
-
-        return  userRoleDao;
-    }
-
-    @Bean (name = "myUserDetailsService")
-    public MyUserDetailsService myUserDetailsService () {
-        MyUserDetailsService myUserDetailsService = new MyUserDetailsService();
-        myUserDetailsService.setUserDao(userDao());
-        return myUserDetailsService;
-    }
+//    @Bean
+//    public UserDao userDao () {
+//        UserDao userDao = new UserDao();
+//        userDao.setSessionFactory(sessionFactory().getObject());
+//
+//        return  userDao;
+//    }
+//
+//    @Bean
+//    public UserRoleDao userRoleDao () {
+//        UserRoleDao userRoleDao = new UserRoleDao();
+//        userRoleDao.setSessionFactory(sessionFactory().getObject());
+//
+//        return  userRoleDao;
+//    }
+//
+//    @Bean (name = "myUserDetailsService")
+//    public MyUserDetailsService myUserDetailsService () {
+//        MyUserDetailsService myUserDetailsService = new MyUserDetailsService();
+//        myUserDetailsService.setUserDao(userDao());
+//        return myUserDetailsService;
+//    }
 }

@@ -3,12 +3,13 @@ package org.demo.service;
 import org.demo.dao.UserDao;
 import org.demo.dto.TokenDto;
 import org.demo.dto.UserDto;
-
 import org.demo.entity.MyUser;
 import org.demo.entity.Token;
+import org.demo.exceptions.TokenException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -18,14 +19,26 @@ public class RestAuthService {
     @Autowired
     private UserDao userDao;
 
-    public TokenDto getToken (UserDto userDto) throws Exception {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    @Transactional
+    public TokenDto getToken(UserDto userDto) throws TokenException {
         //проверка пользователя
         MyUser user = userDao.getByUserName(userDto.getUsername());
         if (user == null) {
-            throw new Exception ("user not found");
+            throw new TokenException(String.format("User %s not found", userDto.getUsername()));
         }
-        if (user.getPassword() != userDto.getPassword()) {
-            throw new Exception ("invalid password");
+        if (!passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
+            throw new TokenException(
+                    String.format("Invalid password %s. %s",
+                            userDto.getPassword(),
+                            passwordEncoder.encode(userDto.getPassword())
+                    ));
         }
         //формирование токена
         TokenDto tokenDto = new TokenDto();
@@ -39,5 +52,6 @@ public class RestAuthService {
 
         //возвращаем токен
         return tokenDto;
+
     }
 }

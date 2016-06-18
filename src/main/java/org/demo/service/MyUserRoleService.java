@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class UserRoleService {
+public class MyUserRoleService {
     @Autowired
 
     private UserRoleDao userRoleDao;

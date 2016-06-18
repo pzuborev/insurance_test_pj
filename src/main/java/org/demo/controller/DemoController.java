@@ -1,14 +1,15 @@
 package org.demo.controller;
 
+import org.demo.dto.UserDto;
 import org.demo.entity.MyUser;
 import org.demo.entity.UserRole;
 import org.demo.service.MyUserService;
-import org.demo.service.UserRoleService;
+
+import org.demo.service.MyUserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,31 +24,18 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.HashSet;
-import java.util.Set;
 
 @Controller
 public class DemoController {
+    @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     private MyUserService myUserService;
-
     @Autowired
-    private UserRoleService userRoleService;
-
+    private MyUserRoleService myUserRoleService;
     @Autowired
     private AuthenticationManagerBuilder auth;
-
-    public void setMyUserService(MyUserService myUserService) {
-        this.myUserService = myUserService;
-    }
-
-    @Autowired
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @PostConstruct
     public void init() {
@@ -111,10 +99,12 @@ public class DemoController {
         System.out.println(passwordEncoder.encode(password));
 
         HashSet<UserRole> userRoles = new HashSet<>(1);
-        userRoles.add(userRoleService.getUserRoleByName(userRoleName));
-        MyUser myUser = new MyUser(username, password, userRoles);
+        userRoles.add(myUserRoleService.getUserRoleByName(userRoleName));
+        UserDto userDto = new UserDto();
+        userDto.setUsername(username);
+        userDto.setPassword(password);
 
-        myUser = myUserService.CreateUser(myUser);
+        myUserService.CreateUser(userDto);
 
         UserDetails userDetails = auth.getDefaultUserDetailsService().loadUserByUsername(username);
 

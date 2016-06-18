@@ -1,10 +1,6 @@
 package org.demo.entity;
 
-import org.demo.service.UserRoleService;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "users")
