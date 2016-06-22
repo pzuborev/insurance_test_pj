@@ -10,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class RestAuthController {
+@RequestMapping(value = "/token")
+public class TokenController {
     @Autowired
     private RestAuthService restAuthService;
 
@@ -23,8 +24,8 @@ public class RestAuthController {
                 restAuthService.getToken(userdto));
     }
 
-    @RequestMapping(path = "/token", method = RequestMethod.GET)
-    public RestResponseData<TokenDto> token(@RequestParam String username, @RequestParam String password) {
+    @RequestMapping(value = "/{username}", method = RequestMethod.GET)
+    public RestResponseData<TokenDto> token(@PathVariable("username") String username, @RequestParam String password) {
         UserDto userdto = new UserDto();
         userdto.setUsername(username);
         userdto.setPassword(password);
@@ -32,8 +33,9 @@ public class RestAuthController {
         return tokenAsResponse(userdto);
     }
 
-    @RequestMapping(path = "/token/get", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public RestResponseData<TokenDto> token(@RequestBody UserDto userdto) {
+        System.out.println("********************** TokenController.token");
         return tokenAsResponse(userdto);
     }
 

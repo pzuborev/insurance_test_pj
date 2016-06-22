@@ -3,7 +3,7 @@ package org.demo.controller;
 import org.demo.controller.response.EmptyClass;
 import org.demo.controller.response.RestResponseData;
 import org.demo.controller.response.Status;
-import org.demo.controller.utils.RestPreconditions;
+import org.demo.utils.RestPreconditions;
 import org.demo.dto.UserDto;
 import org.demo.service.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;

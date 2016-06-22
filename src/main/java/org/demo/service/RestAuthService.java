@@ -6,6 +6,7 @@ import org.demo.dto.UserDto;
 import org.demo.entity.MyUser;
 import org.demo.entity.Token;
 import org.demo.exception.ApiException;
+import org.demo.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,9 +31,8 @@ public class RestAuthService {
     public TokenDto getToken(UserDto userDto) throws ApiException {
         //проверка пользователя
         MyUser user = userDao.getByUserName(userDto.getUsername());
-        if (user == null) {
-            throw new ApiException(String.format("User %s not found", userDto.getUsername()));
-        }
+        if (user == null) throw new UserNotFoundException(userDto.getUsername());
+
         System.out.println("****************************************");
         if (!passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
             throw new ApiException(
