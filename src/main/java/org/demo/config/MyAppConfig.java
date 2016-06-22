@@ -18,7 +18,7 @@ import java.util.Properties;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan({"org.demo.*"})
+@ComponentScan({"org.demo"})
 @Import({MySecurityConfig.class})
 public class MyAppConfig {
     @Bean

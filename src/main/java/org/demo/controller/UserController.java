@@ -36,4 +36,15 @@ public class UserController {
         return new RestResponseData(Status.Success ());
     }
 
+    @RequestMapping (value = "/{username}", method = RequestMethod.DELETE)
+    @org.springframework.web.bind.annotation.ResponseStatus (HttpStatus.OK)
+    @ResponseBody
+    public RestResponseData<EmptyClass> deleteUser (@PathVariable("username") String userName) {
+        System.out.println ("******************* delete");
+        userService.delete (userName);
+
+        return new RestResponseData(Status.Success ());
+    }
+
+
 }

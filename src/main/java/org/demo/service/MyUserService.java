@@ -35,7 +35,7 @@ public class MyUserService {
     @Transactional
     public void update(String userName, UserDto userDto) {
         MyUser user = userDao.getByUserName(userName);
-        if (user == null) throw new UserNotFoundException(userDto.getUsername());
+        if (user == null) throw new UserNotFoundException(userName);
 
         if (userDto.getUsername() == "") userDto.setUsername(userName);
         else if (!userDto.getUsername().equals(userName))
@@ -50,6 +50,13 @@ public class MyUserService {
             user.setPassword(userDto.getPassword());
 
         userDao.update(user);
+    }
+
+    @Transactional
+    public void delete (String username) {
+        MyUser user = new MyUser();
+        user.setUsername(username);
+        userDao.delete(user);
     }
 
     @Transactional(readOnly = true)

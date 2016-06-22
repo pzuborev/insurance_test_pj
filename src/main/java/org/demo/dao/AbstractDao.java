@@ -33,6 +33,10 @@ public abstract class AbstractDao<T extends Entity> {
         getSession().update(entity);
     }
 
+    public void  flush () {
+        getSession().flush();
+    }
+
     public T get(Class c, Serializable id) {
         return (T) getSession().get(c, id);
     }
