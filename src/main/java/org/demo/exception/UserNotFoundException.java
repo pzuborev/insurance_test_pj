@@ -1,7 +1,6 @@
 package org.demo.exception;
 
 public class UserNotFoundException extends RuntimeException {
-   // public static final long serialVersionUID = -1;
 
     private final String username;
     public UserNotFoundException(String username) {

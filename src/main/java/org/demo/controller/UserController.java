@@ -3,7 +3,6 @@ package org.demo.controller;
 import org.demo.controller.response.EmptyClass;
 import org.demo.controller.response.RestResponseData;
 import org.demo.controller.response.Status;
-import org.demo.utils.RestPreconditions;
 import org.demo.dto.UserDto;
 import org.demo.service.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,6 @@ public class UserController {
     public RestResponseData<EmptyClass> create (@RequestBody UserDto userDto) {
         System.out.println ("******************* create");
 
-        RestPreconditions.checkNotNull (userDto);
         userService.create (userDto);
         return new RestResponseData(Status.Success ());
     }
@@ -33,9 +31,6 @@ public class UserController {
     public RestResponseData<EmptyClass> updateUser (@PathVariable("username") String userName,
                                                     @RequestBody UserDto userDto) {
         System.out.println ("******************* update");
-
-        RestPreconditions.checkNotNull (userDto);
-
         userService.update (userName, userDto);
 
         return new RestResponseData(Status.Success ());
