@@ -5,7 +5,7 @@ import org.demo.dto.TokenDto;
 import org.demo.dto.UserDto;
 import org.demo.entity.MyUser;
 import org.demo.entity.Token;
-import org.demo.exceptions.TokenException;
+import org.demo.exception.ApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,14 +27,14 @@ public class RestAuthService {
     }
 
     @Transactional
-    public TokenDto getToken(UserDto userDto) throws TokenException {
+    public TokenDto getToken(UserDto userDto) throws ApiException {
         //проверка пользователя
         MyUser user = userDao.getByUserName(userDto.getUsername());
         if (user == null) {
-            throw new TokenException(String.format("User %s not found", userDto.getUsername()));
+            throw new ApiException(String.format("User %s not found", userDto.getUsername()));
         }
         if (!passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
-            throw new TokenException(
+            throw new ApiException(
                     String.format("Invalid password %s. %s",
                             userDto.getPassword(),
                             passwordEncoder.encode(userDto.getPassword())

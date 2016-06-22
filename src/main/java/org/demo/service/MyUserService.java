@@ -5,6 +5,8 @@ import org.demo.dao.UserRoleDao;
 import org.demo.dto.UserDto;
 import org.demo.entity.MyUser;
 import org.demo.entity.MyUserRole;
+import org.demo.exception.ApiException;
+import org.demo.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,38 +15,52 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-@Transactional
+
 public class MyUserService {
     @Autowired
     private UserDao userDao;
-
     @Autowired
-    private UserRoleDao userRoleDao;
+    private MyUserRoleService userRoleService;
 
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
 
-    public void CreateUser (UserDto userDto) {
+
+
+    @Transactional
+    public void create(UserDto userDto) {
         MyUser myUser = new MyUser();
         myUser.setUsername(userDto.getUsername());
         myUser.setPassword(userDto.getPassword());
-        if (!userDto.getRoles().isEmpty()) {
-            Set<MyUserRole> myUserRoles = new HashSet<>(userDto.getRoles().size());
-            System.out.println("roles:");
-            for (String roleName : userDto.getRoles()) {
-                System.out.println(roleName);
-                myUserRoles.add(userRoleDao.getRoleByName(roleName));
-            }
-            myUser.setMyUserRole(myUserRoles);
-        }
+        if (userDto.getRoles() != null)
+            myUser.setMyUserRole(userRoleService.getMyRolesByName (userDto.getRoles()));
 
         userDao.persist(myUser);
-        //myUser = userDao.getByUserName(myUser.getUsername());
     }
 
+    @Transactional
+    public void update(String userName, UserDto userDto) {
+        if (userDto.getUsername() == "") userDto.setUsername(userName);
+        else if (userDto.getUsername() != userName)
+                throw new ApiException("You can not change username. Old username '%s'. New username '%s'");
 
-    public MyUserRole getUserRoleByName(String userRoleName) {
-        return userRoleDao.getRoleByName(userRoleName);
+        MyUser user = userDao.getByUserName(userName);
+
+        if (user == null)
+            throw new UserNotFoundException(userName);
+
+        if (userDto.getRoles() != null)
+            user.setMyUserRole(userRoleService.getMyRolesByName(userDto.getRoles()));
+
+        if (userDto.getPassword() != null)
+            user.setPassword(userDto.getPassword());
+
+        userDao.update(user);
     }
+    @Transactional(readOnly = true)
+    public  MyUser getByUserName(String username) {
+        return userDao.getByUserName(username);
+    }
+
 }
