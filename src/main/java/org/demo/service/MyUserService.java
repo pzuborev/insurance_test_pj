@@ -43,7 +43,8 @@ public class MyUserService {
     public void update(String userName, UserDto userDto) {
         if (userDto.getUsername() == "") userDto.setUsername(userName);
         else if (userDto.getUsername() != userName)
-                throw new ApiException("You can not change username. Old username '%s'. New username '%s'");
+                throw new ApiException(String.format("You can not change username. Old username '%s'. New username '%s'",
+                        userName, userDto.getUsername()));
 
         MyUser user = userDao.getByUserName(userName);
 

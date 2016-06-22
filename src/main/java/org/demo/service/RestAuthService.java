@@ -33,6 +33,7 @@ public class RestAuthService {
         if (user == null) {
             throw new ApiException(String.format("User %s not found", userDto.getUsername()));
         }
+        System.out.println("****************************************");
         if (!passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
             throw new ApiException(
                     String.format("Invalid password %s. %s",

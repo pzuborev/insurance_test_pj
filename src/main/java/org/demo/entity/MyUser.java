@@ -1,10 +1,11 @@
 package org.demo.entity;
 
 import javax.persistence.*;
+import java.lang.annotation.Annotation;
 import java.util.Set;
 
 @Entity(name = "users")
-public class MyUser {
+public class MyUser implements Entity {
 //    @Autowired
 //    private UserRoleService userRoleService;
 
@@ -61,6 +62,11 @@ public class MyUser {
         return result;
     }
 
+    @Override
+    public Class<? extends Annotation> annotationType() {
+        return null;
+    }
+
     public MyUser(String username, String password, Set<MyUserRole> myUserRoles) {
         setUsername(username);
         setPassword(password);
@@ -68,5 +74,10 @@ public class MyUser {
     }
 
     public MyUser() {
+    }
+
+    @Override
+    public String name() {
+        return "User";
     }
 }
