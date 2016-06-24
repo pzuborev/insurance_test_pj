@@ -1,6 +1,7 @@
 package org.demo.controller;
 
 import org.demo.dto.UserDto;
+import org.demo.entity.MyUser;
 import org.demo.entity.MyUserRole;
 import org.demo.service.MyUserRoleService;
 import org.demo.service.MyUserService;
@@ -14,9 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
@@ -24,7 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashSet;
 
-@Controller
+@RestController
+@CrossOrigin(value = "*")
 public class DemoController {
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -42,7 +42,7 @@ public class DemoController {
         System.out.println("******************************* init DemoController");
     }
 
-    @RequestMapping(path = "/hi")
+    @RequestMapping(path = "/api/hi")
     public ModelAndView helloPublic() {
         System.out.println("****************************** helloPublic");
         ModelAndView model = new ModelAndView();
@@ -50,6 +50,13 @@ public class DemoController {
         model.addObject("message", "Public content");
         model.setViewName("hello");
         return model;
+    }
+    @RequestMapping(value = "api/get")
+    public MyUser get () {
+        MyUser myUser = new MyUser();
+        myUser.setUsername("test");
+        myUser.setPassword("test");
+        return myUser;
     }
 
     @RequestMapping(path = "/secured")

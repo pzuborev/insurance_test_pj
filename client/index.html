@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/angular.js"></script>
+</head>
+<body>
+<div ng-app="a1" ng-controller="c1">
+
+    <p id="outer">Hello</p>
+    <script type="text/javascript">
+        var app = angular.module('a1', []);
+        app.controller('c1', function ($scope, $http) {
+            $http.get("http://localhost:8080/api/get")
+             .then(function (response) {
+             console.log(response.status);
+             var dataHtml = JSON.stringify(response.data);
+             document.getElementById('outer').innerHTML = dataHtml;
+             });
+//            var user = {};
+//            user.firstName = 'Tom';
+//            user.lastName = 'Ghost';
+//
+//            $http.post("http://localhost:8080/api/get", user)
+//                    .then(function (response) {
+//                        console.log(response.status);
+//                        var dataHtml = JSON.stringify(response.data);
+//                        document.getElementById('outer').innerHTML = dataHtml;
+//                    });
+        });
+    </script>
+</div>
+</body>
+</html>
