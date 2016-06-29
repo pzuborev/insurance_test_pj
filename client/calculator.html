@@ -44,7 +44,10 @@
                         <th>Срок действия риска</th>
                         <th>Нетто-тариф</th>
                     </tr>
-                    <tr ng-repeat="risk in risks">
+                    <tr ng-repeat="risk in risks.riskDataSet"
+                        ng-click="setSelected(risk.rowNo)"
+                        ng-class="{selected : risk.rowNo == risks.selectedRowNo}"
+                        >
                         <td>{{risk.forIndividualType}}</td>
                         <td>{{risk.riskName}}</td>
                         <td>{{risk.riskAmount}}</td>
@@ -66,7 +69,9 @@
                         <label for="insScheme"> Программа страхования: </label>
                         <select name="insScheme" id="insScheme" class="form-control" ng-model="data.insScheme"
                                 ng-change="InsSchemeChange ();"
-                                ng-options="scheme.name for scheme in insSchemeList track by scheme.id">
+                                ng-options="scheme.name for scheme in insSchemeList track by scheme.id"
+                                ng-required="true"
+                        >
                         </select>
                     </div>
                 </div>
@@ -121,14 +126,14 @@
                         <label>
                             <input type="radio" ng-model="data.insuredGender" ng-value="genderList[0].id"/>
                             {{genderList[0].name}}
-                        </label> <!--<br/>-->
+                        </label>
                         <label>
                             <input type="radio" ng-model="data.insuredGender" ng-value="genderList[1].id"/>
                             {{genderList[1].name}}
                         </label>
                     </div>
                     <div class="col-xs-6 col-md-3">
-                        <label for="birthdate">Дата рождения</label>
+                        <label for="birthdate">Дата рождения:</label>
                         <input type="date"
                                id="birthdate"
                                ng-model="data.insuredBirthDate"
@@ -136,16 +141,15 @@
                         />
 
                     </div>
-
                 </div>
 
             </div>
-
         </div>
-
-
+        <div class="btn-group" role="group" aria-label="23423423423423423423423423423423423423432">
+            <button type="button" class="btn btn-default">Добавить риск</button>
+            <button type="button" class="btn btn-default">Выполнить расчет</button>
+        </div>
     </form>
-
 </main>
 </body>
 </html>
