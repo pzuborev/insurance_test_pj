@@ -2,115 +2,150 @@
 <html lang="ru" ng-app="Calculator">
 <head>
     <meta charset="UTF-8">
+
     <title>
         Калькулятор
     </title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
-    <!--<script src="js/angular.js"></script>-->
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <!--<link rel="stylesheet"-->
+    <!--href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">-->
+    <link rel="stylesheet"
+          href="css/calculator.css">
 
     <!-- Angular Material requires Angular.js Libraries -->
-    <script src=js/angularjs/1.5.7/angular.min.js"></script>
-    <script src=js/angularjs/1.5.7/angular-animate.min.js"></script>
-    <script src=js/angularjs/1.5.7/angular-aria.min.js"></script>
-    <script src=js/angularjs/1.5.7/angular-messages.min.js"></script>
+    <script src="js/angularjs/1.5.7/angular.min.js"></script>
+    <script src="js/angularjs/1.5.7/angular-animate.min.js"></script>
+    <script src="js/angularjs/1.5.7/angular-aria.min.js"></script>
+    <script src="js/angularjs/1.5.7/angular-messages.min.js"></script>
 
     <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
 
     <script src="js/calculator.js"></script>
 
 
-
 </head>
 <body>
 
-
-
 <main class="container" ng-controller="CalcController">
 
-    <div ng-controller="DemoCtrl as ctrl" layout="column" ng-cloak>
-        <md-content class="md-padding">
-            <form ng-submit="$event.preventDefault()">
-                <!--<p>Use <code>md-autocomplete</code> to search for matches from local or remote data sources.</p>-->
-                <md-autocomplete
-                        ng-disabled="ctrl.isDisabled"
-                        md-no-cache="ctrl.noCache"
-                        md-selected-item="ctrl.selectedItem"
-                        md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
-                        md-search-text="ctrl.searchText"
-                        md-selected-item-change="ctrl.selectedItemChange(item)"
-                        md-items="item in ctrl.querySearch(ctrl.searchText)"
-                        md-item-text="item.display"
-                        md-min-length="0"
-                        placeholder="What is your favorite US state?">
-                    <md-item-template>
-                        <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>
-                    </md-item-template>
-                    <md-not-found>
-                        No states matching "{{ctrl.searchText}}" were found.
-                        <!--<a ng-click="ctrl.newState(ctrl.searchText)">Create a new one!</a>-->
-                    </md-not-found>
-                </md-autocomplete>
-                <br/>
-                <!--  <md-checkbox ng-model="ctrl.simulateQuery">Simulate query for results?</md-checkbox>
-                  <md-checkbox ng-model="ctrl.noCache">Disable caching of queries?</md-checkbox>
-                  <md-checkbox ng-model="ctrl.isDisabled">Disable the input?</md-checkbox>-->
-                <!--<p>By default, <code>md-autocomplete</code> will cache results when performing a query.  After the initial call is performed, it will use the cached results to eliminate unnecessary server requests or lookup logic. This can be disabled above.</p>-->
-            </form>
-        </md-content>
-    </div>
 
     <div class=""><h3>Калькулятор условий страхования жизни</h3></div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            Условия страхования по договору
+    <form>
+        <div class="panel panel-default">
+            <div class="panel-heading">Страховые риски</div>
+            <div class="panel-body">
+                <table class="table">
+                    <tr>
+                        <th>Тип застрахованного лица</th>
+                        <th>Риск</th>
+                        <th>Страховая сумма</th>
+                        <th>Взнос</th>
+                        <th>Срок оплаты взносов</th>
+                        <th>Срок действия риска</th>
+                        <th>Нетто-тариф</th>
+                    </tr>
+                    <tr ng-repeat="risk in risks">
+                        <td>{{risk.forIndividualType}}</td>
+                        <td>{{risk.riskName}}</td>
+                        <td>{{risk.riskAmount}}</td>
+                        <td>{{risk.payAmount}}</td>
+                        <td>{{risk.payTerm}}</td>
+                        <td>{{risk.term}}</td>
+                        <td>{{risk.nettoTariff}}</td>
+                    </tr>
+                </table>
+            </div>
         </div>
-        <div class="panel-body">
-            <form>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Условия страхования по договору
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <label for="insScheme"> Программа страхования: </label>
+                        <select name="insScheme" id="insScheme" class="form-control" ng-model="data.insScheme"
+                                ng-change="InsSchemeChange ();"
+                                ng-options="scheme.name for scheme in insSchemeList track by scheme.id">
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="_insSchemeRule" class="col-xs-12 col-md-9">
+                        <label for="insSchemeRule"> Правило страхования страхования: </label>
+                        <select id="insSchemeRule" class="form-control"
+                                ng-model="data.insSchemeRule"
+                                ng-options="rule.name for rule in insSchemeRuleList track by rule.id">
 
-            </form>
-        </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">Страховые риски</div>
-        <div class="panel-body">
-            <table class="table">
-                <tr>
-                    <th>
-                        Тип застрахованного лица
-                    </th>
-                    <th>
-                        Риск
-                    </th>
-                    <th>
-                        Страховая сумма
-                    </th>
-                    <th>
-                        Взнос
-                    </th>
-                    <th>
-                        Срок оплаты взносов
-                    </th>
-                    <th>
-                        Срок действия риска
-                    </th>
-                    <th>
-                        Нетто-тариф
-                    </th>
+                        </select>
 
-                </tr>
-                <tr ng-repeat="risk in risks">
-                    <td>{{risk.forIndividualType}}</td>
-                    <td>{{risk.riskName}}</td>
-                    <td>{{risk.riskAmount}}</td>
-                    <td>{{risk.payAmount}}</td>
-                    <td>{{risk.payTerm}}</td>
-                    <td>{{risk.term}}</td>
-                    <td>{{risk.nettoTariff}}</td>
-                </tr>
-            </table>
+                    </div>
+                    <div id="_currency" class="col-xs-12 col-md-3">
+                        <label for="currency"> Валюта: </label>
+                        <select id="currency" class="form-control"
+                                ng-model="data.currency"
+                                ng-options="currency.name for currency in currencyList track by currency.id">
+
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="_region" class="col-xs-12 col-md-3">
+                        <label for="region">Регион:</label>
+                        <select id="region" class="form-control"
+                                ng-model="data.region"
+                                ng-options="region.name for region in regionList track by region.id">
+                        </select>
+                    </div>
+
+                    <div id="_paymentFrequency" class="col-xs-12 col-md-3">
+                        <label for="paymentFrequency">Частота оплаты взносов:</label>
+                        <select id="paymentFrequency" class="form-control"
+                                ng-model="data.paymentFrequency"
+                                ng-options="freq.name for freq in frequencyList track by freq.id">
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
-    </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Застрахованное лицо
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div id="gender" class="col-xs-6 col-md-3">
+                        <label>Пол: </label> <br/>
+                        <label>
+                            <input type="radio" ng-model="data.insuredGender" ng-value="genderList[0].id"/>
+                            {{genderList[0].name}}
+                        </label> <!--<br/>-->
+                        <label>
+                            <input type="radio" ng-model="data.insuredGender" ng-value="genderList[1].id"/>
+                            {{genderList[1].name}}
+                        </label>
+                    </div>
+                    <div class="col-xs-6 col-md-3">
+                        <label for="birthdate">Дата рождения</label>
+                        <input type="date"
+                               id="birthdate"
+                               ng-model="data.insuredBirthDate"
+                               ng-required="true"
+                        />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </form>
+
 </main>
 </body>
 </html>
