@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="MyApp1">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Angular JS !!</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/angular.js"></script>
+
+</head>
+<body>
+<main>
+    <div class="container" ng-controller="MyController">
+        {{1+2}}
+        <p>{{books}}</p>
+        <table class="table">
+            <tr ng-repeat="book in books">
+                <td>
+                    {{book.title}}
+                </td>
+                <td>
+                    {{book.year}}
+                </td>
+            </tr>
+        </table>
+
+
+
+
+    </div>
+</main>
+
+<script>
+    var data = 'Данные из модели';
+    var app = angular.module('MyApp1', []);
+    console.log(app);
+    app.controller('MyController', function($scope) {
+        $scope.var1 = data;
+        $scope.books = [
+            {title: "book 1", year: "2000"},
+            {title: "book 2", year: "2001"},
+            {title: "book 3", year: "2002"}
+        ];
+    });
+
+</script>
+
+
+</body>
+</html>
