@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" ng-app>
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Angular JS !!</title>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+
+    <style>
+        main {
+            margin-top: 100px;
+            margin-bottom: 100px;
+        }
+    </style>
+</head>
+<body>
+
+ <main>
+     <div class="container">
+         <input type="text" id="name" class="form-control" ng-model = "search"/>
+         <!--<p><i id="res">{{name}}</i></p>-->
+
+         <div ng-init='books = [
+            {"title": "Книга о здоровой пище" , "year" : 1990},
+            {"title": "Гамлет" , "year" : 2222},
+            {"title": "Война и мир" , "year" : 1990},
+            {"title": "Звездные войны" , "year" : 1990},
+            {"title": "Мертвые души", "year" : 1990}
+         ]'>
+
+         </div>
+         <table class="table">
+             <tr>
+                 <th>Название</th>
+                 <th>Год</th>
+             </tr>
+             <tr ng-repeat="book in books | filter : search">
+                 <td>{{book.title}}</td>
+                 <td>{{book.year}}</td>
+             </tr>
+         </table>
+
+     </div>
+ </main>
+
+<!--<script src="js/jquery-3.0.0.js"></script>-->
+ <script src="js/angular.js"></script>
+
+<script>
+    console.log('333');
+    $(function(){
+     console.log('1');
+     $('#name').on('keyup', function(){
+         console.log('2');
+        $('#res').text($(this).val())
+     });
+ });
+</script>
+
+
+
+
+<!--
+<div ng-app="a1" ng-controller="c1">
+    <p id="outer">Hello</p>
+    <script type="text/javascript">
+        var app = angular.module('a1', []);
+        app.controller('c1', function ($scope, $http) {
+            $http.get("http://localhost:8080/api/get")
+                    .then(function (response) {
+                        console.log(response.status);
+                        var dataHtml = JSON.stringify(response.data);
+                        document.getElementById('outer').innerHTML = dataHtml;
+                    });
+        });
+    </script>
+</div>
+-->
+
+
+</body>
+</html>

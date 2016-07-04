@@ -6,21 +6,28 @@
     <title>
         Калькулятор
     </title>
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="js/libs/ui-bootstrap/ui-bootstrap-1.3.3-csp.css">
     <!--<link rel="stylesheet"-->
     <!--href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">-->
     <link rel="stylesheet"
           href="css/calculator.css">
 
     <!-- Angular Material requires Angular.js Libraries -->
-    <script src="js/angularjs/1.5.7/angular.min.js"></script>
-    <script src="js/angularjs/1.5.7/angular-animate.min.js"></script>
-    <script src="js/angularjs/1.5.7/angular-aria.min.js"></script>
-    <script src="js/angularjs/1.5.7/angular-messages.min.js"></script>
+    <script src="js/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script src="js/libs/angularjs/1.5.7/angular-animate.min.js"></script>
+    <script src="js/libs/angularjs/1.5.7/angular-aria.min.js"></script>
+    <script src="js/libs/angularjs/1.5.7/angular-messages.min.js"></script>
+    <script src="js/libs/ui-bootstrap/ui-bootstrap-1.3.3.js"></script>
+    <script src="js/libs/ui-bootstrap/ui-bootstrap-tpls-1.3.3.js"></script>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
+    <!--<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>-->
+    <!-- Controllers -->
+    <script src="js/calculatorApp.js"></script>
+    <script src="js/controllers/ModalInstanceCtrl.js"></script>
+    <script src="js/controllers/calculatorCtrl.js"></script>
 
-    <script src="js/calculator.js"></script>
+
 
 
 </head>
@@ -47,9 +54,9 @@
                     <tr ng-repeat="risk in risks.riskDataSet"
                         ng-click="setSelected(risk.rowNo)"
                         ng-class="{selected : risk.rowNo == risks.selectedRowNo}"
-                        >
-                        <td>{{risk.forIndividualType}}</td>
-                        <td>{{risk.riskName}}</td>
+                    >
+                        <td>{{risk.forIndividualTypeName}}</td>
+                        <td>{{risk.riskTypeName}}</td>
                         <td>{{risk.riskAmount}}</td>
                         <td>{{risk.payAmount}}</td>
                         <td>{{risk.payTerm}}</td>
@@ -121,35 +128,75 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div id="gender" class="col-xs-6 col-md-3">
-                        <label>Пол: </label> <br/>
-                        <label>
-                            <input type="radio" ng-model="data.insuredGender" ng-value="genderList[0].id"/>
-                            {{genderList[0].name}}
-                        </label>
-                        <label>
-                            <input type="radio" ng-model="data.insuredGender" ng-value="genderList[1].id"/>
-                            {{genderList[1].name}}
-                        </label>
-                    </div>
-                    <div class="col-xs-6 col-md-3">
-                        <label for="birthdate">Дата рождения:</label>
-                        <input type="date"
-                               id="birthdate"
-                               ng-model="data.insuredBirthDate"
-                               ng-required="true"
-                        />
+                    <div class="col-xs-12 col-md-12">
+                        <div id="gender" class="col-xs-5 col-md-3">
+                            <label>Пол: </label> <br/>
+                            <label>
+                                <input type="radio" ng-model="data.insuredGender" ng-value="genderList[0].id"/>
+                                {{genderList[0].name}}
+                            </label>
+                            <label>
+                                <input type="radio" ng-model="data.insuredGender" ng-value="genderList[1].id"/>
+                                {{genderList[1].name}}
+                            </label>
+                        </div>
+                        <div class="col-xs-5 col-md-3">
+                            <label for="birthdate">Дата рождения:</label> <br/>
 
+                            <p class="input-group">
+                                <input id="birthdate"
+                                       type="text"
+                                       class="form-control"
+                                       uib-datepicker-popup="dd.MM.yyyy"
+                                       ng-model="data.insuredBirthDate"
+                                       is-open="dtCalendar.opened"
+                                       datepicker-options="dateOptions"
+                                       ng-required="true"
+                                       close-text="Close"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open1()">
+                                        <i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+
+
+                        </div>
                     </div>
                 </div>
 
             </div>
         </div>
-        <div class="btn-group" role="group" aria-label="23423423423423423423423423423423423423432">
-            <button type="button" class="btn btn-default">Добавить риск</button>
+
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-default" ng-click="addInsRisk()">Добавить риск</button>
             <button type="button" class="btn btn-default">Выполнить расчет</button>
         </div>
     </form>
+
+
+
+        <script type="text/ng-template" id="myModalContent.html">
+            <div class="modal-header">
+                <h3 class="modal-title">Выберите риск</h3>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <li ng-repeat="item in items">
+                        <p ng-click="$event.preventDefault(); selected.item = item"
+                           ng-class="{selected : selected.item == item}">{{ item.name }}</p>
+                    </li>
+                </ul>
+                <!--Selected: <b>{{ selected.item.name }}</b>-->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" ng-click="ok()">Выбрать</button>
+                <button class="btn btn-warning" type="button" ng-click="cancel()">Отмена</button>
+            </div>
+        </script>
+
+
 </main>
+
+
 </body>
 </html>
