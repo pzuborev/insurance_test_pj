@@ -97,7 +97,7 @@
                         <label for="currency"> Валюта: </label>
                         <select id="currency" class="form-control"
                                 ng-model="calcData.currency"
-                                ng-options="currency.name for currency in currencyList track by currency.id">
+                                ng-options="currency.name for currency in currencies track by currency.id">
 
                         </select>
                     </div>
@@ -107,7 +107,7 @@
                         <label for="region">Регион:</label>
                         <select id="region" class="form-control"
                                 ng-model="calcData.region"
-                                ng-options="region.name for region in regionList track by region.id">
+                                ng-options="region.name for region in regions track by region.id">
                         </select>
                     </div>
 
@@ -115,7 +115,7 @@
                         <label for="paymentFrequency">Частота оплаты взносов:</label>
                         <select id="paymentFrequency" class="form-control"
                                 ng-model="calcData.paymentFrequency"
-                                ng-options="freq.name for freq in frequencyList track by freq.id">
+                                ng-options="freq.name for freq in frequencies track by freq.id">
                         </select>
                     </div>
 
@@ -133,12 +133,12 @@
                         <div id="gender" class="col-xs-5 col-md-3">
                             <label>Пол: </label> <br/>
                             <label>
-                                <input type="radio" ng-model="calcData.insuredGender" ng-value="genderList[0].id"/>
-                                {{genderList[0].name}}
+                                <input type="radio" ng-model="calcData.insuredGender" ng-value="genders[0].id"/>
+                                {{genders[0].name}}
                             </label>
                             <label>
-                                <input type="radio" ng-model="calcData.insuredGender" ng-value="genderList[1].id"/>
-                                {{genderList[1].name}}
+                                <input type="radio" ng-model="calcData.insuredGender" ng-value="genders[1].id"/>
+                                {{genders[1].name}}
                             </label>
                         </div>
                         <div class="col-xs-5 col-md-3">

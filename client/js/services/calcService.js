@@ -4,7 +4,7 @@ app.service('calcService', function () {
         data: [
             {
                 rowNo: 1,
-                insRiskTypeId: "1",
+                riskTypeId: "1",
                 forIndividualTypeId: "1",
                 riskTypeName: "Д",
                 forIndividualTypeName: "Застрахованное лицо",
@@ -16,7 +16,7 @@ app.service('calcService', function () {
             },
             {
                 rowNo: 2,
-                insRiskTypeId: "2",
+                riskTypeId: "2",
                 forIndividualTypeId: "1",
                 riskTypeName: "C",
                 forIndividualTypeName: "Застрахованное лицо",
@@ -28,7 +28,7 @@ app.service('calcService', function () {
             },
             {
                 rowNo: 3,
-                insRiskTypeId: "3",
+                riskTypeId: "3",
                 forIndividualTypeId: "1",
                 riskTypeName: "C(НС)",
                 forIndividualTypeName: "Застрахованное лицо",
@@ -40,7 +40,7 @@ app.service('calcService', function () {
             },
             {
                 rowNo: 4,
-                insRiskTypeId: "4",
+                riskTypeId: "4",
                 forIndividualTypeId: "1",
                 riskTypeName: "C(ДТП)",
                 forIndividualTypeName: "Застрахованное лицо",
@@ -72,35 +72,35 @@ app.service('calcService', function () {
                     forIndividualTypeId: 1,
                     name: 'Д застрахованного лица',
                     riskTypeName: 'Дожитие',
-                    forIndividualTypeName: 'Застрахованного лица'
+                    forIndividualTypeName: 'Застрахованное лица'
                 },
                 {
                     riskTypeId: 2,
                     forIndividualTypeId: 1,
                     name: 'С застрахованного лица',
                     riskTypeName: 'Смерть',
-                    forIndividualTypeName: 'Застрахованного лица'
+                    forIndividualTypeName: 'Застрахованное лица'
                 },
                 {
                     riskTypeId: 3,
                     forIndividualTypeId: 1,
                     name: 'С(ДТП) застрахованного лица',
                     riskTypeName: 'С(НС)',
-                    forIndividualTypeName: 'Застрахованного лица'
+                    forIndividualTypeName: 'Застрахованное лица'
                 },
                 {
                     riskTypeId: 4,
                     forIndividualTypeId: 1,
                     name: 'С(НС) застрахованного лица',
                     riskTypeName: 'С(ДТП)',
-                    forIndividualTypeName: 'Застрахованного лица'
+                    forIndividualTypeName: 'Застрахованное лица'
                 },
                 {
                     riskTypeId: 7,
                     forIndividualTypeId: 1,
                     name: 'Инвалидность застрахованного лица',
                     riskTypeName: 'Инвалидность',
-                    forIndividualTypeName: 'Застрахованного лица'
+                    forIndividualTypeName: 'Застрахованное лица'
                 }
             ]);
     };

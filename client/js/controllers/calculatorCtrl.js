@@ -55,9 +55,9 @@
 
         /*** Данные для расчета ***/
         $scope.calcData = {
-            insScheme: null,
+            insuranceScheme: null,
             currency: $scope.currencies [0],
-            insSchemeRule: null,
+            insuranceSchemeRule: null,
             paymentFrequency: $scope.frequencies[0],
             region: $scope.regions[0],
             insuredGender: $scope.genders[0].id,
@@ -98,24 +98,29 @@
                 size: size,
                 resolve: {
                     items: function () {
-                        return insEventRiskList;
+                        return insEventRisks;
                     }
                 }
             });
 
             modalInstance.result.then(function (selectedItem) {
                 $scope.selectedInsRiskItem = selectedItem;
-                $scope.risks.riskDataSet.push({
-                    insRiskTypeId: selectedItem.insRiskTypeId,
+
+                var newItem =
+                {
+                    rowNo: $scope.riskData.size + 1,
+                    riskTypeId: selectedItem.riskTypeId,
                     forIndividualTypeId: selectedItem.forIndividualTypeId,
                     riskTypeName: selectedItem.riskTypeName,
-                    forIndividualTypeName: selectedItem.forIndividualTypeName,
-                    riskAmount: "",
-                    payAmount: "",
-                    term: "",
-                    payTerm: "",
-                    nettoTariff: ""
-                });
+                    forIndividualTypeName: selectedItem.forIndividualTypeName
+                    //riskAmount: "2000",
+                    //payAmount: "500",
+                    //term: "10",
+                    //payTerm: "10",
+                    //nettoTariff: "0.0001"
+                };
+
+                $scope.riskData.push(newItem);
             }, function () {
                 $log.info('Modal dismissed at: ' + new Date());
             });
@@ -127,12 +132,9 @@
         // при изменении программы страхования, определяем программу страхования
         // todo: обавить фильтрацию списка
         $scope.InsSchemeChange = function () {
-            console.log("selected scheme with id = " + $scope.data.insScheme.id);
-
-            var ix = $scope.data.insScheme.id;
-
-            if (ix > $scope.insSchemeRuleList.length) $scope.data.insSchemeRule = $scope.insSchemeRuleList[0];
-            else $scope.data.insSchemeRule = $scope.insSchemeRuleList[ix - 1];
+            var ix = $scope.calcData.insuranceScheme.id;
+            if (ix > $scope.insuranceSchemeRules.length) $scope.calcData.insuranceSchemeRule = $scope.insuranceSchemeRules[0];
+            else $scope.calcData.insuranceSchemeRule = $scope.insuranceSchemeRules[ix - 1];
         };
 
     });
