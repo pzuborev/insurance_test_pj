@@ -22,12 +22,13 @@
     <script src="js/libs/ui-bootstrap/ui-bootstrap-tpls-1.3.3.js"></script>
 
     <!--<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>-->
-    <!-- Controllers -->
+    <!-- App -->
     <script src="js/calculatorApp.js"></script>
+    <!-- Services -->
+    <script src="js/services/calcService.js"></script>
+    <!-- Controllers -->
     <script src="js/controllers/ModalInstanceCtrl.js"></script>
     <script src="js/controllers/calculatorCtrl.js"></script>
-
-
 
 
 </head>
@@ -51,9 +52,9 @@
                         <th>Срок действия риска</th>
                         <th>Нетто-тариф</th>
                     </tr>
-                    <tr ng-repeat="risk in risks.riskDataSet"
-                        ng-click="setSelected(risk.rowNo)"
-                        ng-class="{selected : risk.rowNo == risks.selectedRowNo}"
+                    <tr ng-repeat="risk in riskData"
+                        ng-click="setSelectedRisk(risk)"
+                        ng-class="{selected : isRiskSelected(risk)}"
                     >
                         <td>{{risk.forIndividualTypeName}}</td>
                         <td>{{risk.riskTypeName}}</td>
@@ -74,9 +75,9 @@
                 <div class="row">
                     <div class="col-xs-12 col-md-12">
                         <label for="insScheme"> Программа страхования: </label>
-                        <select name="insScheme" id="insScheme" class="form-control" ng-model="data.insScheme"
+                        <select name="insScheme" id="insScheme" class="form-control" ng-model="calcData.insuranceScheme"
                                 ng-change="InsSchemeChange ();"
-                                ng-options="scheme.name for scheme in insSchemeList track by scheme.id"
+                                ng-options="scheme.name for scheme in insuranceSchemes track by scheme.id"
                                 ng-required="true"
                         >
                         </select>
@@ -86,8 +87,8 @@
                     <div id="_insSchemeRule" class="col-xs-12 col-md-9">
                         <label for="insSchemeRule"> Правило страхования страхования: </label>
                         <select id="insSchemeRule" class="form-control"
-                                ng-model="data.insSchemeRule"
-                                ng-options="rule.name for rule in insSchemeRuleList track by rule.id">
+                                ng-model="calcData.insuranceSchemeRule"
+                                ng-options="rule.name for rule in insuranceSchemeRules track by rule.id">
 
                         </select>
 
@@ -95,7 +96,7 @@
                     <div id="_currency" class="col-xs-12 col-md-3">
                         <label for="currency"> Валюта: </label>
                         <select id="currency" class="form-control"
-                                ng-model="data.currency"
+                                ng-model="calcData.currency"
                                 ng-options="currency.name for currency in currencyList track by currency.id">
 
                         </select>
@@ -105,7 +106,7 @@
                     <div id="_region" class="col-xs-12 col-md-3">
                         <label for="region">Регион:</label>
                         <select id="region" class="form-control"
-                                ng-model="data.region"
+                                ng-model="calcData.region"
                                 ng-options="region.name for region in regionList track by region.id">
                         </select>
                     </div>
@@ -113,7 +114,7 @@
                     <div id="_paymentFrequency" class="col-xs-12 col-md-3">
                         <label for="paymentFrequency">Частота оплаты взносов:</label>
                         <select id="paymentFrequency" class="form-control"
-                                ng-model="data.paymentFrequency"
+                                ng-model="calcData.paymentFrequency"
                                 ng-options="freq.name for freq in frequencyList track by freq.id">
                         </select>
                     </div>
@@ -132,11 +133,11 @@
                         <div id="gender" class="col-xs-5 col-md-3">
                             <label>Пол: </label> <br/>
                             <label>
-                                <input type="radio" ng-model="data.insuredGender" ng-value="genderList[0].id"/>
+                                <input type="radio" ng-model="calcData.insuredGender" ng-value="genderList[0].id"/>
                                 {{genderList[0].name}}
                             </label>
                             <label>
-                                <input type="radio" ng-model="data.insuredGender" ng-value="genderList[1].id"/>
+                                <input type="radio" ng-model="calcData.insuredGender" ng-value="genderList[1].id"/>
                                 {{genderList[1].name}}
                             </label>
                         </div>
@@ -148,7 +149,7 @@
                                        type="text"
                                        class="form-control"
                                        uib-datepicker-popup="dd.MM.yyyy"
-                                       ng-model="data.insuredBirthDate"
+                                       ng-model="calcData.insuredBirthDate"
                                        is-open="dtCalendar.opened"
                                        datepicker-options="dateOptions"
                                        ng-required="true"
@@ -174,25 +175,24 @@
     </form>
 
 
-
-        <script type="text/ng-template" id="myModalContent.html">
-            <div class="modal-header">
-                <h3 class="modal-title">Выберите риск</h3>
-            </div>
-            <div class="modal-body">
-                <ul>
-                    <li ng-repeat="item in items">
-                        <p ng-click="$event.preventDefault(); selected.item = item"
-                           ng-class="{selected : selected.item == item}">{{ item.name }}</p>
-                    </li>
-                </ul>
-                <!--Selected: <b>{{ selected.item.name }}</b>-->
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" type="button" ng-click="ok()">Выбрать</button>
-                <button class="btn btn-warning" type="button" ng-click="cancel()">Отмена</button>
-            </div>
-        </script>
+    <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Выберите риск</h3>
+        </div>
+        <div class="modal-body">
+            <ul>
+                <li ng-repeat="item in items">
+                    <p ng-click="$event.preventDefault(); selected.item = item"
+                       ng-class="{selected : selected.item == item}">{{ item.name }}</p>
+                </li>
+            </ul>
+            <!--Selected: <b>{{ selected.item.name }}</b>-->
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">Выбрать</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Отмена</button>
+        </div>
+    </script>
 
 
 </main>

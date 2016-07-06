@@ -1,115 +1,71 @@
-
 (function () {
     'use strict';
-    app.controller('CalcController', function ($scope, $uibModal, $log) {
-        // данные по рискам
-        $scope.risks = {
-            selectedRowNo: 1,
-            riskDataSet: [
-                {
-                    insRiskTypeId: "1",
-                    forIndividualTypeId: "1",
-                    riskTypeName: "Д",
-                    forIndividualTypeName: "Застрахованное лицо",
-                    riskAmount: "2000",
-                    payAmount: "500",
-                    term: "10",
-                    payTerm: "10",
-                    nettoTariff: "0.0001"
-                },
-                {
-                    insRiskTypeId: "2",
-                    forIndividualTypeId: "1",
-                    riskTypeName: "C",
-                    forIndividualTypeName: "Застрахованное лицо",
-                    riskAmount: "2000",
-                    payAmount: "500",
-                    term: "10",
-                    payTerm: "10",
-                    nettoTariff: "0.0001"
-                },
-                {
-                    insRiskTypeId: "3",
-                    forIndividualTypeId: "1",
-                    riskTypeName: "C(НС)",
-                    forIndividualTypeName: "Застрахованное лицо",
-                    riskAmount: "200",
-                    payAmount: "1",
-                    term: "10",
-                    payTerm: "10",
-                    nettoTariff: "0.000133"
-                },
-                {
-                    insRiskTypeId: "4",
-                    forIndividualTypeId: "1",
-                    riskTypeName: "C(ДТП)",
-                    forIndividualTypeName: "Застрахованное лицо",
-                    riskAmount: "1000",
-                    payAmount: "10",
-                    term: "10",
-                    payTerm: "10",
-                    nettoTariff: "0.000221"
-                }
-            ]};
-        $scope.setSelected = function (rowNo) {
-            $scope.risks.selectedRowNo = rowNo;
+    app.controller('CalcController', function ($scope, $uibModal, $log, calcService) {
+
+        /*** Данные таблицы (условия страхования в разрезе рисков) ***/
+
+        calcService.getRiskData(function (resultData) {
+            $scope.riskData = resultData;
+        });
+        $scope.setSelectedRisk = function (risk) {
+            calcService.setSelectedRisk(risk);
         };
-        // lookup списки
+        $scope.isRiskSelected = function (risk) {
+            return calcService.isRiskSelected(risk);
+        };
+
+        /*** Lookup списки ***/
+
         // Страховые риски
-        var insEventRiskList = [
-            {riskTypeId: 1, forIndividualTypeId: 1, name: 'Д застрахованного лица', riskTypeName: 'Дожитие', forIndividualTypeName: 'Застрахованного лица'},
-            {riskTypeId: 2, forIndividualTypeId: 1, name: 'С застрахованного лица', riskTypeName: 'Смерть', forIndividualTypeName: 'Застрахованного лица'},
-            {riskTypeId: 3, forIndividualTypeId: 1, name: 'С(ДТП) застрахованного лица', riskTypeName: 'С(НС)', forIndividualTypeName: 'Застрахованного лица'},
-            {riskTypeId: 4, forIndividualTypeId: 1, name: 'С(НС) застрахованного лица', riskTypeName: 'С(ДТП)', forIndividualTypeName: 'Застрахованного лица'},
-            {riskTypeId: 7, forIndividualTypeId: 1, name: 'Инвалидность застрахованного лица', riskTypeName: 'Инвалидность', forIndividualTypeName: 'Застрахованного лица'}
-        ];
-
+        var insEventRisks = [];
         // Программы страхования
-        $scope.insSchemeList = [
-            {id: '1', name: '1 Лайф'},
-            {id: '2', name: '2 Пенсия'},
-            {id: '3', name: '3 Добродетель'}
-        ];
+        $scope.insuranceSchemes = [];
         // Правила страхования
-        $scope.insSchemeRuleList = [
-            {id: '1', name: 'Правило 1'},
-            {id: '2', name: 'Правило 2'},
-        ];
+        $scope.insuranceSchemeRules = [];
         // Валюта
-        $scope.currencyList = [
-            {id: 'UAH', name: 'Гривна'},
-            {id: 'USD', name: 'Доллар'},
-            {id: 'EUR', name: 'Евро'}
-        ];
+        $scope.currencies = [];
         // Частота оплаты взносов
-        $scope.frequencyList = [
-            {id: 'Y', name: 'Ежегодно'},
-            {id: 'M', name: 'Ежемесячно'},
-            {id: 'H', name: 'Раз в пол года'},
-            {id: 'Q', name: 'Ежеквартально'},
-            {id: 'E', name: 'Единовременно'}
-        ];
-        // Регион
-        $scope.regionList = [
-            {id: '1', name: 'Украина'}
-        ];
+        $scope.frequencies = [];
+        // Регионы
+        $scope.regions = [];
         // Пол
-        $scope.genderList = [
-            {id: 'M', name: 'Мужчина'},
-            {id: 'F', name: 'Женщина'}
-        ];
+        $scope.genders = [];
+        // filling the lookup-lists
+        calcService.getInsuranceEventRisks(function (data) {
+            insEventRisks = data;
+        });
+        calcService.getInsuranceSchemes(function (data) {
+            $scope.insuranceSchemes = data;
+        });
+        calcService.getInsuranceSchemeRules (function (data) {
+            $scope.insuranceSchemeRules = data;
+        });
+        calcService.getCurrencies (function (data) {
+            $scope.currencies = data;
+        });
+        calcService.getFrequencies(function (data) {
+            $scope.frequencies = data;
+        });
+        calcService.getRegions (function (data) {
+            $scope.regions = data;
+        });
+        calcService.getGenders(function (data) {
+            $scope.genders = data;
+        });
 
-        // данные для расчета
-        $scope.data = {
+        /*** Данные для расчета ***/
+        $scope.calcData = {
             insScheme: null,
-            currency: $scope.currencyList [0],
+            currency: $scope.currencies [0],
             insSchemeRule: null,
-            paymentFrequency: $scope.frequencyList[0],
-            region: $scope.regionList[0],
-            insuredGender: $scope.genderList[0].id,
+            paymentFrequency: $scope.frequencies[0],
+            region: $scope.regions[0],
+            insuredGender: $scope.genders[0].id,
             insuredBirthDate: null
         };
-        // date picker popup
+
+        /*** Date picker popup ***/
+
         $scope.dtCalendar = {
             opened: false
         };
@@ -120,15 +76,18 @@
             minDate: new Date(1900, 1, 1),
             startingDay: 1
         };
-        function disabled (data) {
+        function disabled(data) {
             var date = data.date,
                 mode = data.mode;
             return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
         }
-        $scope.open1 = function() {
+
+        $scope.open1 = function () {
             $scope.dtCalendar.opened = true;
         };
-        // modal dialog
+
+
+        /*** Modal dialog ***/
 
         $scope.addInsRisk = function (size) {
 
@@ -163,8 +122,7 @@
         };
 
 
-
-        /* *** Actions *** */
+        /*** Actions ***/
 
         // при изменении программы страхования, определяем программу страхования
         // todo: обавить фильтрацию списка
