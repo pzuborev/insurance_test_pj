@@ -1,4 +1,4 @@
-app.service('calcService', function () {
+app.service('calcService', function ($http, $log) {
 
     var riskDataSet = {
         data: [
@@ -64,8 +64,9 @@ app.service('calcService', function () {
         return riskDataSet.selectedRisk == risk;
     };
 
-    this.getInsuranceEventRisks = function (succes) {
-        succes(
+
+    this.getInsuranceEventRisks = function (success) {
+        success(
             [
                 {
                     riskTypeId: 1,
@@ -104,13 +105,14 @@ app.service('calcService', function () {
                 }
             ]);
     };
-    this.getInsuranceSchemes = function (succes) {
-        succes(
-            data = [
-                {id: '1', name: '1 Лайф'},
-                {id: '2', name: '2 Пенсия'},
-                {id: '3', name: '3 Добродетель'}
-            ]);
+    this.getInsuranceSchemes = function (success) {
+        $http.get('http://localhost:8080/insurancescheme/').then(
+            function (response) {
+                $log.log('got response from rest.');
+                $log.log(response);
+                success (response.data);
+            }
+        )
     };
     this.getInsuranceSchemeRules = function (success) {
         success (data = [
