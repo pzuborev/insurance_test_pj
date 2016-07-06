@@ -29,7 +29,11 @@
         /*** Lookup списки ***/
         // Страховые риски
         $scope.insEventRisks = [];
-        $scope.setEventRisks = function (data) { $scope.insEventRisks = data; };
+        $scope.setEventRisks = function (data) {
+            $scope.insEventRisks = data;
+            $log.log('****************'+ data.length);
+            $log.log($scope.insEventRisks.length);
+        };
 
         // Программы страхования
         $scope.insuranceSchemes = [];
@@ -102,35 +106,43 @@
         /*** Modal dialog ***/
 
         $scope.addInsRisk = function (size) {
+            calcService.getEventRisksForScheme(
+                $scope.calcData.insuranceScheme.id,
+                function (schemeRisks){
+                    //$scope.setEventRisks (schemeRisks);
 
-            var modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: 'myModalContent.html',
-                controller: 'ModalInstanceCtrl',
-                size: size,
-                resolve: {
-                    items: function () {
-                        return $scope.insEventRisks;
-                    }
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: 'myModalContent.html',
+                        controller: 'ModalInstanceCtrl',
+                        size: size,
+                        resolve: {
+                            items: function () {
+                                return schemeRisks; // $scope.insEventRisks;
+                            }
+                        }
+                    });
+
+                    modalInstance.result.then(function (selectedItem) {
+                        $scope.selectedInsRiskItem = selectedItem;
+
+                        var newItem =
+                        {
+                            rowNo: $scope.riskData.length + 1,
+                            riskTypeId: selectedItem.insurancerisktypeid,
+                            forIndividualTypeId: selectedItem.forindividualtypeid,
+                            riskTypeName: selectedItem.insurancerisktypecode,
+                            forIndividualTypeName: selectedItem.forindividualtypename
+                        };
+
+                        $scope.riskData.push(newItem);
+                    }, function () {
+                        $log.info('Modal dismissed at: ' + new Date());
+                    });
+
                 }
-            });
+            );
 
-            modalInstance.result.then(function (selectedItem) {
-                $scope.selectedInsRiskItem = selectedItem;
-
-                var newItem =
-                {
-                    rowNo: $scope.riskData.length + 1,
-                    riskTypeId: selectedItem.insurancerisktypeid,
-                    forIndividualTypeId: selectedItem.forindividualtypeid,
-                    riskTypeName: selectedItem.insurancerisktypename,
-                    forIndividualTypeName: selectedItem.forindividualtypename
-                };
-
-                $scope.riskData.push(newItem);
-            }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
-            });
         };
 
 
@@ -143,10 +155,10 @@
             if (ix > $scope.insuranceSchemeRules.length) $scope.calcData.insuranceSchemeRule = $scope.insuranceSchemeRules[0];
             else $scope.calcData.insuranceSchemeRule = $scope.insuranceSchemeRules[ix - 1];
 
-            calcService.getEventRisksForScheme(
-                $scope.calcData.insuranceScheme.id,
-                this.setEventRisks
-            );
+            //calcService.getEventRisksForScheme(
+            //    $scope.calcData.insuranceScheme.id,
+            //    this.setEventRisks
+            //);
         };
 
     });
