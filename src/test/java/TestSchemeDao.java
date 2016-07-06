@@ -1,5 +1,6 @@
-import org.demo.dao.InsuranceSchemeDao;
-import org.demo.entity.InsuranceScheme;
+import org.demo.dao.insurance.InsuranceSchemeDao;
+import org.demo.dto.lookup.SchemeRiskDto;
+import org.demo.entity.insurance.InsuranceScheme;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,10 +21,20 @@ public class TestSchemeDao {
 
     @Test
     public void testGetAll() throws Exception {
-        List<InsuranceScheme> schemes = schemeDao.getAll(InsuranceScheme.class);
+        List<InsuranceScheme> schemes = schemeDao.getAll();
 
         Assert.assertNotNull("scheme list is null", schemes);
         Assert.assertTrue ("insurance scheme list is empty", schemes.size() > 0);
+
+    }
+
+    @Test
+    public void testGetRiskForScheme() throws Exception {
+
+        List<SchemeRiskDto> risks = schemeDao.getRiskForScheme(1);
+
+        Assert.assertNotNull("risks for scheme is null", risks);
+        Assert.assertTrue("risks for scheme is empty", risks.size() > 0);
 
     }
 }

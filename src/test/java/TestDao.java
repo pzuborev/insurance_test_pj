@@ -34,7 +34,7 @@ public class TestDao {
         // userRoleDao = (UserRoleDao) context.getBean("userRoleDao");
 
         Assert.assertNotNull("userRoleDao is null", userRoleDao);
-        List<MyUserRole> userRoles = userRoleDao.getAll(MyUserRole.class);
+        List<MyUserRole> userRoles = userRoleDao.getAll();
 
         Assert.assertNotNull("user role list is null", userRoles);
         Assert.assertTrue("user role list empty", (userRoles.size() > 0));
@@ -75,7 +75,7 @@ public class TestDao {
         Assert.assertNotNull("user is null", user);
         Assert.assertEquals("user name password", user.getPassword(), testUserName + "_psw");
         userDao.flush();
-        ArrayList<MyUser> myUsers = (ArrayList<MyUser>) userDao.getAll(MyUser.class);
+        ArrayList<MyUser> myUsers = (ArrayList<MyUser>) userDao.getAll();
         for (MyUser u : myUsers) {
             System.out.println(u.getUsername() + " " + u.getPassword());
         }
@@ -87,7 +87,7 @@ public class TestDao {
         MyUser user = getFakeUser("admin", "ADMIN");
         userDao.delete(user);
         userDao.flush();
-        ArrayList<MyUser> myUsers = (ArrayList<MyUser>) userDao.getAll(MyUser.class);
+        ArrayList<MyUser> myUsers = (ArrayList<MyUser>) userDao.getAll();
         for (MyUser u : myUsers) {
             System.out.println(u.getUsername() + " " + u.getPassword());
         }

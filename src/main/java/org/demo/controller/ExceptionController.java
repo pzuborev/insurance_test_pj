@@ -1,54 +1,60 @@
 package org.demo.controller;
 
-import org.demo.controller.response.RestResponseData;
-import org.demo.controller.response.Status;
 import org.demo.exception.ApiException;
 import org.demo.exception.ResourceNotFoundException;
 import org.demo.exception.UserNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class ExceptionController {
-    private RestResponseData getResponseDataInternal (Throwable throwable) {
-        RestResponseData responseData = new RestResponseData(Status.Failure(throwable));
-        return responseData;
+public class ExceptionController extends ResponseEntityExceptionHandler {
+    private ResponseEntity<ErrorResource> getResponseDataInternal (Throwable throwable, HttpStatus statusCode) {
+        return new ResponseEntity(new ErrorResource(throwable.getMessage()), statusCode);
     }
 
     @ExceptionHandler(ApiException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public RestResponseData apiExceptionResolver(Throwable throwable) {
+    public ResponseEntity<ErrorResource> apiExceptionResolver(Throwable throwable) {
         System.out.println("****************** ExceptionController.apiExceptionResolver");
-        return getResponseDataInternal(throwable);
+        return getResponseDataInternal(throwable, HttpStatus.BAD_REQUEST);
 
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     @org.springframework.web.bind.annotation.ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public RestResponseData hibernateExceptionResolver(Throwable throwable) {
+    public ResponseEntity<ErrorResource> hibernateExceptionResolver(Throwable throwable) {
         System.out.println("****************** ExceptionController.hibernateExceptionResolver");
-        return getResponseDataInternal(throwable);
+        return getResponseDataInternal(throwable, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public RestResponseData userNotFoundExceptionResolver(Throwable throwable) {
-        System.out.println("****************** ExceptionController.userNotFoundExceptionResolver");
-        return getResponseDataInternal(throwable);
+    public ResponseEntity<Object> userNotFoundExceptionResolver(Exception ex, WebRequest request) {
+//        System.out.println("****************** ExceptionController.userNotFoundExceptionResolver");
+//        return getResponseDataInternal(throwable);
+//        String bodyOfResponse = "This should be application specific " + ex.getMessage();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return handleExceptionInternal(ex, new ErrorResource(ex.getMessage()),
+                headers, HttpStatus.BAD_REQUEST, request);
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public RestResponseData resourceNotFoundExceptionResolver(Throwable throwable) {
+    public ResponseEntity<ErrorResource> resourceNotFoundExceptionResolver(Throwable throwable) {
         System.out.println("****************** ExceptionController.resourceNotFoundExceptionResolver");
-        return getResponseDataInternal(throwable);
+        return getResponseDataInternal(throwable, HttpStatus.BAD_REQUEST);
     }
 }

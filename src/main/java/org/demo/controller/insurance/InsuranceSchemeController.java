@@ -1,8 +1,8 @@
-package org.demo.controller;
+package org.demo.controller.insurance;
 
-import org.demo.dto.refs.SchemeLookupDto;
-import org.demo.entity.InsuranceScheme;
-import org.demo.service.InsuranceSchemeService;
+import org.demo.dto.lookup.SchemeLookupDto;
+import org.demo.entity.insurance.InsuranceScheme;
+import org.demo.service.insurance.InsuranceSchemeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,18 +23,18 @@ public class InsuranceSchemeController {
     @ResponseBody
     public List<InsuranceScheme> getAll() {
         System.out.println("********* InsuranceSchemeController.getAll");
-        return schemeService.getAllSchemes();
+        return schemeService.getAll();
     }
 
-    @RequestMapping(path = "/refs/scheme", method = RequestMethod.GET)
+    @RequestMapping(path = "lookup/insurancescheme", method = RequestMethod.GET)
     @ResponseBody
     public List<SchemeLookupDto> getListForLookup() {
-        List<InsuranceScheme> schemes = schemeService.getAllSchemes();
+        List<InsuranceScheme> schemes = schemeService.getAll();
         return schemes.stream()
-            .map(post -> convertToDto(post)).collect(Collectors.toList());
+                .map(item -> convertToDto(item)).collect(Collectors.toList());
     }
 
-    private SchemeLookupDto convertToDto (InsuranceScheme scheme) {
-       return  modelMapper.map(scheme, SchemeLookupDto.class);
+    private SchemeLookupDto convertToDto(InsuranceScheme scheme) {
+        return modelMapper.map(scheme, SchemeLookupDto.class);
     }
 }

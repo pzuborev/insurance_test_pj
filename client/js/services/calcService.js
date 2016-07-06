@@ -65,8 +65,8 @@ app.service('calcService', function ($http, $log) {
     };
 
 
-    this.getInsuranceEventRisks = function (success) {
-        success(
+    this.getEventRisksForScheme = function (schemeId, success) {
+        /*success(
             [
                 {
                     riskTypeId: 1,
@@ -103,48 +103,67 @@ app.service('calcService', function ($http, $log) {
                     riskTypeName: 'Инвалидность',
                     forIndividualTypeName: 'Застрахованное лица'
                 }
-            ]);
-    };
-    this.getInsuranceSchemes = function (success) {
-        $http.get('http://localhost:8080/insurancescheme/').then(
+            ]);*/
+        $http.get('http://localhost:8080/lookup/insurancescheme/' + schemeId + '/risk').then(
             function (response) {
-                $log.log('got response from rest.');
+                $log.log('got risk for scheme '+ schemeId +' from rest.');
                 $log.log(response);
                 success (response.data);
             }
-        )
+        );
+    };
+    this.getInsuranceSchemes = function (success) {
+        $http.get('http://localhost:8080/lookup/insurancescheme/').then(
+            function (response) {
+                $log.log('got Schemes from rest.');
+                $log.log(response);
+                success (response.data);
+            }
+        );
     };
     this.getInsuranceSchemeRules = function (success) {
-        success (data = [
-            {id: '1', name: 'Правило 1'},
-            {id: '2', name: 'Правило 2'}
-        ]);
+        $http.get('http://localhost:8080/lookup/insuranceschemerule/').then(
+            function (response) {
+                $log.log('got schemerule from rest.');
+                $log.log(response);
+                success (response.data);
+            }
+        );
     };
     this.getCurrencies = function (success) {
-        success(data = [
-            {id: 'UAH', name: 'Гривна'},
-            {id: 'USD', name: 'Доллар'},
-            {id: 'EUR', name: 'Евро'}
-        ]);
+        $http.get('http://localhost:8080/lookup/currency/').then(
+            function (response) {
+                $log.log('got currency from rest.');
+                $log.log(response);
+                success (response.data);
+            }
+        );
     };
     this.getFrequencies = function (success) {
-        success(data = [
-            {id: 'Y', name: 'Ежегодно'},
-            {id: 'M', name: 'Ежемесячно'},
-            {id: 'H', name: 'Раз в пол года'},
-            {id: 'Q', name: 'Ежеквартально'},
-            {id: 'E', name: 'Единовременно'}
-        ]);
+        $http.get('http://localhost:8080/lookup/frequency/').then(
+            function (response) {
+                $log.log('got frequency from rest.');
+                $log.log(response);
+                success (response.data);
+            }
+        );
     };
     this.getRegions = function (success) {
-        success(data = [
-            {id: '1', name: 'Украина'}
-        ]);
+        $http.get('http://localhost:8080/lookup/region/').then(
+            function (response) {
+                $log.log('got region from rest.');
+                $log.log(response);
+                success (response.data);
+            }
+        );
     };
     this.getGenders = function (success) {
-        success(data = [
-            {id: 'M', name: 'Мужчина'},
-            {id: 'F', name: 'Женщина'}
-        ]);
+        $http.get('http://localhost:8080/lookup/gender/').then(
+            function (response) {
+                $log.log('got gender from rest.');
+                $log.log(response);
+                success (response.data);
+            }
+        );
     };
 });

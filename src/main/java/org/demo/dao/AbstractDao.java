@@ -8,10 +8,12 @@ import javax.persistence.Entity;
 import java.io.Serializable;
 import java.util.List;
 
-public abstract class AbstractDao<T extends Entity> {
+public abstract class AbstractDao<T> {
 
     @Autowired
     private SessionFactory sessionFactory;
+
+    public abstract Class<T> getEntityType();
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -41,7 +43,7 @@ public abstract class AbstractDao<T extends Entity> {
         return (T) getSession().get(c, id);
     }
 
-    public List<T> getAll(Class c) {
-        return getSession().createCriteria(c).list();
+    public List<T> getAll () {
+        return getSession().createCriteria(getEntityType()).list();
     }
 }

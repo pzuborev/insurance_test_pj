@@ -1,12 +1,12 @@
 package org.demo.controller;
 
-import org.demo.controller.response.RestResponseData;
-import org.demo.controller.response.Status;
 import org.demo.dto.TokenDto;
 import org.demo.dto.UserDto;
 import org.demo.service.MyUserService;
 import org.demo.service.RestAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,14 +18,12 @@ public class TokenController {
     @Autowired
     private MyUserService userService;
 
-    private RestResponseData<TokenDto> tokenAsResponse(UserDto userdto) {
-        return new RestResponseData<TokenDto>(
-                Status.Success(),
-                restAuthService.getToken(userdto));
+    private ResponseEntity<TokenDto> tokenAsResponse(UserDto userdto) {
+        return new ResponseEntity(restAuthService.getToken(userdto), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
-    public RestResponseData<TokenDto> token(@PathVariable("username") String username, @RequestParam String password) {
+    public ResponseEntity<TokenDto> token(@PathVariable("username") String username, @RequestParam String password) {
         UserDto userdto = new UserDto();
         userdto.setUsername(username);
         userdto.setPassword(password);
@@ -34,7 +32,7 @@ public class TokenController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public RestResponseData<TokenDto> token(@RequestBody UserDto userdto) {
+    public ResponseEntity<TokenDto> token(@RequestBody UserDto userdto) {
         System.out.println("********************** TokenController.token");
         return tokenAsResponse(userdto);
     }

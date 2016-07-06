@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    app.controller('CalcController', function ($scope, $uibModal, $log, calcService) {
+    app.controller('CalcController', function ($scope, $uibModal, $log, $q, calcService) {
 
         /*** Данные таблицы (условия страхования в разрезе рисков) ***/
 
@@ -14,10 +14,23 @@
             return calcService.isRiskSelected(risk);
         };
 
-        /*** Lookup списки ***/
+        /*** Данные для расчета ***/
 
+        $scope.calcData = {
+            insuranceScheme: null,
+            currency: null,
+            insuranceSchemeRule: null,
+            paymentFrequency: null,
+            region: null,
+            insuredGender: null,
+            insuredBirthDate: null
+        };
+
+        /*** Lookup списки ***/
         // Страховые риски
         var insEventRisks = [];
+        this.setEventRisks = function (data) { insEventRisks = data; };
+
         // Программы страхования
         $scope.insuranceSchemes = [];
         // Правила страхования
@@ -30,39 +43,38 @@
         $scope.regions = [];
         // Пол
         $scope.genders = [];
-        // filling the lookup-lists
-        calcService.getInsuranceEventRisks(function (data) {
-            insEventRisks = data;
-        });
+
+        /***  Инициализация ***/
+
         calcService.getInsuranceSchemes(function (data) {
             $scope.insuranceSchemes = data;
         });
-        calcService.getInsuranceSchemeRules (function (data) {
+        calcService.getInsuranceSchemeRules(function (data) {
             $scope.insuranceSchemeRules = data;
         });
-        calcService.getCurrencies (function (data) {
+        calcService.getCurrencies(function (data) {
             $scope.currencies = data;
+            if ($scope.calcData.currency === null && $scope.currencies.length > 0)
+                $scope.calcData.currency = $scope.currencies[0];
         });
         calcService.getFrequencies(function (data) {
             $scope.frequencies = data;
+            if ($scope.calcData.paymentFrequency === null && $scope.frequencies.length > 0) {
+                //$log.log('************ set freq default ' + $scope.frequencies[0]);
+                $scope.calcData.paymentFrequency = $scope.frequencies[0];
+            }
+
         });
-        calcService.getRegions (function (data) {
+        calcService.getRegions(function (data) {
             $scope.regions = data;
+            if ($scope.calcData.region === null && $scope.regions.length > 0)
+                $scope.calcData.region = $scope.regions[0];
         });
         calcService.getGenders(function (data) {
             $scope.genders = data;
+            if ($scope.calcData.insuredGender === null && $scope.genders.length > 0)
+                $scope.calcData.insuredGender = $scope.genders[0].code;
         });
-
-        /*** Данные для расчета ***/
-        $scope.calcData = {
-            insuranceScheme: null,
-            currency: $scope.currencies [0],
-            insuranceSchemeRule: null,
-            paymentFrequency: $scope.frequencies[0],
-            region: $scope.regions[0],
-            insuredGender: $scope.genders[0].id,
-            insuredBirthDate: null
-        };
 
         /*** Date picker popup ***/
 
@@ -108,16 +120,11 @@
 
                 var newItem =
                 {
-                    rowNo: $scope.riskData.size + 1,
+                    rowNo: $scope.riskData.length + 1,
                     riskTypeId: selectedItem.riskTypeId,
                     forIndividualTypeId: selectedItem.forIndividualTypeId,
                     riskTypeName: selectedItem.riskTypeName,
                     forIndividualTypeName: selectedItem.forIndividualTypeName
-                    //riskAmount: "2000",
-                    //payAmount: "500",
-                    //term: "10",
-                    //payTerm: "10",
-                    //nettoTariff: "0.0001"
                 };
 
                 $scope.riskData.push(newItem);
@@ -129,12 +136,17 @@
 
         /*** Actions ***/
 
-        // при изменении программы страхования, определяем программу страхования
-        // todo: обавить фильтрацию списка
+            // при изменении программы страхования, определяем программу страхования
+            // todo: обавить фильтрацию списка
         $scope.InsSchemeChange = function () {
             var ix = $scope.calcData.insuranceScheme.id;
             if (ix > $scope.insuranceSchemeRules.length) $scope.calcData.insuranceSchemeRule = $scope.insuranceSchemeRules[0];
             else $scope.calcData.insuranceSchemeRule = $scope.insuranceSchemeRules[ix - 1];
+
+            calcService.getEventRisksForScheme(
+                $scope.calcData.insuranceScheme.id,
+                setEventRisks
+            );
         };
 
     });

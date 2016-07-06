@@ -1,4 +1,4 @@
-package org.demo.entity;
+package org.demo.entity.insurance;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;

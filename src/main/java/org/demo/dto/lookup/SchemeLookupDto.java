@@ -1,4 +1,4 @@
-package org.demo.dto.refs;
+package org.demo.dto.lookup;
 
 public class SchemeLookupDto {
     private int id;
