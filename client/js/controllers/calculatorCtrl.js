@@ -28,12 +28,12 @@
 
         /*** Lookup списки ***/
         // Страховые риски
-        $scope.insEventRisks = [];
-        $scope.setEventRisks = function (data) {
-            $scope.insEventRisks = data;
-            $log.log('****************'+ data.length);
-            $log.log($scope.insEventRisks.length);
-        };
+        //$scope.insEventRisks = [];
+        //$scope.setEventRisks = function (data) {
+        //    $scope.insEventRisks = data;
+        //    $log.log('****************'+ data.length);
+        //    $log.log($scope.insEventRisks.length);
+        //};
 
         // Программы страхования
         $scope.insuranceSchemes = [];
@@ -110,7 +110,8 @@
                 $scope.calcData.insuranceScheme.id,
                 function (schemeRisks){
                     //$scope.setEventRisks (schemeRisks);
-
+                    // todo add progress bar
+                    // todo add failure procedure
                     var modalInstance = $uibModal.open({
                         animation: true,
                         templateUrl: 'myModalContent.html',
