@@ -1,6 +1,7 @@
 package org.demo.controller.insurance;
 
 import org.demo.dto.lookup.SchemeLookupDto;
+import org.demo.dto.lookup.SchemeRiskDto;
 import org.demo.entity.insurance.InsuranceScheme;
 import org.demo.service.insurance.InsuranceSchemeService;
 import org.modelmapper.ModelMapper;
@@ -32,6 +33,12 @@ public class InsuranceSchemeController {
         List<InsuranceScheme> schemes = schemeService.getAll();
         return schemes.stream()
                 .map(item -> convertToDto(item)).collect(Collectors.toList());
+    }
+
+    @RequestMapping(path = "lookup/insurancescheme/{insuranceschemeid}/risk", method = RequestMethod.GET)
+    @ResponseBody
+    public List<SchemeRiskDto> getRiskForScheme (@PathVariable("insuranceschemeid") int insuranceSchemeId){
+        return schemeService.getRiskForScheme(insuranceSchemeId);
     }
 
     private SchemeLookupDto convertToDto(InsuranceScheme scheme) {

@@ -9,7 +9,7 @@ import java.util.List;
 
 public abstract class AbstractService <T, L extends AbstractDao> {
     @Autowired
-    private L dao;
+    protected L dao;
 
     @Transactional(readOnly = true)
     public List<T> getAll() {

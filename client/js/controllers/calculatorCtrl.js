@@ -28,8 +28,8 @@
 
         /*** Lookup списки ***/
         // Страховые риски
-        var insEventRisks = [];
-        this.setEventRisks = function (data) { insEventRisks = data; };
+        $scope.insEventRisks = [];
+        $scope.setEventRisks = function (data) { $scope.insEventRisks = data; };
 
         // Программы страхования
         $scope.insuranceSchemes = [];
@@ -110,7 +110,7 @@
                 size: size,
                 resolve: {
                     items: function () {
-                        return insEventRisks;
+                        return $scope.insEventRisks;
                     }
                 }
             });
@@ -121,10 +121,10 @@
                 var newItem =
                 {
                     rowNo: $scope.riskData.length + 1,
-                    riskTypeId: selectedItem.riskTypeId,
-                    forIndividualTypeId: selectedItem.forIndividualTypeId,
-                    riskTypeName: selectedItem.riskTypeName,
-                    forIndividualTypeName: selectedItem.forIndividualTypeName
+                    riskTypeId: selectedItem.insurancerisktypeid,
+                    forIndividualTypeId: selectedItem.forindividualtypeid,
+                    riskTypeName: selectedItem.insurancerisktypename,
+                    forIndividualTypeName: selectedItem.forindividualtypename
                 };
 
                 $scope.riskData.push(newItem);
@@ -137,7 +137,7 @@
         /*** Actions ***/
 
             // при изменении программы страхования, определяем программу страхования
-            // todo: обавить фильтрацию списка
+            // todo: добавить фильтрацию списка
         $scope.InsSchemeChange = function () {
             var ix = $scope.calcData.insuranceScheme.id;
             if (ix > $scope.insuranceSchemeRules.length) $scope.calcData.insuranceSchemeRule = $scope.insuranceSchemeRules[0];
@@ -145,7 +145,7 @@
 
             calcService.getEventRisksForScheme(
                 $scope.calcData.insuranceScheme.id,
-                setEventRisks
+                this.setEventRisks
             );
         };
 
