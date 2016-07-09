@@ -14,5 +14,11 @@ public class TokenDetails {
         return System.currentTimeMillis();
     }
 
+    public String getToken() {
+        return token;
+    }
 
+    public UserDetails getUserDetails() {
+        return userDetails;
+    }
 }

@@ -1,6 +1,8 @@
 package org.demo.service.security;
 
 import org.demo.dao.security.TokenDao;
+import org.demo.exception.ApiException;
+import org.demo.exception.TokenNotFoundException;
 import org.demo.service.MyUserDetailsService;
 import org.demo.service.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.apache.log4j.Logger;
@@ -21,13 +24,15 @@ import org.springframework.util.Assert;
 import java.util.UUID;
 
 @Service
+@Qualifier("authenticationService")
 public class MyAuthenticationServiceImpl implements MyAuthenticationService {
 
     @Autowired
     TokenDao tokenDao;
     @Autowired
     MyUserService myUserService;
-
+    @Autowired
+    PasswordEncoder passwordEncoder;
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -42,13 +47,14 @@ public class MyAuthenticationServiceImpl implements MyAuthenticationService {
     public TokenDetails authenticate(String login, String password) {
         Authentication authentication =
                 new UsernamePasswordAuthenticationToken(login, password);
-        try {
+        /*try {*/
             authentication = authenticationManager.authenticate(authentication);
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             if (authentication.getPrincipal() != null) {
                 UserDetails userContext = (UserDetails) authentication.getPrincipal();
                 TokenDetails newToken = new TokenDetails(newTokenValue(), userContext); //todo save token to DB
+
                 // todo why can be null?
                 if (newToken == null) {
                     return null;
@@ -56,9 +62,9 @@ public class MyAuthenticationServiceImpl implements MyAuthenticationService {
                 System.out.println("******** authentication successful has finished ");
                 return newToken;
             }
-        } catch (AuthenticationException e) {
+       /* } catch (AuthenticationException e) {
             e.printStackTrace();
-        }
+        }*/
         return null;
 
     }
@@ -72,7 +78,7 @@ public class MyAuthenticationServiceImpl implements MyAuthenticationService {
         System.out.println(myUserService);
         UserDetails userDetails = myUserService.loadUserByToken(token); //TODO: find user by token in DB;
         if (userDetails == null) {
-            return false;
+            throw new TokenNotFoundException(token);
         }
 
         Authentication securityToken =
@@ -84,7 +90,7 @@ public class MyAuthenticationServiceImpl implements MyAuthenticationService {
 
     @Override
     public void logout(String token) {
-
+        System.out.println("******* logout");
         //todo delete token from DB
         SecurityContextHolder.clearContext();
     }

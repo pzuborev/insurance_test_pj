@@ -74,13 +74,13 @@ public class MyUserService {
 
     @Transactional(readOnly = true)
     public UserDetails loadUserByToken(String token) {
+        UserDetails userDetails = null;
         MyUser user = userDao.getByToken(token);
-
-        List<GrantedAuthority> authorities = buildUserAuthority(user.getMyUserRole());
-        for (GrantedAuthority a : authorities) {
-            System.out.println(authorities.toString());
+        if (user != null) {
+            List<GrantedAuthority> authorities = buildUserAuthority(user.getMyUserRole());
+            userDetails = buildUserForAuthentication(user, authorities);
         }
-        return buildUserForAuthentication(user, authorities);
+        return userDetails;
     }
 
     @Transactional(readOnly = true)

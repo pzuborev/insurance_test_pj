@@ -1,6 +1,8 @@
 package org.demo.config;
 
+import org.demo.filters.RestTokenAuthenticationFilter;
 import org.demo.service.MyUserDetailsService;
+import org.demo.service.security.MyAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -41,10 +44,13 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
+    @Qualifier("authenticationService")
+    private MyAuthenticationService authenticationService;
+
+    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder())
-        ;
+                .passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -52,8 +58,17 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/secured/**").access("hasRole('ROLE_ADMIN')")
-                .and().formLogin();
+                .and().formLogin()
+        .and().addFilterAfter(restTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
+    }
+
+    @Bean(name = "restTokenAuthenticationFilter")
+    public RestTokenAuthenticationFilter restTokenAuthenticationFilter() {
+        RestTokenAuthenticationFilter restTokenAuthenticationFilter = new RestTokenAuthenticationFilter();
+       // tokenAuthenticationManager.setUserDetailsService(userDetailsService);
+        restTokenAuthenticationFilter.setAuthenticationService(authenticationService);// setAuthenticationManager(tokenAuthenticationManager);
+        return restTokenAuthenticationFilter;
     }
 
     @Bean

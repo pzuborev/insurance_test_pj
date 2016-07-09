@@ -6,6 +6,8 @@ import org.hibernate.transform.Transformers;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class UserDao extends AbstractDao<MyUser> {
     public MyUser getByUserName(String username) {
@@ -21,12 +23,14 @@ public class UserDao extends AbstractDao<MyUser> {
     }
 
     public MyUser getByToken(String token) {
-        return (MyUser) getSession().createSQLQuery(
+        List<MyUser> myUsers = getSession().createSQLQuery(
                 "select u.* from users u\n" +
                         "join tokens t on t.username = u.username\n" +
                         "where t.token = :token")
                 .addEntity(MyUser.class)
                 .setParameter("token", token)
-                .list().iterator().next();
+                .list();
+        if (myUsers.size() > 0) return myUsers.iterator().next();
+        else return null;
     }
 }
