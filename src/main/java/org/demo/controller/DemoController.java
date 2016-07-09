@@ -1,8 +1,8 @@
 package org.demo.controller;
 
 import org.demo.dto.UserDto;
-import org.demo.entity.MyUser;
-import org.demo.entity.MyUserRole;
+import org.demo.entity.security.MyUser;
+import org.demo.entity.security.MyUserRole;
 import org.demo.service.MyUserRoleService;
 import org.demo.service.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;

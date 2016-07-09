@@ -1,4 +1,4 @@
-package org.demo.entity;
+package org.demo.entity.security;
 
 import javax.persistence.*;
 import java.lang.annotation.Annotation;
@@ -6,8 +6,6 @@ import java.util.Set;
 
 @Entity(name = "users")
 public class MyUser implements Entity {
-//    @Autowired
-//    private UserRoleService userRoleService;
 
     @Id
     @Column (name = "username")

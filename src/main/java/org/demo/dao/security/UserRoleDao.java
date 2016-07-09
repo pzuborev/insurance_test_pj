@@ -1,6 +1,7 @@
-package org.demo.dao;
+package org.demo.dao.security;
 
-import org.demo.entity.MyUserRole;
+import org.demo.dao.AbstractDao;
+import org.demo.entity.security.MyUserRole;
 import org.springframework.stereotype.Repository;
 
 @Repository

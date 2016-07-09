@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/token")
 public class TokenController {
     @Autowired
-    private RestAuthService restAuthService;
+    private RestAuthService tokenService;
 
     @Autowired
     private MyUserService userService;
 
     private ResponseEntity<TokenDto> tokenAsResponse(UserDto userdto) {
-        return new ResponseEntity(restAuthService.getToken(userdto), HttpStatus.OK);
+        return new ResponseEntity(tokenService.getToken(userdto), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)

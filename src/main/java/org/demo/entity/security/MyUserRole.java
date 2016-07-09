@@ -1,4 +1,4 @@
-package org.demo.entity;
+package org.demo.entity.security;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

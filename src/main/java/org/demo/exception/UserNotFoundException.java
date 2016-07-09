@@ -1,3 +1,4 @@
+/*
 package org.demo.exception;
 
 public class UserNotFoundException extends RuntimeException {
@@ -16,3 +17,4 @@ public class UserNotFoundException extends RuntimeException {
         return String.format("User with name %s not found", username);
     }
 }
+*/

@@ -1,10 +1,11 @@
-package org.demo.entity;
+package org.demo.entity.security;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Calendar;
 
 @Entity(name = "tokens")
-public class Token {
+public class MyToken {
     @ManyToOne
     @JoinColumn(name = "username")
     private MyUser user;
@@ -40,13 +41,18 @@ public class Token {
         this.lastUsed = lastUsed;
     }
 
+    public MyToken(MyUser user, String token) {
+        this.user = user;
+        this.token = token;
+        this.lastUsed = new Date(Calendar.getInstance().getTimeInMillis());
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Token)) return false;
+        if (!(o instanceof MyToken)) return false;
 
-        Token token1 = (Token) o;
+        MyToken token1 = (MyToken) o;
 
         return getToken().equals(token1.getToken());
 

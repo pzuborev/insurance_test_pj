@@ -1,13 +1,13 @@
 package org.demo.service;
 
-import org.demo.dao.UserDao;
+import org.demo.dao.security.UserDao;
 import org.demo.dto.TokenDto;
 import org.demo.dto.UserDto;
-import org.demo.entity.MyUser;
-import org.demo.entity.Token;
+import org.demo.entity.security.MyToken;
+import org.demo.entity.security.MyUser;
 import org.demo.exception.ApiException;
-import org.demo.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +31,7 @@ public class RestAuthService {
     public TokenDto getToken(UserDto userDto) throws ApiException {
         //проверка пользователя
         MyUser user = userDao.getByUserName(userDto.getUsername());
-        if (user == null) throw new UserNotFoundException(userDto.getUsername());
+        if (user == null) throw new UsernameNotFoundException(userDto.getUsername());
 
         System.out.println("****************************************");
         if (!passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
@@ -47,9 +47,7 @@ public class RestAuthService {
 
         System.out.println(tokenDto.toString());
         //сохранение токена в БД
-        Token token = new Token();
-        token.setToken(tokenDto.getToken());
-        token.setUser(user);
+        MyToken token = new MyToken(user, tokenDto.getToken());
 
         //возвращаем токен
         return tokenDto;

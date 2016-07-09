@@ -1,16 +1,24 @@
 package org.demo.service;
 
-import org.demo.dao.UserDao;
+import org.demo.dao.security.UserDao;
 import org.demo.dto.UserDto;
-import org.demo.entity.MyUser;
+import org.demo.entity.security.MyUser;
+import org.demo.entity.security.MyUserRole;
 import org.demo.exception.ApiException;
-import org.demo.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+@Service
 public class MyUserService {
     @Autowired
     private UserDao userDao;
@@ -35,7 +43,7 @@ public class MyUserService {
     @Transactional
     public void update(String userName, UserDto userDto) {
         MyUser user = userDao.getByUserName(userName);
-        if (user == null) throw new UserNotFoundException(userName);
+        if (user == null) throw new UsernameNotFoundException(userName);
 
         if (userDto.getUsername() == "") userDto.setUsername(userName);
         else if (!userDto.getUsername().equals(userName))
@@ -53,7 +61,7 @@ public class MyUserService {
     }
 
     @Transactional
-    public void delete (String username) {
+    public void delete(String username) {
         MyUser user = new MyUser();
         user.setUsername(username);
         userDao.delete(user);
@@ -64,4 +72,32 @@ public class MyUserService {
         return userDao.getByUserName(username);
     }
 
+    @Transactional(readOnly = true)
+    public UserDetails loadUserByToken(String token) {
+        MyUser user = userDao.getByToken(token);
+
+        List<GrantedAuthority> authorities = buildUserAuthority(user.getMyUserRole());
+        for (GrantedAuthority a : authorities) {
+            System.out.println(authorities.toString());
+        }
+        return buildUserForAuthentication(user, authorities);
+    }
+
+    @Transactional(readOnly = true)
+    public UserDetails loadUserByUsername(final String username) {
+        MyUser user = userDao.getByUserName(username);
+
+        List<GrantedAuthority> authorities = buildUserAuthority(user.getMyUserRole());
+        return buildUserForAuthentication(user, authorities);
+    }
+
+    private User buildUserForAuthentication(MyUser user, List<GrantedAuthority> authorities) {
+        return new User(user.getUsername(), user.getPassword(), true, true, true, true, authorities);
+    }
+
+    private List<GrantedAuthority> buildUserAuthority(Set<MyUserRole> myUserRoles) {
+        return myUserRoles.stream()
+                .map(userRole -> new SimpleGrantedAuthority("ROLE_"+userRole.getName()))
+                .collect(Collectors.toList());
+    }
 }

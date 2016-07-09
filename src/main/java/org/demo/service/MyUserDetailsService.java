@@ -1,14 +1,16 @@
 package org.demo.service;
 
-import org.demo.dao.UserDao;
-import org.demo.entity.MyUser;
-import org.demo.entity.MyUserRole;
+import org.demo.dao.security.UserDao;
+import org.demo.entity.security.MyUser;
+import org.demo.entity.security.MyUserRole;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,37 +18,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Service("userDetailsService")
+@Service
+@Qualifier("userDetailsService")
 public class MyUserDetailsService implements UserDetailsService{
     @Autowired
-    private UserDao userDao;
+    private MyUserService myUserService;
 
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
 
-    @Transactional(readOnly = true)
     @Override
-    public UserDetails loadUserByUsername(final String username) {
-        MyUser user = userDao.getByUserName(username);
-        List<GrantedAuthority> authorities = buildUserAuthority(user.getMyUserRole());
-        for (GrantedAuthority a: authorities) {
-            System.out.println(a.getAuthority());
-        }
-
-        return buildUserForAuthentication(user, authorities);
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return myUserService.loadUserByUsername(s);
     }
-
-    private User buildUserForAuthentication(MyUser user, List<GrantedAuthority> authorities) {
-        return new User(user.getUsername(), user.getPassword(), true, true, true, true, authorities);
-    }
-
-    private List<GrantedAuthority> buildUserAuthority(Set<MyUserRole> myUserRoles) {
-        return myUserRoles.stream()
-                .map(userRole -> new SimpleGrantedAuthority("ROLE_"+userRole.getName()))
-                .collect(Collectors.toList());
-    }
-
-
-
 }

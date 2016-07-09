@@ -54,7 +54,7 @@
             <version>4.2.6.RELEASE</version>
         </dependency>
 
-       <!-- &lt;!&ndash; logging &ndash;&gt;
+        <!-- logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
@@ -77,32 +77,9 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.14</version>
-            <scope>runtime</scope>
-        </dependency>--><!-- &lt;!&ndash; logging &ndash;&gt;
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
-            <version>1.5.8</version>
-            <scope>runtime</scope>
+            <!--<scope>runtime</scope>-->
         </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.5.8</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.5.8</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.14</version>
-            <scope>runtime</scope>
-        </dependency>-->
+
 
         <!--spring security-->
         <dependency>
@@ -115,7 +92,12 @@
             <artifactId>spring-security-config</artifactId>
             <version>4.0.2.RELEASE</version>
         </dependency>
-
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <!-- aop -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>

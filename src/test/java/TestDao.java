@@ -1,7 +1,7 @@
-import org.demo.dao.UserDao;
-import org.demo.dao.UserRoleDao;
-import org.demo.entity.MyUser;
-import org.demo.entity.MyUserRole;
+import org.demo.dao.security.UserDao;
+import org.demo.dao.security.UserRoleDao;
+import org.demo.entity.security.MyUser;
+import org.demo.entity.security.MyUserRole;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -91,6 +91,22 @@ public class TestDao {
         for (MyUser u : myUsers) {
             System.out.println(u.getUsername() + " " + u.getPassword());
         }
+
+    }
+
+
+    @Test
+    public void testGetUserByName() throws Exception {
+        MyUser myUser = userDao.getByUserName("admin");
+        Assert.assertNotNull("myUser is null", myUser);
+        System.out.println("********* "+myUser.getUsername());
+    }
+
+    @Test
+    public void testGetUserByToken() throws Exception {
+        MyUser myUser = userDao.getByToken("1");
+        Assert.assertNotNull("myUser is null", myUser);
+        System.out.println("********* "+myUser.getUsername());
 
     }
 }

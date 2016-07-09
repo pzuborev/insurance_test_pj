@@ -39,8 +39,8 @@ public abstract class AbstractDao<T> {
         getSession().flush();
     }
 
-    public T get(Class c, Serializable id) {
-        return (T) getSession().get(c, id);
+    public T get(Serializable id) {
+        return (T) getSession().get(getEntityType(), id);
     }
 
     public List<T> getAll () {

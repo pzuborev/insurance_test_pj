@@ -2,12 +2,12 @@ package org.demo.controller;
 
 import org.demo.exception.ApiException;
 import org.demo.exception.ResourceNotFoundException;
-import org.demo.exception.UserNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,7 +38,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         return getResponseDataInternal(throwable, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
+    @ExceptionHandler(UsernameNotFoundException.class)
     @ResponseBody
     public ResponseEntity<Object> userNotFoundExceptionResolver(Exception ex, WebRequest request) {
 //        System.out.println("****************** ExceptionController.userNotFoundExceptionResolver");
@@ -46,7 +46,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 //        String bodyOfResponse = "This should be application specific " + ex.getMessage();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        return handleExceptionInternal(ex, new ErrorResource(ex.getMessage()),
+        return handleExceptionInternal(ex, new ErrorResource(String.format("User %s not found", ex.getMessage())),
                 headers, HttpStatus.BAD_REQUEST, request);
     }
 
