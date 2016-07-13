@@ -56,10 +56,19 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests()
+        http
+                .csrf().disable()
+                .authorizeRequests()
                 .antMatchers("/secured/**").access("hasRole('ROLE_ADMIN')")
                 .and().formLogin()
-        .and().addFilterAfter(restTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .and().addFilterAfter(restTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+//        http
+//                .headers().frameOptions().sameOrigin()
+//                .and()
+//       //         .addFilterBefore(restTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+//                .addFilterAfter(restTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+//                .authorizeRequests()
+//                .antMatchers("/rest/*").authenticated();
 
     }
 

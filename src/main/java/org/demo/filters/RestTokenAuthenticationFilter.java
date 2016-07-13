@@ -5,6 +5,8 @@ import org.demo.exception.ApiException;
 import org.demo.service.security.MyAuthenticationService;
 import org.demo.service.security.TokenDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -24,16 +26,33 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
         this.authenticationService = authenticationService;
     }
 
+
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+            throws IOException, ServletException {
         System.out.println("************ doFilter");
 
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
+
+        System.out.println("Origin = " + httpRequest.getHeader("Origin"));
+//
+//        httpResponse.addHeader("Access-Control-Allow-Headers",  "X-Requested-With");
+//        httpResponse.addHeader("Access-Control-Allow-Headers",  "Destination");
+//        httpResponse.addHeader("Access-Control-Allow-Methods",  "GET");
+//        httpResponse.addHeader("Access-Control-Allow-Methods",  "POST");
+//        httpResponse.addHeader("Access-Control-Allow-Methods",  "OPTIONS");
+        httpResponse.addHeader("Access-Control-Allow-Origin",  "*");
+        httpResponse.addHeader("Access-Control-Allow-Credentials",  "true");
+
+
         boolean authenticated = false;
-        String token = httpRequest.getHeader("X-Auth-MyToken");
+        String token = httpRequest.getHeader("X-Auth-Token");
+        if (token == null) httpRequest.getParameter("X-Auth-Token");
         String path = httpRequest.getServletPath() + httpRequest.getPathInfo();
-        System.out.println("path = " + path);
+        System.out.println("***************** PATH = " + path + " token = " + token);
+        System.out.println("username = " + httpRequest.getHeader("username"));
+        System.out.println("username = " + httpRequest.getParameter("username"));
 
         try {
             if (token == null) {
@@ -46,12 +65,14 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
             if (authenticated) {
                 filterChain.doFilter(httpRequest, httpResponse);
             } else {
+                System.out.println("auth failed");
                 httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
-        }
+    }
 
 
 
@@ -66,6 +87,11 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
         TokenDetails tokenInfo = null;
         String username = httpRequest.getHeader("username");
         String password = httpRequest.getHeader("password");
+        if (username == null) {
+            username = httpRequest.getParameter("username");
+            password = httpRequest.getParameter("password");
+        }
+
         String authorization = httpRequest.getHeader("Authorization");
 
         if (authorization != null) {
@@ -75,13 +101,17 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
         if (username != null && password != null) {
             System.out.println("username = " + username + " password = " + password);
             tokenInfo = authenticationService.authenticate(username, password);
+
+            System.out.println("tokenInfo = " + tokenInfo);
+            if (tokenInfo != null) {
+                httpResponse.setHeader("X-Auth-Token", tokenInfo.getToken());
+                return true;
+            }
+        } else {
+            System.out.println("***** username or password is null");
         }
 
-        System.out.println("tokenInfo = " + tokenInfo);
-        if (tokenInfo != null) {
-            httpResponse.setHeader("X-Auth-Token", tokenInfo.getToken());
-            return true;
-        }
+
         return false;
     }
 }

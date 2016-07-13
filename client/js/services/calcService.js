@@ -64,60 +64,30 @@ app.service('calcService', function ($http, $log) {
         return riskDataSet.selectedRisk == risk;
     };
 
+    this.authentication = function () {
+        $http.get('')
+    };
 
     this.getEventRisksForScheme = function (schemeId, success) {
-        /*success(
-            [
-                {
-                    riskTypeId: 1,
-                    forIndividualTypeId: 1,
-                    name: 'Д застрахованного лица',
-                    riskTypeName: 'Дожитие',
-                    forIndividualTypeName: 'Застрахованное лица'
-                },
-                {
-                    riskTypeId: 2,
-                    forIndividualTypeId: 1,
-                    name: 'С застрахованного лица',
-                    riskTypeName: 'Смерть',
-                    forIndividualTypeName: 'Застрахованное лица'
-                },
-                {
-                    riskTypeId: 3,
-                    forIndividualTypeId: 1,
-                    name: 'С(ДТП) застрахованного лица',
-                    riskTypeName: 'С(НС)',
-                    forIndividualTypeName: 'Застрахованное лица'
-                },
-                {
-                    riskTypeId: 4,
-                    forIndividualTypeId: 1,
-                    name: 'С(НС) застрахованного лица',
-                    riskTypeName: 'С(ДТП)',
-                    forIndividualTypeName: 'Застрахованное лица'
-                },
-                {
-                    riskTypeId: 7,
-                    forIndividualTypeId: 1,
-                    name: 'Инвалидность застрахованного лица',
-                    riskTypeName: 'Инвалидность',
-                    forIndividualTypeName: 'Застрахованное лица'
-                }
-            ]);*/
-        $http.get('http://localhost:8080/lookup/insurancescheme/' + schemeId + '/risk').then(
+        $http.get('http://localhost:8080/lookup/insurancescheme/' + schemeId + '/risk'
+        ).then(
             function (response) {
-                $log.log('got risk for scheme '+ schemeId +' from rest.');
+                $log.log('got risk for scheme ' + schemeId + ' from rest.');
                 $log.log(response);
-                success (response.data);
+                success(response.data);
             }
         );
     };
     this.getInsuranceSchemes = function (success) {
-        $http.get('http://localhost:8080/lookup/insurancescheme/').then(
+        $http.get('http://localhost:8080/lookup/insurancescheme/', {
+         //       headers: {'username': '1', 'password': '1'},
+                params: {'username': 'admin', 'password': 'admin'}
+            }
+        ).then(
             function (response) {
                 $log.log('got Schemes from rest.');
                 $log.log(response);
-                success (response.data);
+                success(response.data);
             }
         );
     };
@@ -126,7 +96,7 @@ app.service('calcService', function ($http, $log) {
             function (response) {
                 $log.log('got schemerule from rest.');
                 $log.log(response);
-                success (response.data);
+                success(response.data);
             }
         );
     };
@@ -135,7 +105,7 @@ app.service('calcService', function ($http, $log) {
             function (response) {
                 $log.log('got currency from rest.');
                 $log.log(response);
-                success (response.data);
+                success(response.data);
             }
         );
     };
@@ -144,7 +114,7 @@ app.service('calcService', function ($http, $log) {
             function (response) {
                 $log.log('got frequency from rest.');
                 $log.log(response);
-                success (response.data);
+                success(response.data);
             }
         );
     };
@@ -153,7 +123,7 @@ app.service('calcService', function ($http, $log) {
             function (response) {
                 $log.log('got region from rest.');
                 $log.log(response);
-                success (response.data);
+                success(response.data);
             }
         );
     };
@@ -162,7 +132,7 @@ app.service('calcService', function ($http, $log) {
             function (response) {
                 $log.log('got gender from rest.');
                 $log.log(response);
-                success (response.data);
+                success(response.data);
             }
         );
     };
