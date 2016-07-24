@@ -1,4 +1,4 @@
-app.service('calcService', function ($http, $log) {
+app.service('calcService', function ($http, $log, authService) {
 
     var riskDataSet = {
         data: [
@@ -80,8 +80,8 @@ app.service('calcService', function ($http, $log) {
     };
     this.getInsuranceSchemes = function (success) {
         $http.get('http://localhost:8080/lookup/insurancescheme/', {
-         //       headers: {'username': '1', 'password': '1'},
-                params: {'username': 'admin', 'password': 'admin'}
+                //params: {'username': 'admin', 'password': 'admin'}
+                params: {'token': authService.getToken()}
             }
         ).then(
             function (response) {

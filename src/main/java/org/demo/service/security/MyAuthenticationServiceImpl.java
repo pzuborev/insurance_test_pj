@@ -71,7 +71,7 @@ public class MyAuthenticationServiceImpl implements MyAuthenticationService {
 
     @Override
     public boolean checkToken(String token) {
-        System.out.println("******** checkToken " + token);
+        System.out.println("*** checkToken :: " + token);
 
         Assert.notNull(tokenDao, "tokenDao is null");
 
