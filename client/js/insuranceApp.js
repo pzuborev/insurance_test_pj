@@ -14,3 +14,17 @@ app.config(function ($routeProvider) {
             controller: "CalcController"
         })
 });
+
+app.controller('NavCtrl',
+    ['$scope', '$location', function ($scope, $location) {
+        $scope.navClass = function (page) {
+
+            console.log('************************');
+            //console.log(page);
+            console.log($location.path());
+            console.log($location.path().substring(1));
+
+            var currentRoute = $location.path().substring(1) || 'home';
+            return page === currentRoute ? 'active' : '';
+        };
+    }]);

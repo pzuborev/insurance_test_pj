@@ -34,9 +34,40 @@
 
 </head>
 <body ng-app="insuranceApp">
-<a href="#/first">First</a>
-<a href="#/second">Second</a>
-<a href="#/calculator">Калькулятор</a>
+<!--<a href="#/first">First</a>-->
+<!--<a href="#/second">Second</a>-->
+<!--<a href="#/calculator">Калькулятор</a>-->
+<!--<nav class="navbar navbar-default">-->
+    <!--<ul class="nav navbar-nav">-->
+        <!--<li class="active"><a href="#"></a></li>-->
+        <!--<li><a href="#/first">First</a></li>-->
+        <!--<li><a href="#/second">Second</a></li>-->
+    <!--</ul>-->
+<!--</nav>-->
+
+<nav class="navbar navbar-default" ng-controller="NavCtrl">
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+        <a class="navbar-brand" href="#/home">
+            <span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>
+        </a>
+    </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li ng-class="navClass('first')"><a href="#/first">First page</a> </li>
+                <li ng-class="navClass('second')"><a href="#/second">Second page</a></li>
+                <li ng-class="navClass('calculator')"><a href="#/calculator">Калькулятор</a></li>
+            </ul>
+
+            <!--<ul class="nav navbar-nav navbar-right">-->
+                <!--<li><a href="#">Link</a></li>-->
+            <!--</ul>-->
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
 
 <div ng-view></div>
 </body>
