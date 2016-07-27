@@ -40,25 +40,41 @@
     <div class="container-fluid">
 
         <div class="navbar-header">
-        <a class="navbar-brand" href="#/home">
-            <span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>
-        </a>
-    </div>
+            <a class="navbar-brand" href="#/home">
+                <span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>
+            </a>
+        </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li ng-class="navClass('first')"><a href="#/first">First page</a> </li>
+                <li ng-class="navClass('first')"><a href="#/first">First page</a></li>
                 <li ng-class="navClass('second')"><a href="#/second">Second page</a></li>
                 <li ng-class="navClass('calculator')"><a href="#/calculator">Калькулятор</a></li>
             </ul>
 
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a ng-href="#" ng-click="login()">Вход</a>
-                </li>
+            <!--<ul class="nav navbar-nav navbar-right">-->
+            <!--<li>-->
+            <!--<div > <a ng-href="#" ng-click="login()" ng-show="!isAuthorized">Войти</a>-->
+            <!--<a ng-href="#" ng-click="logout()" ng-show="isAuthorized">Аккаунт: {{authorizedUserName}} (Выйти)</a>-->
+            <!--</div>-->
+            <!--</li>-->
 
-            </ul>
+
+            <!--</ul>-->
+            <div class="nav navbar-nav navbar-right">
+                <a ng-href="#" ng-click="login()" ng-show="!isAuthorized">Войти</a>
+                <span uib-dropdown on-toggle="toggled(open)" ng-show="isAuthorized">
+                  <a href id="simple-dropdown" uib-dropdown-toggle ng-show="isAuthorized">
+                      Аккаунт: {{authorizedUserName}}
+                  </a>
+                  <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                      <li>
+                          <a href ng-click="logout()">Выйти</a>
+                      </li>
+                  </ul>
+                </span>
+            </div>
 
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

@@ -5,8 +5,7 @@ app.controller('loginModalCtrl', function ($scope, $uibModalInstance, $location,
 
     $scope.ok = function () {
         authService.login($scope.username, $scope.password)
-                .then(function () {
-                    console.log("yyy");
+            .then(function () {
                     $uibModalInstance.close({'username': $scope.username, 'password': $scope.password});
                 },
                 function () {

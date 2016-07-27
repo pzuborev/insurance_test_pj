@@ -16,7 +16,15 @@ app.config(function ($routeProvider) {
 });
 
 app.controller('mainInsuranceCtrl',
-    function ($scope, $uibModal, $log, $q, $location) {
+    function ($scope, $rootScope, $uibModal, $log, $q, $location, authService) {
+        $scope.isAuthorized = false;
+        $scope.authorizedUserName = '';
+        $scope.items = [
+            'The first choice!',
+            'And another choice for you.',
+            'but wait! A third!'
+        ];
+
         $scope.navClass = function (page) {
 
             //console.log('************************');
@@ -39,7 +47,7 @@ app.controller('mainInsuranceCtrl',
                         return 'admin';
                     },
                     password: function () {
-                        return '';
+                        return '11';
                     }
                 }
             });
@@ -48,6 +56,7 @@ app.controller('mainInsuranceCtrl',
                 function (result) {
                     console.log('username: ' + result.username);
                     console.log('password: ' + result.password);
+                    console.log('password: ' + result.password);
                 },
                 function () {
                     console.log('Modal dismissed at: ' + new Date());
@@ -55,4 +64,13 @@ app.controller('mainInsuranceCtrl',
 
 
         };
+
+        $scope.logout = function (){
+           authService.logout ();
+        };
+
+        $scope.$on('handleLogin', function() {
+            $scope.isAuthorized         = authService.isAuthorized();
+            $scope.authorizedUserName   = authService.getUserName();
+        });
     });

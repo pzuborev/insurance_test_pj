@@ -64,10 +64,6 @@ app.service('calcService', function ($http, $log, authService) {
         return riskDataSet.selectedRisk == risk;
     };
 
-    this.authentication = function () {
-        $http.get('')
-    };
-
     this.getEventRisksForScheme = function (schemeId, success) {
         $http.get('http://localhost:8080/lookup/insurancescheme/' + schemeId + '/risk'
         ).then(
@@ -79,6 +75,10 @@ app.service('calcService', function ($http, $log, authService) {
         );
     };
     this.getInsuranceSchemes = function (success) {
+        console.log("*** getInsuranceSchemes");
+        console.log(" authService.getToken "+ authService.getToken());
+
+
         $http.get('http://localhost:8080/lookup/insurancescheme/', {
                 //params: {'username': 'admin', 'password': 'admin'}
                 params: {'token': authService.getToken()}

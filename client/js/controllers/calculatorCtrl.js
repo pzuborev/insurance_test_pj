@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     app.controller('CalcController', function ($scope, $uibModal, $log, $q, calcService) {
-
+        $log.info("*** init CalcController");
         /*** Данные таблицы (условия страхования в разрезе рисков) ***/
 
         calcService.getRiskData(function (resultData) {
@@ -52,10 +52,9 @@
         //todo : create new service
         //userDetails = calcService.authentication ();
 
-        /***  Инициализация ***/
-
         calcService.getInsuranceSchemes(function (data) {
-                $scope.insuranceSchemes = data;
+            console.log("** calcService.getInsuranceSchemes");
+            $scope.insuranceSchemes = data;
             }
         );
         //calcService.getInsuranceSchemeRules(function (data) {
@@ -164,6 +163,8 @@
             //    this.setEventRisks
             //);
         };
+
+
 
     });
 

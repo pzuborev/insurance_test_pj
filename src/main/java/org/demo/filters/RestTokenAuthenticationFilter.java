@@ -58,9 +58,6 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
         try {
             if (token == null) {
                 authenticated = checkPassword(httpRequest, httpResponse);
-                if (authenticated && path.contains("/logout")) authenticationService.logout(token);
-//                if (authenticated && path.contains("/login")) httpResponse.sendRedirect("/admin");
-
             } else {
                 authenticated = checkToken(token);
             }
