@@ -1,24 +1,21 @@
 package org.demo.service.security;
 
 import org.demo.dao.security.TokenDao;
-import org.demo.exception.ApiException;
+import org.demo.entity.security.MyToken;
 import org.demo.exception.TokenNotFoundException;
-import org.demo.service.MyUserDetailsService;
 import org.demo.service.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.UUID;
@@ -44,21 +41,22 @@ public class MyAuthenticationServiceImpl implements MyAuthenticationService {
     }
 
     @Override
-    public TokenDetails authenticate(String login, String password) {
+    @Transactional
+    public TokenDetails authenticate(String username, String password) {
         Authentication authentication =
-                new UsernamePasswordAuthenticationToken(login, password);
+                new UsernamePasswordAuthenticationToken(username, password);
         /*try {*/
             authentication = authenticationManager.authenticate(authentication);
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             if (authentication.getPrincipal() != null) {
                 UserDetails userContext = (UserDetails) authentication.getPrincipal();
-                TokenDetails newToken = new TokenDetails(newTokenValue(), userContext); //todo save token to DB
+                TokenDetails newToken = new TokenDetails(newTokenValue(), userContext);
 
-                // todo why can be null?
-                if (newToken == null) {
-                    return null;
-                }
+                if (newToken == null) return null;
+
+                MyToken tokenObj = new MyToken(username, newToken.getToken());
+                tokenDao.persist(tokenObj);
                 System.out.println("******** authentication successful has finished ");
                 return newToken;
             }

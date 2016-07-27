@@ -1,4 +1,4 @@
-var app = angular.module('insuranceApp', ['ngRoute','ui.bootstrap']);
+var app = angular.module('insuranceApp', ['ngRoute', 'ui.bootstrap']);
 app.config(function ($routeProvider) {
     $routeProvider
         .when("/first", {
@@ -15,8 +15,8 @@ app.config(function ($routeProvider) {
         })
 });
 
-app.controller('NavCtrl',
-    ['$scope', '$location', function ($scope, $location) {
+app.controller('mainInsuranceCtrl',
+    function ($scope, $uibModal, $log, $q, $location) {
         $scope.navClass = function (page) {
 
             //console.log('************************');
@@ -26,4 +26,33 @@ app.controller('NavCtrl',
             var currentRoute = $location.path().substring(1) || 'home';
             return page === currentRoute ? 'active' : '';
         };
-    }]);
+
+        $scope.login = function (size) {
+            console.log("loginExecute");
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'view/loginModalForm.html',
+                controller: 'loginModalCtrl',
+                size: size,
+                resolve: {
+                    username: function () {
+                        return 'admin';
+                    },
+                    password: function () {
+                        return '';
+                    }
+                }
+            });
+
+            modalInstance.result.then(
+                function (result) {
+                    console.log('username: ' + result.username);
+                    console.log('password: ' + result.password);
+                },
+                function () {
+                    console.log('Modal dismissed at: ' + new Date());
+                });
+
+
+        };
+    });

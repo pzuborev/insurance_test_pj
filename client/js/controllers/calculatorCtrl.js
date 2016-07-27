@@ -116,7 +116,6 @@
                 function (schemeRisks){
                     //$scope.setEventRisks (schemeRisks);
                     // todo add progress bar
-                    // todo add failure procedure
                     var modalInstance = $uibModal.open({
                         animation: true,
                         templateUrl: 'myModalContent.html',
@@ -150,7 +149,6 @@
             );
 
         };
-
 
         /*** Actions ***/
 

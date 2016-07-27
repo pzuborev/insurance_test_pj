@@ -40,6 +40,8 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
 //        httpResponse.addHeader("Access-Control-Allow-Methods",  "OPTIONS");
         httpResponse.addHeader("Access-Control-Allow-Origin",  "*");
         httpResponse.addHeader("Access-Control-Allow-Credentials",  "true");
+        httpResponse.addHeader("Access-Control-Expose-Headers",  "token");
+
 
         boolean authenticated = false;
         String token = httpRequest.getHeader("token");
@@ -57,6 +59,8 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
             if (token == null) {
                 authenticated = checkPassword(httpRequest, httpResponse);
                 if (authenticated && path.contains("/logout")) authenticationService.logout(token);
+//                if (authenticated && path.contains("/login")) httpResponse.sendRedirect("/admin");
+
             } else {
                 authenticated = checkToken(token);
             }

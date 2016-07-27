@@ -6,9 +6,11 @@ import java.util.Calendar;
 
 @Entity(name = "tokens")
 public class MyToken {
-    @ManyToOne
-    @JoinColumn(name = "username")
-    private MyUser user;
+//    @ManyToOne
+//    @JoinColumn(name = "username")
+//    private MyUser user;
+    @Column(name="username")
+    private String username;
 
     @Id
     @Column(name = "token")
@@ -17,13 +19,7 @@ public class MyToken {
     @Column(name = "lastused")
     private Date lastUsed;
 
-    public MyUser getUser() {
-        return user;
-    }
 
-    public void setUser(MyUser user) {
-        this.user = user;
-    }
 
     public String getToken() {
         return token;
@@ -41,10 +37,13 @@ public class MyToken {
         this.lastUsed = lastUsed;
     }
 
-    public MyToken(MyUser user, String token) {
-        this.user = user;
+    public MyToken(String username, String token) {
+        this.username = username;
         this.token = token;
         this.lastUsed = new Date(Calendar.getInstance().getTimeInMillis());
+    }
+
+    public MyToken() {
     }
 
     @Override
