@@ -81,7 +81,7 @@ app.service('calcService', function ($http, $log, authService) {
 
         $http.get('http://localhost:8080/lookup/insurancescheme/', {
                 //params: {'username': 'admin', 'password': 'admin'}
-                params: {'token': authService.getToken()}
+               // params: {'token': authService.getToken()}
             }
         ).then(
             function (response) {

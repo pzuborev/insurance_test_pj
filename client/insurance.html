@@ -22,8 +22,10 @@
     <!-- App -->
     <script src="js/insuranceApp.js"></script>
     <!-- Services -->
-    <script src="js/services/calcService.js"></script>
+    <script src="js/services/securityInterceptor.js"></script>
+    <script src="js/services/securityRetryQueue.js"></script>
     <script src="js/services/authService.js"></script>
+    <script src="js/services/calcService.js"></script>
     <script src="js/services/serviceTest.js"></script>
 
     <!-- Controllers -->
@@ -53,15 +55,6 @@
                 <li ng-class="navClass('calculator')"><a href="#/calculator">Калькулятор</a></li>
             </ul>
 
-            <!--<ul class="nav navbar-nav navbar-right">-->
-            <!--<li>-->
-            <!--<div > <a ng-href="#" ng-click="login()" ng-show="!isAuthorized">Войти</a>-->
-            <!--<a ng-href="#" ng-click="logout()" ng-show="isAuthorized">Аккаунт: {{authorizedUserName}} (Выйти)</a>-->
-            <!--</div>-->
-            <!--</li>-->
-
-
-            <!--</ul>-->
             <div class="nav navbar-nav navbar-right">
                 <a ng-href="#" ng-click="login()" ng-show="!isAuthorized">Войти</a>
                 <span uib-dropdown on-toggle="toggled(open)" ng-show="isAuthorized">
