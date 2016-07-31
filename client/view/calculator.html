@@ -1,5 +1,3 @@
-
-
 <main class="container">
     <div class=""><h3>Калькулятор условий страхования жизни</h3></div>
     <form>
@@ -29,6 +27,54 @@
                         <td>{{risk.nettoTariff}}</td>
                     </tr>
                 </table>
+
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{selectedRisk.riskTypeName + " [ " + selectedRisk.forIndividualTypeName +" ]"}}
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-md-3">
+                        <label for="selectedRiskAmount">Страховая сумма</label>
+                    </div>
+                    <div class="col-xs-12 col-md-3">
+                        <input id="selectedRiskAmount" type="text" ng-model="selectedRisk.riskAmount" class="form-control"/>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-3">
+                        <label for="selectedPayAmount">Взнос</label>
+                    </div>
+                    <div class="col-xs-12 col-md-3">
+                        <input id="selectedPayAmount" type="text" ng-model="selectedRisk.payAmount" class="form-control"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-3">
+                        <label for="selectedPaytem">Срок оплаты взносов</label>
+                    </div>
+                    <div class="col-xs-12 col-md-3">
+                        <input id="selectedPaytem" type="text" ng-model="selectedRisk.payTerm" class="form-control"/>
+                    </div>
+
+                    <div class="col-xs-12 col-md-3">
+                        <label for="selectedPayCount">Количество взносов</label>
+                    </div>
+                    <div class="col-xs-12 col-md-3">
+                        <input id="selectedPayCount" type="text" ng-value="selectedRisk.payCount" class="form-control"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-3">
+                        <label for="selectedTerm">Срок действия рисков</label>
+                    </div>
+                    <div class="col-xs-12 col-md-3">
+                        <input id="selectedTerm" type="text" ng-model="selectedRisk.term" class="form-control"/>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="panel panel-default">
@@ -82,6 +128,7 @@
                                 ng-options="freq.name for freq in frequencies track by freq.code">
                         </select>
                     </div>
+
 
                 </div>
             </div>

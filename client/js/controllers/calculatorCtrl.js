@@ -2,17 +2,6 @@
     'use strict';
     app.controller('CalcController', function ($scope, $uibModal, $log, $q, calcService) {
         $log.info("*** init CalcController");
-        /*** Данные таблицы (условия страхования в разрезе рисков) ***/
-
-        calcService.getRiskData(function (resultData) {
-            $scope.riskData = resultData;
-        });
-        $scope.setSelectedRisk = function (risk) {
-            calcService.setSelectedRisk(risk);
-        };
-        $scope.isRiskSelected = function (risk) {
-            return calcService.isRiskSelected(risk);
-        };
 
         /*** Данные для расчета ***/
 
@@ -25,6 +14,25 @@
             insuredGender: null,
             insuredBirthDate: null
         };
+
+        $scope.setSelectedRisk = function (risk) {
+            $scope.selectedRisk = risk;
+            $scope.selectedRisk.payCount = calcService.getPayCount($scope.selectedRisk.payTerm,
+                $scope.calcData.paymentFrequency);
+        };
+        $scope.isRiskSelected = function (risk) {
+            return ($scope.selectedRisk == risk);
+        };
+        /*** Данные таблицы (условия страхования в разрезе рисков) ***/
+        calcService.getRiskData(function (resultData) {
+            $scope.riskData = resultData;
+            $scope.selectedRisk = $scope.riskData[0];
+        });
+
+
+
+
+
 
         /*** Lookup списки ***/
         // Страховые риски

@@ -2,54 +2,58 @@ app.service('calcService', function ($http, $log) {
 
     var riskDataSet = {
         data: [
-            //{
-            //    rowNo: 1,
-            //    riskTypeId: "1",
-            //    forIndividualTypeId: "1",
-            //    riskTypeName: "Д",
-            //    forIndividualTypeName: "Застрахованное лицо",
-            //    riskAmount: "2000",
-            //    payAmount: "500",
-            //    term: "10",
-            //    payTerm: "10",
-            //    nettoTariff: "0.0001"
-            //},
-            //{
-            //    rowNo: 2,
-            //    riskTypeId: "2",
-            //    forIndividualTypeId: "1",
-            //    riskTypeName: "C",
-            //    forIndividualTypeName: "Застрахованное лицо",
-            //    riskAmount: "2000",
-            //    payAmount: "500",
-            //    term: "10",
-            //    payTerm: "10",
-            //    nettoTariff: "0.0001"
-            //},
-            //{
-            //    rowNo: 3,
-            //    riskTypeId: "3",
-            //    forIndividualTypeId: "1",
-            //    riskTypeName: "C(НС)",
-            //    forIndividualTypeName: "Застрахованное лицо",
-            //    riskAmount: "200",
-            //    payAmount: "1",
-            //    term: "10",
-            //    payTerm: "10",
-            //    nettoTariff: "0.000133"
-            //},
-            //{
-            //    rowNo: 4,
-            //    riskTypeId: "4",
-            //    forIndividualTypeId: "1",
-            //    riskTypeName: "C(ДТП)",
-            //    forIndividualTypeName: "Застрахованное лицо",
-            //    riskAmount: "1000",
-            //    payAmount: "10",
-            //    term: "10",
-            //    payTerm: "10",
-            //    nettoTariff: "0.000221"
-            //}
+            {
+                rowNo: 1,
+                riskTypeId: "1",
+                forIndividualTypeId: "1",
+                riskTypeName: "Д",
+                forIndividualTypeName: "Застрахованное лицо",
+                riskAmount: "2000",
+                payAmount: "500",
+                term: "10",
+                payTerm: "10",
+                nettoTariff: "0.0001",
+                payCount: 1
+            },
+            {
+                rowNo: 2,
+                riskTypeId: "2",
+                forIndividualTypeId: "1",
+                riskTypeName: "C",
+                forIndividualTypeName: "Застрахованное лицо",
+                riskAmount: "2000",
+                payAmount: "500",
+                term: "10",
+                payTerm: "10",
+                nettoTariff: "0.0001",
+                payCount: 1
+            },
+            {
+                rowNo: 3,
+                riskTypeId: "3",
+                forIndividualTypeId: "1",
+                riskTypeName: "C(НС)",
+                forIndividualTypeName: "Застрахованное лицо",
+                riskAmount: "200",
+                payAmount: "1",
+                term: "10",
+                payTerm: "10",
+                nettoTariff: "0.000133",
+                payCount: 1
+            },
+            {
+                rowNo: 4,
+                riskTypeId: "4",
+                forIndividualTypeId: "1",
+                riskTypeName: "C(ДТП)",
+                forIndividualTypeName: "Застрахованное лицо",
+                riskAmount: "1000",
+                payAmount: "10",
+                term: "10",
+                payTerm: "10",
+                nettoTariff: "0.000221",
+                payCount: 1
+            }
         ]
     };
     riskDataSet.selectedRisk = riskDataSet.data[0];
@@ -57,12 +61,30 @@ app.service('calcService', function ($http, $log) {
     this.getRiskData = function (setResult) {
         setResult(riskDataSet.data);
     };
-    this.setSelectedRisk = function (risk) {
-        riskDataSet.selectedRisk = risk;
+
+    function getPayFreqCount (payFreq) {
+       var  payFreqCount = null;
+       switch (payFreq) {
+           case 'E': payFreqCount = 1; break;
+           case 'Y': payFreqCount = 1; break;
+           case 'Q': payFreqCount = 4; break;
+           case 'H': payFreqCount = 2; break;
+           case 'M': payFreqCount = 12; break;
+       }
+        return payFreqCount;
+    }
+    this.getPayCount = function (payTerm, payFreq) {
+        $log.debug("payFreq"+payFreq);
+        $log.debug("payTerm"+payTerm);
+
+        return payTerm * getPayFreqCount(payFreq.code);
     };
-    this.isRiskSelected = function (risk) {
-        return riskDataSet.selectedRisk == risk;
-    };
+    //this.setSelectedRisk = function (risk) {
+    //    riskDataSet.selectedRisk = risk;
+    //};
+    //this.isRiskSelected = function (risk) {
+    //    return riskDataSet.selectedRisk == risk;
+    //};
 
     this.getEventRisksForScheme = function (schemeId, success) {
         $http.get('http://localhost:8080/lookup/insurancescheme/' + schemeId + '/risk'

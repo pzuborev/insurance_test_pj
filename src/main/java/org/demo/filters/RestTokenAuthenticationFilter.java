@@ -36,8 +36,7 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
         System.out.println("Access-Control-Request-Method = " + httpRequest.getHeader("Access-Control-Request-Method"));
         System.out.println("Access-Control-Request-Headers = " + httpRequest.getHeader("Access-Control-Request-Headers"));
 
-
-        if (!httpRequest.getHeader("Origin").equals("")) {
+        if (httpRequest.getHeader("Origin") != null) {
             String origin = httpRequest.getHeader("Origin");
             httpResponse.addHeader("Access-Control-Allow-Origin", origin);
             httpResponse.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
