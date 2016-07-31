@@ -48,41 +48,38 @@
         // Пол
         $scope.genders = [];
 
-        /*** Authentication ***/
-        //todo : create new service
-        //userDetails = calcService.authentication ();
 
         calcService.getInsuranceSchemes(function (data) {
             console.log("** calcService.getInsuranceSchemes");
             $scope.insuranceSchemes = data;
             }
         );
-        //calcService.getInsuranceSchemeRules(function (data) {
-        //    $scope.insuranceSchemeRules = data;
-        //});
-        //calcService.getCurrencies(function (data) {
-        //    $scope.currencies = data;
-        //    if ($scope.calcData.currency === null && $scope.currencies.length > 0)
-        //        $scope.calcData.currency = $scope.currencies[0];
-        //});
-        //calcService.getFrequencies(function (data) {
-        //    $scope.frequencies = data;
-        //    if ($scope.calcData.paymentFrequency === null && $scope.frequencies.length > 0) {
-        //        //$log.log('************ set freq default ' + $scope.frequencies[0]);
-        //        $scope.calcData.paymentFrequency = $scope.frequencies[0];
-        //    }
-        //
-        //});
-        //calcService.getRegions(function (data) {
-        //    $scope.regions = data;
-        //    if ($scope.calcData.region === null && $scope.regions.length > 0)
-        //        $scope.calcData.region = $scope.regions[0];
-        //});
-        //calcService.getGenders(function (data) {
-        //    $scope.genders = data;
-        //    if ($scope.calcData.insuredGender === null && $scope.genders.length > 0)
-        //        $scope.calcData.insuredGender = $scope.genders[0].code;
-        //});
+        calcService.getInsuranceSchemeRules(function (data) {
+            $scope.insuranceSchemeRules = data;
+        });
+        calcService.getCurrencies(function (data) {
+            $scope.currencies = data;
+            if ($scope.calcData.currency === null && $scope.currencies.length > 0)
+                $scope.calcData.currency = $scope.currencies[0];
+        });
+        calcService.getFrequencies(function (data) {
+            $scope.frequencies = data;
+            if ($scope.calcData.paymentFrequency === null && $scope.frequencies.length > 0) {
+                //$log.log('************ set freq default ' + $scope.frequencies[0]);
+                $scope.calcData.paymentFrequency = $scope.frequencies[0];
+            }
+
+        });
+        calcService.getRegions(function (data) {
+            $scope.regions = data;
+            if ($scope.calcData.region === null && $scope.regions.length > 0)
+                $scope.calcData.region = $scope.regions[0];
+        });
+        calcService.getGenders(function (data) {
+            $scope.genders = data;
+            if ($scope.calcData.insuredGender === null && $scope.genders.length > 0)
+                $scope.calcData.insuredGender = $scope.genders[0].code;
+        });
 
         /*** Date picker popup ***/
 

@@ -1,23 +1,12 @@
 app.factory('securityInterceptor',
-    ['$injector', '$log', 'securityRetryQueue',
-        function ($injector, $log, securityRetryQueue) {
+    ['$injector', '$log', 'securityRetryQueue', 'sessionHolder',
+        function ($injector, $log, securityRetryQueue, sessionHolder) {
             $log.info('init securityInterceptor');
-            //var $http = $injector.get('$http');
 
             var securityInterceptor = {
                 request: function(config) {
-                    var authService = $injector.get('authService');
-                    if (authService.isAuthorized()){
-                        $log.debug(config);
-                        //config.params = {'token': authService.getToken()};
-                        config.params = config.params || {};
-                        //config.params['token'] = authService.getToken();
-                        config.headers['token'] = authService.getToken();
-                        //config.headers['Content-Type'] = 'text/html;charset=utf-8';
-                        //config.headers['Access-Control-Allow-Origin'] =  '*';
-                        //config.headers['Access-Control-Allow-Credentials'] = 'true';
-                        //config.headers['Access-Control-Expose-Headers'] = 'token';
-
+                    if (sessionHolder.isAuthorized()){
+                        config.headers['token'] = sessionHolder.getToken();
                     }
                     return config;
                 },

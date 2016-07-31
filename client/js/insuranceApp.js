@@ -26,7 +26,7 @@ app.config(function ($routeProvider) {
 //-------------------------------------------------------------------------------
 // контролер главной страницы
 app.controller('mainInsuranceCtrl',
-    function ($scope, $rootScope, $uibModal, $log, $q, $location, authService) {
+    function ($scope, $rootScope, $uibModal, $log, $q, $location, sessionHolder, securityService) {
         $scope.isAuthorized = false;
         $scope.authorizedUserName = '';
 
@@ -37,15 +37,15 @@ app.controller('mainInsuranceCtrl',
         };
 
         $scope.login = function (size) {
-            authService.showLogin();
+            securityService.showLogin();
         };
 
         $scope.logout = function () {
-            authService.logout();
+            securityService.logout();
         };
 
         $scope.$on('handleLogin', function () {
-            $scope.isAuthorized = authService.isAuthorized();
-            $scope.authorizedUserName = authService.getUserName();
+            $scope.isAuthorized = sessionHolder.isAuthorized();
+            $scope.authorizedUserName = sessionHolder.getUserName();
         });
     });

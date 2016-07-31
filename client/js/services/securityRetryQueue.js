@@ -11,6 +11,7 @@ app.factory('securityRetryQueue',
                 },
 
                 retryAll: function () {
+                    $log.info("run securityRetryQueue.retry all");
                     while (service.hasMore()) {
                         retryQueue.shift().retry();
                     }

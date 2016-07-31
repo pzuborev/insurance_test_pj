@@ -1,10 +1,10 @@
-app.controller('loginModalCtrl', function ($scope, $uibModalInstance, $location, $q, authService, username) {
+app.controller('loginModalCtrl', function ($scope, $uibModalInstance, $location, $q, securityService, username) {
 
     $scope.username = username;
     $scope.password;
 
     $scope.ok = function () {
-        authService.login($scope.username, $scope.password)
+        securityService.authentication($scope.username, $scope.password)
             .then(function () {
                     $uibModalInstance.close({'username': $scope.username, 'password': $scope.password});
                 },
