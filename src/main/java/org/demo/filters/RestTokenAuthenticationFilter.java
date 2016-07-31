@@ -31,17 +31,29 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
 
+        System.out.println("Method = " + httpRequest.getMethod());
         System.out.println("Origin = " + httpRequest.getHeader("Origin"));
+        System.out.println("Access-Control-Request-Method = " + httpRequest.getHeader("Access-Control-Request-Method"));
+        System.out.println("Access-Control-Request-Headers = " + httpRequest.getHeader("Access-Control-Request-Headers"));
 
-//        httpResponse.addHeader("Access-Control-Allow-Headers",  "X-Requested-With");
-//        httpResponse.addHeader("Access-Control-Allow-Headers",  "Destination");
-//        httpResponse.addHeader("Access-Control-Allow-Methods",  "GET");
-//        httpResponse.addHeader("Access-Control-Allow-Methods",  "POST");
-//        httpResponse.addHeader("Access-Control-Allow-Methods",  "OPTIONS");
-        httpResponse.addHeader("Access-Control-Allow-Origin",  "*");
-        httpResponse.addHeader("Access-Control-Allow-Credentials",  "true");
-        httpResponse.addHeader("Access-Control-Expose-Headers",  "token");
 
+        if (!httpRequest.getHeader("Origin").equals("")) {
+            String origin = httpRequest.getHeader("Origin");
+            httpResponse.addHeader("Access-Control-Allow-Origin", origin);
+            httpResponse.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+            httpResponse.addHeader("Access-Control-Allow-Credentials", "true");
+            httpResponse.addHeader("Access-Control-Allow-Headers", "token, username, password");
+            httpResponse.addHeader("Access-Control-Expose-Headers", "token, username, password");
+        }
+        if (httpRequest.getMethod().equals("OPTIONS")) {
+            System.out.println("return " + httpResponse.getStatus());
+            System.out.println("Access-Control-Allow-Headers: " + httpResponse.getHeader("Access-Control-Allow-Headers"));
+            System.out.println("Access-Control-Allow-Methods: " + httpResponse.getHeader("Access-Control-Allow-Methods"));
+            System.out.println("Access-Control-Allow-Origin: " + httpResponse.getHeader("Access-Control-Allow-Origin"));
+            httpResponse.setStatus(HttpServletResponse.SC_OK);
+
+            return;
+        }
 
         boolean authenticated = false;
         String token = httpRequest.getHeader("token");
@@ -72,7 +84,7 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
         } catch (Exception e) {
             e.printStackTrace();
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
-    }
+        }
 
     }
 

@@ -11,14 +11,13 @@ app.factory('securityInterceptor',
                         $log.debug(config);
                         //config.params = {'token': authService.getToken()};
                         config.params = config.params || {};
-                        config.params['token'] = authService.getToken();
-                        //config.headers['token'] = authService.getToken();
+                        //config.params['token'] = authService.getToken();
+                        config.headers['token'] = authService.getToken();
                         //config.headers['Content-Type'] = 'text/html;charset=utf-8';
                         //config.headers['Access-Control-Allow-Origin'] =  '*';
                         //config.headers['Access-Control-Allow-Credentials'] = 'true';
                         //config.headers['Access-Control-Expose-Headers'] = 'token';
 
-                       // params.token = authService.getToken();
                     }
                     return config;
                 },

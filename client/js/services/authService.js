@@ -37,7 +37,7 @@ app.factory('authService', ['$log', '$q', '$http', '$rootScope', '$uibModal','se
         function login(username, password) {
             var deferred = $q.defer();
             $http
-                .get("http://localhost:8080/user/" + username, {params: {'username': 'admin', 'password': 'admin'}})
+                .get("http://localhost:8080/user/" + username, {headers: {'username': 'admin', 'password': 'admin'}})
                 .success(function (response, status, headers, config) {
                     setUserName(username);
                     setToken(headers()['token']);
