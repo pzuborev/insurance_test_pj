@@ -102,11 +102,18 @@
 
 
             /*** Actions ***/
-            $scope.deleteInsRisk = function (){
-                $log.debug($scope.selectedRisk);
-                $log.debug($scope.riskData.indexOf($scope.selectedRisk));
+            $scope.deleteInsRisk = function () {
+                var index = $scope.riskData.indexOf($scope.selectedRisk);
+                if ($scope.riskData.length > 1) {
+                    if (index == 0)
+                        $scope.selectedRisk = $scope.riskData[index + 1];
+                    else
+                        $scope.selectedRisk = $scope.riskData[index - 1]
 
-                $scope.riskData.splice($scope.riskData.indexOf($scope.selectedRisk), 1);
+                } else
+                    $scope.selectedRisk = null;
+
+                $scope.riskData.splice(index, 1);
             };
 
             $scope.addInsRisk = function (size) {
