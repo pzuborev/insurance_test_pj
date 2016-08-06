@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @CrossOrigin(value = "*")
 public class AuthenticationController {
@@ -15,7 +17,11 @@ public class AuthenticationController {
     @RequestMapping(value = "/logout")
     @org.springframework.web.bind.annotation.ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public ResponseEntity logout(@RequestParam("token") String token) {
+    public ResponseEntity logout(HttpServletRequest request) {
+        System.out.println("*** logout controller");
+        String token = request.getHeader("token");
+        System.out.println("token = " + token);
+
         authenticationService.logout(token);
         return new ResponseEntity(HttpStatus.OK);
     }

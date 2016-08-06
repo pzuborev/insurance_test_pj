@@ -38,7 +38,7 @@ app.factory('securityService', ['$log', '$q', '$http', '$uibModal', 'securityRet
             logout: function () {
                 var deferred = $q.defer();
                 $http
-                    .get("http://localhost:8080/logout/", {params: {'token': getToken()}})
+                    .get("http://localhost:8080/logout/")
                     .success(function (response, status, headers, config) {
                         sessionHolder.setToken(null);
                         deferred.resolve(response, status, headers, config);

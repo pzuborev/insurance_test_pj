@@ -2,6 +2,10 @@
     <div class=""><h3>Калькулятор условий страхования жизни</h3></div>
     <form>
         <div class="panel panel-default">
+            <!-- <div class="alert alert-warning alert-dismissible" role="alert">
+                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                 <strong>Warning!</strong> Better check yourself, you're not looking too good.
+             </div>-->
             <div class="panel-heading">Страховые риски</div>
             <div class="panel-body">
                 <table class="table">
@@ -29,7 +33,11 @@
                 </table>
 
             </div>
+            <button type="button" class="btn btn-warning" ng-click="deleteInsRisk()">Удалить риск</button>
+            <button type="button" class="btn btn-primary" ng-click="addInsRisk()">Добавить риск</button>
+            <button type="button" class="btn btn-primary">Выполнить расчет</button>
         </div>
+
         <div class="panel panel-default">
             <div class="panel-heading">
                 {{selectedRisk.riskTypeName + " [ " + selectedRisk.forIndividualTypeName +" ]"}}
@@ -40,7 +48,8 @@
                         <label for="selectedRiskAmount">Страховая сумма</label>
                     </div>
                     <div class="col-xs-12 col-md-3">
-                        <input id="selectedRiskAmount" type="text" ng-model="selectedRisk.riskAmount" class="form-control"/>
+                        <input id="selectedRiskAmount" type="text" ng-model="selectedRisk.riskAmount"
+                               class="form-control"/>
                     </div>
 
                 </div>
@@ -49,7 +58,8 @@
                         <label for="selectedPayAmount">Взнос</label>
                     </div>
                     <div class="col-xs-12 col-md-3">
-                        <input id="selectedPayAmount" type="text" ng-model="selectedRisk.payAmount" class="form-control"/>
+                        <input id="selectedPayAmount" type="text" ng-model="selectedRisk.payAmount"
+                               class="form-control"/>
                     </div>
                 </div>
                 <div class="row">
@@ -179,10 +189,7 @@
             </div>
         </div>
 
-        <div class="btn-group" role="group">
-            <button type="button" class="btn btn-default" ng-click="addInsRisk()">Добавить риск</button>
-            <button type="button" class="btn btn-default">Выполнить расчет</button>
-        </div>
+
     </form>
 
     <script type="text/ng-template" id="myModalContent.html">

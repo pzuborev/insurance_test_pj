@@ -74,6 +74,7 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
             }
 
             if (authenticated) {
+                System.out.println("doFilter");
                 filterChain.doFilter(httpRequest, httpResponse);
             } else {
                 System.out.println("*** auth failed");
