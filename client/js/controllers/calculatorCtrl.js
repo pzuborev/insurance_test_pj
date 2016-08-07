@@ -98,8 +98,8 @@
                 $scope.dtCalendar.opened = true;
             };
 
-
             /*** Actions ***/
+
             $scope.deleteInsRisk = function () {
                 var index = $scope.riskData.indexOf($scope.selectedRisk);
                 if ($scope.riskData.length > 1) {
@@ -145,7 +145,13 @@
                                 riskTypeId: selectedItem.insurancerisktypeid,
                                 forIndividualTypeId: selectedItem.forindividualtypeid,
                                 riskTypeName: selectedItem.insurancerisktypecode,
-                                forIndividualTypeName: selectedItem.forindividualtypename
+                                forIndividualTypeName: selectedItem.forindividualtypename,
+                                payTerm: null,
+                                term: null,
+                                riskAmount: null,
+                                payAmount: null,
+                                nettoTariff: null,
+                                payCount: null
                             };
 
                             $scope.riskData.push(newItem);
@@ -157,6 +163,11 @@
                 );
 
             };
+
+            $scope.performCalc = function () {
+               calcService.performCalc($scope.calcData, $scope.riskData);
+            };
+
             // при изменении программы страхования, определяем программу страхования
             // todo: добавить фильтрацию списка
             $scope.InsSchemeChange = function () {
