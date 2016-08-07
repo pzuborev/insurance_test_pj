@@ -171,6 +171,7 @@ app.service('calcService', function ($http, $log) {
         },
 
         performCalc: function (calcData, riskData) {
+            $log.debug("calcData= "+ calcData.insuranceScheme.id);
 
         }
     };

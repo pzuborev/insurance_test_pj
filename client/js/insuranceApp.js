@@ -1,4 +1,4 @@
-var app = angular.module('insuranceApp', ['ngRoute', 'ui.bootstrap', 'ngMessages']);
+var app = angular.module('insuranceApp', ['ngRoute', 'ui.bootstrap', 'ngMessages', 'ngCookies']);
 //-------------------------------------------------------------------------------
 // добавляем перехвачик http ответов
 app.config(['$httpProvider', function ($httpProvider) {
@@ -39,8 +39,8 @@ app.config(function ($routeProvider) {
 // контролер главной страницы
 app.controller('mainInsuranceCtrl',
     function ($scope, $rootScope, $uibModal, $log, $q, $location, sessionHolder, securityService) {
-        $scope.isAuthorized = false;
-        $scope.authorizedUserName = '';
+        $scope.isAuthorized = sessionHolder.isAuthorized();
+        $scope.authorizedUserName = sessionHolder.getUserName();
 
 
         $scope.navClass = function (page) {
@@ -57,6 +57,7 @@ app.controller('mainInsuranceCtrl',
         };
 
         $scope.$on('handleLogin', function () {
+            $log.debug('**************** on handleLogin');
             $scope.isAuthorized = sessionHolder.isAuthorized();
             $scope.authorizedUserName = sessionHolder.getUserName();
         });
