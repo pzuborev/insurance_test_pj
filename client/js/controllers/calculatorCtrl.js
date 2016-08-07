@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    app.controller('CalcController', function ($scope, $uibModal, $log, $q, calcService) {
+    app.controller('CalcController', function ($scope, $rootScope, $uibModal, $log, $q, calcService) {
             $log.info("*** init CalcController");
 
             /*** Данные для расчета ***/
@@ -17,8 +17,8 @@
 
             $scope.setSelectedRisk = function (risk) {
                 $scope.selectedRisk = risk;
-                $scope.selectedRisk.payCount = calcService.getPayCount($scope.selectedRisk.payTerm,
-                    $scope.calcData.paymentFrequency);
+                //$scope.selectedRisk.payCount = calcService.getPayCount($scope.selectedRisk.payTerm,
+                //    $scope.calcData.paymentFrequency);
             };
             $scope.isRiskSelected = function (risk) {
                 return ($scope.selectedRisk == risk);
@@ -28,7 +28,6 @@
                 $scope.riskData = resultData;
                 $scope.selectedRisk = $scope.riskData[0];
             });
-
 
             /*** Lookup списки ***/
 
@@ -62,7 +61,6 @@
             calcService.getFrequencies(function (data) {
                 $scope.frequencies = data;
                 if ($scope.calcData.paymentFrequency === null && $scope.frequencies.length > 0) {
-                    //$log.log('************ set freq default ' + $scope.frequencies[0]);
                     $scope.calcData.paymentFrequency = $scope.frequencies[0];
                 }
 
@@ -166,12 +164,24 @@
                 if (ix > $scope.insuranceSchemeRules.length) $scope.calcData.insuranceSchemeRule = $scope.insuranceSchemeRules[0];
                 else $scope.calcData.insuranceSchemeRule = $scope.insuranceSchemeRules[ix - 1];
 
-                //calcService.getEventRisksForScheme(
-                //    $scope.calcData.insuranceScheme.id,
-                //    this.setEventRisks
-                //);
             };
 
+            /*** Watch ***/
+            $scope.$watch('selectedRisk.payTerm', function (newValue, oldValue) {
+                $log.debug("*** selectedRisk.payTerm changed");
+                if ($scope.selectedRisk != null) {
+                    $scope.selectedRisk.payCount = calcService.getPayCount($scope.selectedRisk.payTerm,
+                        $scope.calcData.paymentFrequency);
+                }
+
+            });
+
+            $scope.$watch('calcData.paymentFrequency', function (newValue, oldValue) {
+                $log.debug("*** paymentFrequency changed");
+                $scope.riskData.forEach(function (item, i, arr) {
+                    item.payCount = calcService.getPayCount(item.payTerm, newValue);
+                });
+            });
 
         }
     )

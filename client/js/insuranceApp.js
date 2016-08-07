@@ -1,4 +1,4 @@
-var app = angular.module('insuranceApp', ['ngRoute', 'ui.bootstrap']);
+var app = angular.module('insuranceApp', ['ngRoute', 'ui.bootstrap', 'ngMessages']);
 //-------------------------------------------------------------------------------
 // добавляем перехвачик http ответов
 app.config(['$httpProvider', function ($httpProvider) {
@@ -23,6 +23,18 @@ app.config(function ($routeProvider) {
         })
 });
 
+//-------------------------------------------------------------------------------
+//app.directive('toNumber', function () {
+//        return {
+//            require: 'ngModel',
+//            link: function (scope, elem, attrs, ctrl) {
+//                ctrl.$parsers.push(function (value) {
+//                    return parseFloat(value || '');
+//                });
+//            }
+//        }
+//    }
+//);
 //-------------------------------------------------------------------------------
 // контролер главной страницы
 app.controller('mainInsuranceCtrl',

@@ -70,14 +70,17 @@ app.service('calcService', function ($http, $log) {
            case 'Q': payFreqCount = 4; break;
            case 'H': payFreqCount = 2; break;
            case 'M': payFreqCount = 12; break;
+           default: payFreqCount = null;
        }
         return payFreqCount;
     }
     this.getPayCount = function (payTerm, payFreq) {
         $log.debug("payFreq"+payFreq);
         $log.debug("payTerm"+payTerm);
-
-        return payTerm * getPayFreqCount(payFreq.code);
+        var payFreqCount = getPayFreqCount( payFreq && payFreq.code );
+        //if (payFreqCount == null || payTerm == null) return null
+        //else
+            return payTerm * payFreqCount;
     };
     //this.setSelectedRisk = function (risk) {
     //    riskDataSet.selectedRisk = risk;

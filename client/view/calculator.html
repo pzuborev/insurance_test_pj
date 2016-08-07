@@ -1,11 +1,148 @@
 <main class="container">
     <div class=""><h3>Калькулятор условий страхования жизни</h3></div>
     <form id="calcForm" name="calcForm">
+        <!--условия страхования-->
         <div class="panel panel-default">
-            <!-- <div class="alert alert-warning alert-dismissible" role="alert">
-                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                 <strong>Warning!</strong> Better check yourself, you're not looking too good.
-             </div>-->
+            <div class="panel-heading">
+                Условия страхования по договору
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12"
+                         ng-class="{'has-error': calcForm.insScheme.$invalid}">
+                        <label for="insScheme"> Программа страхования * </label>
+
+                        <select name="insScheme" id="insScheme" class="form-control" ng-model="calcData.insuranceScheme"
+                                ng-change="InsSchemeChange ();"
+                                ng-options="scheme.name for scheme in insuranceSchemes track by scheme.id"
+                                required="true"
+
+                        >
+                        </select>
+                        <div class="help-block" ng-messages="calcForm.insScheme.$error"
+                             ng-show="calcForm.insScheme.$touched">
+                            <div ng-message="required">Необходимо заполнить</div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-9"
+                         ng-class="{'has-error': calcForm.insSchemeRule.$invalid}">
+                        <label for="insSchemeRule">Правило страхования страхования * </label>
+                        <select id="insSchemeRule" name="insSchemeRule" class="form-control"
+                                ng-model="calcData.insuranceSchemeRule"
+                                ng-options="rule.name for rule in insuranceSchemeRules track by rule.id"
+                                required="true">
+
+                        </select>
+                        <div class="help-block" ng-messages="calcForm.insSchemeRule.$error"
+                             ng-show="calcForm.insSchemeRule.$touched">
+                            <div ng-message="required">Необходимо заполнить</div>
+                        </div>
+
+                    </div>
+                    <div class="col-xs-12 col-md-3"
+                         ng-class="{'has-error': calcForm.currency.$invalid}">
+                        <label for="currency">Валюта * </label>
+                        <select id="currency" name="currency" class="form-control"
+                                ng-model="calcData.currency"
+                                ng-options="currency.name for currency in currencies track by currency.code"
+                                required="true">
+
+                        </select>
+                        <div class="help-block" ng-messages="calcForm.currency.$error"
+                             ng-show="calcForm.currency.$touched">
+                            <div ng-message="required">Необходимо заполнить</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-md-3"
+                         ng-class="{'has-error': calcForm.region.$invalid}">
+                        <label for="region">Регион *</label>
+                        <select id="region" name="region" class="form-control"
+                                ng-model="calcData.region"
+                                ng-options="region.name for region in regions track by region.id"
+                                required="true">
+                        </select>
+                        <div class="help-block" ng-messages="calcForm.region.$error" ng-show="calcForm.region.$touched">
+                            <div ng-message="required">Необходимо заполнить</div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-3"
+                         ng-class="{'has-error': calcForm.paymentFrequency.$invalid}">
+                        <label for="paymentFrequency">Частота оплаты взносов *</label>
+                        <select id="paymentFrequency" name="paymentFrequency" class="form-control"
+                                ng-model="calcData.paymentFrequency"
+                                ng-options="freq.name for freq in frequencies track by freq.code"
+                                required="true">
+                        </select>
+                        <div class="help-block" ng-messages="calcForm.paymentFrequency.$error"
+                             ng-show="calcForm.paymentFrequency.$touched">
+                            <div ng-message="required">Необходимо заполнить</div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+        <!--застрахованное лицо-->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Застрахованное лицо
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <div id="gender" class="col-xs-5 col-md-3">
+                            <label>Пол * </label> <br/>
+                            <label>
+                                <input type="radio" ng-model="calcData.insuredGender" ng-value="genders[0].code"/>
+                                {{genders[0].name}}
+                            </label>
+                            <label>
+                                <input type="radio" ng-model="calcData.insuredGender" ng-value="genders[1].code"/>
+                                {{genders[1].name}}
+                            </label>
+                        </div>
+                        <div class="col-xs-5 col-md-3"
+                             ng-class="{'has-error': calcForm.birthdate.$invalid}">
+                            <label for="birthdate">Дата рождения *</label> <br/>
+
+                            <p class="input-group">
+                                <input id="birthdate"
+                                       name="birthdate"
+                                       type="text"
+                                       class="form-control"
+                                       uib-datepicker-popup="dd.MM.yyyy"
+                                       ng-model="calcData.insuredBirthDate"
+                                       is-open="dtCalendar.opened"
+                                       datepicker-options="dateOptions"
+                                       ng-required="true"
+                                       close-text="Close"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open1()">
+                                        <i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                            <div class="help-block" ng-messages="calcForm.birthdate.$error"
+                                 ng-show="calcForm.birthdate.$touched">
+                                <div ng-message="required">Необходимо заполнить</div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--таблица с рисками-->
+        <div class="panel panel-default">
             <div class="panel-heading">Страховые риски</div>
             <div class="panel-body">
                 <table class="table">
@@ -33,11 +170,18 @@
                 </table>
 
             </div>
-            <button type="button" class="btn btn-warning" ng-click="deleteInsRisk()" ng-disabled="!selectedRisk">Удалить риск</button>
-            <button type="button" class="btn btn-primary" ng-click="addInsRisk()" ng-disabled="!calcData.insuranceScheme" >Добавить риск</button>
-            <button type="button" class="btn btn-primary" ng-disabled="calcForm.$invalid">Выполнить расчет</button>
-        </div>
+            <div class="panel-footer">
+                <button type="button" class="btn btn-warning" ng-click="deleteInsRisk()" ng-disabled="!selectedRisk">
+                    Удалить риск
+                </button>
+                <button type="button" class="btn btn-primary" ng-click="addInsRisk()"
+                        ng-disabled="!calcData.insuranceScheme">Добавить риск
+                </button>
+                <button type="button" class="btn btn-primary" ng-disabled="calcForm.$invalid">Выполнить расчет</button>
+            </div>
 
+        </div>
+        <!--редактирование риска-->
         <div class="panel panel-default">
             <div class="panel-heading">
                 {{selectedRisk.riskTypeName + " [ " + selectedRisk.forIndividualTypeName +" ]"}}
@@ -47,9 +191,18 @@
                     <div class="col-xs-12 col-md-3">
                         <label for="selectedRiskAmount">Страховая сумма</label>
                     </div>
-                    <div class="col-xs-12 col-md-3">
-                        <input id="selectedRiskAmount" type="text" ng-model="selectedRisk.riskAmount"
-                               class="form-control"/>
+                    <div class="col-xs-12 col-md-3"
+                         ng-class="{'has-error': calcForm.selectedRiskAmount.$touched && calcForm.selectedRiskAmount.$invalid}">
+                        <input id="selectedRiskAmount" name="selectedRiskAmount" type="text"
+                               ng-model="selectedRisk.riskAmount"
+                               class="form-control"
+                               ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+
+                        />
+                        <div class="help-block" ng-messages="calcForm.selectedRiskAmount.$error"
+                             ng-show="calcForm.selectedRiskAmount.$touched">
+                            <div ng-message="pattern">Только число</div>
+                        </div>
                     </div>
 
                 </div>
@@ -57,137 +210,59 @@
                     <div class="col-xs-12 col-md-3">
                         <label for="selectedPayAmount">Взнос</label>
                     </div>
-                    <div class="col-xs-12 col-md-3">
-                        <input id="selectedPayAmount" type="text" ng-model="selectedRisk.payAmount"
-                               class="form-control"/>
+                    <div class="col-xs-12 col-md-3"
+                         ng-class="{'has-error': calcForm.selectedPayAmount.$touched && calcForm.selectedPayAmount.$invalid}">
+                        <input id="selectedPayAmount" name="selectedPayAmount" type="text"
+                               ng-model="selectedRisk.payAmount"
+                               class="form-control"
+                               ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"/>
+                        <div class="help-block" ng-messages="calcForm.selectedPayAmount.$error"
+                             ng-show="calcForm.selectedPayAmount.$touched">
+                            <div ng-message="pattern">Только число</div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-md-3">
                         <label for="selectedPaytem">Срок оплаты взносов</label>
                     </div>
-                    <div class="col-xs-12 col-md-3">
-                        <input id="selectedPaytem" type="text" ng-model="selectedRisk.payTerm" class="form-control"/>
+                    <div class="col-xs-12 col-md-3"
+                         ng-class="{'has-error': calcForm.selectedPaytem.$touched && calcForm.selectedPaytem.$invalid}">
+                        <input id="selectedPaytem" name="selectedPaytem" type="text" ng-model="selectedRisk.payTerm"
+                               class="form-control"
+                               ng-pattern="/^[0-9]+$/"/>
+                        <div class="help-block" ng-messages="calcForm.selectedPaytem.$error"
+                             ng-show="calcForm.selectedPaytem.$touched">
+                            <div ng-message="pattern">Только целое число</div>
+                        </div>
                     </div>
 
                     <div class="col-xs-12 col-md-3">
                         <label for="selectedPayCount">Количество взносов</label>
                     </div>
                     <div class="col-xs-12 col-md-3">
-                        <input id="selectedPayCount" type="text" ng-value="selectedRisk.payCount" class="form-control"/>
+                        <input id="selectedPayCount" type="text" ng-value="selectedRisk.payCount" class="form-control"
+                               readonly/>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-md-3">
                         <label for="selectedTerm">Срок действия рисков</label>
                     </div>
-                    <div class="col-xs-12 col-md-3">
-                        <input id="selectedTerm" type="text" ng-model="selectedRisk.term" class="form-control"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Условия страхования по договору
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-xs-12 col-md-12">
-                        <label for="insScheme"> Программа страхования: </label>
-                        <select name="insScheme" id="insScheme" class="form-control" ng-model="calcData.insuranceScheme"
-                                ng-change="InsSchemeChange ();"
-                                ng-options="scheme.name for scheme in insuranceSchemes track by scheme.id"
-                                ng-required="true"
-                        >
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div id="_insSchemeRule" class="col-xs-12 col-md-9">
-                        <label for="insSchemeRule"> Правило страхования страхования: </label>
-                        <select id="insSchemeRule" class="form-control"
-                                ng-model="calcData.insuranceSchemeRule"
-                                ng-options="rule.name for rule in insuranceSchemeRules track by rule.id">
-
-                        </select>
-
-                    </div>
-                    <div id="_currency" class="col-xs-12 col-md-3">
-                        <label for="currency"> Валюта: </label>
-                        <select id="currency" class="form-control"
-                                ng-model="calcData.currency"
-                                ng-options="currency.name for currency in currencies track by currency.code">
-
-                        </select>
-                    </div>
-                </div>
-                <div class="row">
-                    <div id="_region" class="col-xs-12 col-md-3">
-                        <label for="region">Регион:</label>
-                        <select id="region" class="form-control"
-                                ng-model="calcData.region"
-                                ng-options="region.name for region in regions track by region.id">
-                        </select>
-                    </div>
-
-                    <div id="_paymentFrequency" class="col-xs-12 col-md-3">
-                        <label for="paymentFrequency">Частота оплаты взносов:</label>
-                        <select id="paymentFrequency" class="form-control"
-                                ng-model="calcData.paymentFrequency"
-                                ng-options="freq.name for freq in frequencies track by freq.code">
-                        </select>
-                    </div>
-
-
-                </div>
-            </div>
-
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Застрахованное лицо
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-xs-12 col-md-12">
-                        <div id="gender" class="col-xs-5 col-md-3">
-                            <label>Пол: </label> <br/>
-                            <label>
-                                <input type="radio" ng-model="calcData.insuredGender" ng-value="genders[0].code"/>
-                                {{genders[0].name}}
-                            </label>
-                            <label>
-                                <input type="radio" ng-model="calcData.insuredGender" ng-value="genders[1].code"/>
-                                {{genders[1].name}}
-                            </label>
-                        </div>
-                        <div class="col-xs-5 col-md-3">
-                            <label for="birthdate">Дата рождения:</label> <br/>
-
-                            <p class="input-group">
-                                <input id="birthdate"
-                                       type="text"
-                                       class="form-control"
-                                       uib-datepicker-popup="dd.MM.yyyy"
-                                       ng-model="calcData.insuredBirthDate"
-                                       is-open="dtCalendar.opened"
-                                       datepicker-options="dateOptions"
-                                       ng-required="true"
-                                       close-text="Close"/>
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="open1()">
-                                        <i class="glyphicon glyphicon-calendar"></i></button>
-                                </span>
-                            </p>
-
-
+                    <div class="col-xs-12 col-md-3"
+                         ng-class="{'has-error': calcForm.selectedTerm.$touched && calcForm.selectedTerm.$invalid}">
+                        <input id="selectedTerm" name="selectedTerm" type="text" ng-model="selectedRisk.term"
+                               class="form-control"
+                               ng-pattern="/^[0-9]+$/"/>
+                        <div class="help-block" ng-messages="calcForm.selectedTerm.$error"
+                             ng-show="calcForm.selectedTerm.$touched">
+                            <div ng-message="pattern">Только целое число</div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
+
 
 
     </form>
