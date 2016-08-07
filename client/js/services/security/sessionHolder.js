@@ -1,8 +1,8 @@
 app.factory('sessionHolder', ['$log', '$rootScope', '$cookies', function ($log, $rootScope, $cookies) {
     //var username_;
     //var token_ = null;
-    var  exp = new Date();
-    exp.setDate(exp.getDate() + 1);
+    var  tokenExpire = new Date();
+    tokenExpire.setDate(tokenExpire.getDate() + 1);
 
     return {
         isAuthorized: function () {
@@ -15,9 +15,7 @@ app.factory('sessionHolder', ['$log', '$rootScope', '$cookies', function ($log, 
                 $cookies.remove('token');
                 $cookies.remove('username');
             } else {
-                $cookies.put('token', value,{
-                    expires: exp
-                });
+                $cookies.put('token', value,{expires: tokenExpire});
             }
 
             $rootScope.$broadcast('handleLogin');
@@ -31,7 +29,7 @@ app.factory('sessionHolder', ['$log', '$rootScope', '$cookies', function ($log, 
         },
 
         setUserName: function (value) {
-            $cookies.put('username', value);
+            $cookies.put('username', value,{expires: tokenExpire});
         },
 
         getUserName: function () {
