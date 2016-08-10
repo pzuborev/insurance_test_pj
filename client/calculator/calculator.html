@@ -187,11 +187,11 @@
                     >
                         <td>{{risk.forIndividualType.name}}</td>
                         <td>{{risk.riskType.name}}</td>
-                        <td>{{risk.riskAmount}}</td>
-                        <td>{{risk.payAmount}}</td>
+                        <td>{{risk.riskAmount | number : 2}}</td>
+                        <td>{{risk.payAmount | number : 2}}</td>
                         <td>{{risk.payTerm}}</td>
                         <td>{{risk.term}}</td>
-                        <td>{{risk.nettoTariff}}</td>
+                        <td>{{risk.nettoTariff | number : 6}}</td>
                     </tr>
                 </table>
 

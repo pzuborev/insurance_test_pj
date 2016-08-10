@@ -3,6 +3,7 @@ package org.demo.dto.calculator;
 import org.demo.dto.lookup.EventRiskTypeLookupDto;
 import org.demo.dto.lookup.ForIndividualType;
 
+
 public class RiskForCalc {
     private int rowNo;
     private EventRiskTypeLookupDto riskType;
@@ -10,9 +11,9 @@ public class RiskForCalc {
     private double riskAmount;
     private double payAmount;
     private double nettoTariff;
-    private double payCount;
-    private double payTerm;
-    private double term;
+    private int payCount;
+    private int payTerm;
+    private int term;
 
     public int getRowNo() {
         return rowNo;
@@ -62,27 +63,27 @@ public class RiskForCalc {
         this.nettoTariff = nettoTariff;
     }
 
-    public double getPayCount() {
+    public int getPayCount() {
         return payCount;
     }
 
-    public void setPayCount(double payCount) {
+    public void setPayCount(int payCount) {
         this.payCount = payCount;
     }
 
-    public double getPayTerm() {
+    public int getPayTerm() {
         return payTerm;
     }
 
-    public void setPayTerm(double payTerm) {
+    public void setPayTerm(int payTerm) {
         this.payTerm = payTerm;
     }
 
-    public double getTerm() {
+    public int getTerm() {
         return term;
     }
 
-    public void setTerm(double term) {
+    public void setTerm(int term) {
         this.term = term;
     }
 

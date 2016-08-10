@@ -19,7 +19,7 @@ public class CalculatorController {
     @ResponseBody
     public ResponseEntity<CalcData> performCalc(@RequestBody CalcData calcData) {
         System.out.println("*** performCalc");
-        System.out.println(calcData.getRisks().toString());
+//        System.out.println(calcData.getRisks().toString());
 
         for (RiskForCalc risk : calcData.getRisks()) {
             risk.setNettoTariff(risk.getNettoTariff() + 0.1);
