@@ -19,6 +19,7 @@
 
     <script src="libs/ui-bootstrap/ui-bootstrap-1.3.3.js"></script>
     <script src="libs/ui-bootstrap/ui-bootstrap-tpls-1.3.3.js"></script>
+    <!--<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>-->
 
     <!-- App -->
     <script src="js/insuranceApp.js"></script>
@@ -40,36 +41,46 @@
 </head>
 <body ng-app="insuranceApp">
 
+
 <nav class="navbar navbar-default" ng-controller="mainInsuranceCtrl">
     <div class="container-fluid">
 
         <div class="navbar-header">
+            <button type="button" class="navbar-toggle" ng-init="navCollapsed = true"
+                    ng-click="navCollapsed = !navCollapsed">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
             <a class="navbar-brand" href="#/home">
                 <span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>
             </a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'">
             <ul class="nav navbar-nav">
                 <li ng-class="navClass('first')"><a href="#/first">First page</a></li>
                 <li ng-class="navClass('second')"><a href="#/second">Second page</a></li>
                 <li ng-class="navClass('calculator')"><a href="#/calculator">Калькулятор</a></li>
             </ul>
 
-            <div class="nav navbar-nav navbar-right">
-                <a ng-href="#" ng-click="login()" ng-show="!isAuthorized">Войти</a>
-                <span uib-dropdown on-toggle="toggled(open)" ng-show="isAuthorized">
-                  <a href id="simple-dropdown" uib-dropdown-toggle ng-show="isAuthorized">
-                      Аккаунт: {{authorizedUserName}}
-                  </a>
-                  <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
-                      <li>
-                          <a href ng-click="logout()">Выйти</a>
-                      </li>
-                  </ul>
-                </span>
-            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-show="!isAuthorized"><a ng-href="#" ng-click="login()" >Войти</a></li>
+                <li uib-dropdown on-toggle="toggled(open)" ng-show="isAuthorized">
+                    <a href uib-dropdown-toggle ng-show="isAuthorized">
+                        Аккаунт: {{authorizedUserName}} <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                        <li>
+                            <a href ng-click="logout()">Выйти</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
 
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
