@@ -1,6 +1,6 @@
 package org.demo.dto.lookup;
 
-public class EventRiskTypeLookupDto {
+public class ForIndividualType {
     int id;
     String name;
 
@@ -22,7 +22,7 @@ public class EventRiskTypeLookupDto {
 
     @Override
     public String toString() {
-        return "EventRiskTypeLookupDto{" +
+        return "ForIndividualType{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

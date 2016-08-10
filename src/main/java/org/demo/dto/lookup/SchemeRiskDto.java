@@ -55,4 +55,16 @@ public class SchemeRiskDto {
     public void setForindividualtypename(String forindividualtypename) {
         this.forindividualtypename = forindividualtypename;
     }
+
+    @Override
+    public String toString() {
+        return "SchemeRiskDto{" +
+                "insuranceschemeid=" + insuranceschemeid +
+                ", insurancerisktypeid=" + insurancerisktypeid +
+                ", forindividualtypeid=" + forindividualtypeid +
+                ", insurancerisktypename='" + insurancerisktypename + '\'' +
+                ", insurancerisktypecode='" + insurancerisktypecode + '\'' +
+                ", forindividualtypename='" + forindividualtypename + '\'' +
+                '}';
+    }
 }

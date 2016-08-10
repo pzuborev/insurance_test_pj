@@ -15,6 +15,7 @@ app.factory('securityInterceptor',
 
                     if (sessionHolder.isAuthorized()){
                         config.headers['token'] = sessionHolder.getToken();
+                        //$log.debug('added token to header');
                     }
                     return config;
                 },

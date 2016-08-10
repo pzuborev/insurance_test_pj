@@ -60,9 +60,9 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http
-//                .csrf().disable()
-//                .headers().frameOptions().sameOrigin()
-//                .and()
+                .csrf().disable()
+                .headers().frameOptions().sameOrigin()
+                .and()
                 .authorizeRequests()
                 .antMatchers("/secured/**").access("hasRole('ROLE_ADMIN')")
                 .and().formLogin()

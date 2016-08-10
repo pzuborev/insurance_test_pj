@@ -4,10 +4,8 @@ app.service('calcService', function ($http, $log) {
         data: [
             {
                 rowNo: 1,
-                riskTypeId: "1",
-                forIndividualTypeId: "1",
-                riskTypeName: "Д",
-                forIndividualTypeName: "Застрахованное лицо",
+                riskType: {id: "1", "name": "Д"},
+                forIndividualType: {id: "1", name: "Застрахованное лицо"},
                 riskAmount: "2000",
                 payAmount: "500",
                 term: "10",
@@ -17,10 +15,8 @@ app.service('calcService', function ($http, $log) {
             },
             {
                 rowNo: 2,
-                riskTypeId: "2",
-                forIndividualTypeId: "1",
-                riskTypeName: "C",
-                forIndividualTypeName: "Застрахованное лицо",
+                riskType: {id: "2", "name": "C"},
+                forIndividualType: {id: "1", name: "Застрахованное лицо"},
                 riskAmount: "2000",
                 payAmount: "500",
                 term: "10",
@@ -30,10 +26,8 @@ app.service('calcService', function ($http, $log) {
             },
             {
                 rowNo: 3,
-                riskTypeId: "3",
-                forIndividualTypeId: "1",
-                riskTypeName: "C(НС)",
-                forIndividualTypeName: "Застрахованное лицо",
+                riskType: {id: "3", "name": "C(НС)"},
+                forIndividualType: {id: "1", name: "Застрахованное лицо"},
                 riskAmount: "200",
                 payAmount: "1",
                 term: "10",
@@ -43,10 +37,8 @@ app.service('calcService', function ($http, $log) {
             },
             {
                 rowNo: 4,
-                riskTypeId: "4",
-                forIndividualTypeId: "1",
-                riskTypeName: "C(ДТП)",
-                forIndividualTypeName: "Застрахованное лицо",
+                riskType: {id: "4", "name": "С(ДТП)"},
+                forIndividualType: {id: "1", name: "Застрахованное лицо"},
                 riskAmount: "1000",
                 payAmount: "10",
                 term: "10",
@@ -81,14 +73,13 @@ app.service('calcService', function ($http, $log) {
         }
         return payFreqCount;
     }
+
     var service = {
         getRiskData: function (setResult) {
             setResult(riskDataSet.data);
         },
 
         getPayCount: function (payTerm, payFreq) {
-            $log.debug("payFreq" + payFreq);
-            $log.debug("payTerm" + payTerm);
             var payFreqCount = getPayFreqCount(payFreq && payFreq.code);
 
             return payTerm * payFreqCount;
@@ -99,7 +90,7 @@ app.service('calcService', function ($http, $log) {
             ).then(
                 function (response) {
                     $log.log('got risk for scheme ' + schemeId + ' from rest.');
-                    $log.log(response);
+                    //$log.log(response);
                     success(response.data);
                 }
             );
@@ -107,11 +98,7 @@ app.service('calcService', function ($http, $log) {
 
         getInsuranceSchemes: function (success) {
             console.log("*** getInsuranceSchemes");
-            $http.get('/api/lookup/insurancescheme/', {
-                    //params: {'username': 'admin', 'password': 'admin'}
-                    // params: {'token': securityService.getToken()}
-                }
-            ).then(
+            $http.get('/api/lookup/insurancescheme/').then(
                 function (response) {
                     $log.log('got Schemes from rest.');
                     $log.log(response);
@@ -170,8 +157,22 @@ app.service('calcService', function ($http, $log) {
             );
         },
 
-        performCalc: function (calcData, riskData) {
-            $log.debug("calcData= "+ calcData.insuranceScheme.id);
+        performCalc: function (calcData, riskData, onSuccess) {
+            var data = calcData;
+            data.risks = riskData;
+            $log.debug(riskData);
+            $log.debug(data.risks);
+            $http({
+                method: 'POST',
+                url: '/api/calculator/',
+                data: data,
+                headers: {'Content-Type': 'application/json'}
+            }).then(function (result) {
+                $log.debug(result && result.data && result.data.risks);
+                onSuccess(result && result.data && result.data.risks);
+            }, function (error) {
+                $log.error(error);
+            });
 
         }
     };

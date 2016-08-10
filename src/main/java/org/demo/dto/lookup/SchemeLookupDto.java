@@ -20,4 +20,11 @@ public class SchemeLookupDto {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "SchemeLookupDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

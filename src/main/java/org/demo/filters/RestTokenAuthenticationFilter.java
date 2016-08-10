@@ -31,24 +31,30 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
 
-        System.out.println("Method = " + httpRequest.getMethod());
-        System.out.println("Origin = " + httpRequest.getHeader("Origin"));
-        System.out.println("Access-Control-Request-Method = " + httpRequest.getHeader("Access-Control-Request-Method"));
-        System.out.println("Access-Control-Request-Headers = " + httpRequest.getHeader("Access-Control-Request-Headers"));
+        System.out.println("httpRequest Method = " + httpRequest.getMethod());
+        System.out.println("httpRequest  Origin = " + httpRequest.getHeader("Origin"));
+        System.out.println("httpRequest Access-Control-Request-Method = " + httpRequest.getHeader("Access-Control-Request-Method"));
+        System.out.println("httpRequest Access-Control-Request-Headers = " + httpRequest.getHeader("Access-Control-Request-Headers"));
+        System.out.println("httpRequest Content-Type = " + httpRequest.getHeader("Content-Type"));
 
         if (httpRequest.getHeader("Origin") != null) {
             String origin = httpRequest.getHeader("Origin");
             httpResponse.addHeader("Access-Control-Allow-Origin", origin);
-            httpResponse.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+            httpResponse.addHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+            httpResponse.addHeader("Access-Control-Allow-Method", "POST");
+            httpResponse.addHeader("Access-Control-Max-Age", "86400");
             httpResponse.addHeader("Access-Control-Allow-Credentials", "true");
-            httpResponse.addHeader("Access-Control-Allow-Headers", "token, username, password");
-            httpResponse.addHeader("Access-Control-Expose-Headers", "token, username, password");
+            httpResponse.addHeader("Access-Control-Allow-Headers", "token, username, password, content-type");
+            httpResponse.addHeader("Access-Control-Expose-Headers", "token, username, password, content-type");
         }
         if (httpRequest.getMethod().equals("OPTIONS")) {
+
+            System.out.println("  ");
+            System.out.println("httpResponse Access-Control-Allow-Headers: " + httpResponse.getHeader("Access-Control-Allow-Headers"));
+            System.out.println("httpResponse Access-Control-Allow-Methods: " + httpResponse.getHeader("Access-Control-Allow-Methods"));
+            System.out.println("httpResponse Access-Control-Allow-Method: " + httpResponse.getHeader("Access-Control-Allow-Method"));
+            System.out.println("httpResponse Access-Control-Allow-Origin: " + httpResponse.getHeader("Access-Control-Allow-Origin"));
             System.out.println("return " + httpResponse.getStatus());
-            System.out.println("Access-Control-Allow-Headers: " + httpResponse.getHeader("Access-Control-Allow-Headers"));
-            System.out.println("Access-Control-Allow-Methods: " + httpResponse.getHeader("Access-Control-Allow-Methods"));
-            System.out.println("Access-Control-Allow-Origin: " + httpResponse.getHeader("Access-Control-Allow-Origin"));
             httpResponse.setStatus(HttpServletResponse.SC_OK);
 
             return;

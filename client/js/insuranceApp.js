@@ -22,7 +22,7 @@ app.config(function ($routeProvider) {
             controller: "secondController"
         })
         .when("/calculator", {
-            templateUrl: "view/calculator.html",
+            templateUrl: "calculator/calculator.html",
             controller: "CalcController"
         })
 });

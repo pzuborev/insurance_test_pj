@@ -13,7 +13,6 @@
                         <label for="insScheme"> Программа страхования * </label>
 
                         <select name="insScheme" id="insScheme" class="form-control" ng-model="calcData.insuranceScheme"
-                                ng-change="InsSchemeChange ();"
                                 ng-options="scheme.name for scheme in insuranceSchemes track by scheme.id"
                                 required="true"
 
@@ -84,6 +83,33 @@
                             <div ng-message="required">Необходимо заполнить</div>
                         </div>
                     </div>
+                    <div class="col-xs-5 col-md-3"
+                         ng-class="{'has-error': calcForm.arcDate.$invalid}">
+                        <label for="arcDate">Дата расчета *</label> <br/>
+
+                        <p class="input-group">
+                            <input id="arcDate"
+                                   name="arcDate"
+                                   type="text"
+                                   class="form-control"
+                                   uib-datepicker-popup="dd.MM.yyyy"
+                                   ng-model="calcData.arcDate"
+                                   is-open="dtCalendar.openedArcDate"
+                                   datepicker-options="dateOptions"
+                                   ng-required="true"
+                                   close-text="Close"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="openArcDate()">
+                                        <i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                        </p>
+                        <div class="help-block" ng-messages="calcForm.arcDate.$error"
+                             ng-show="calcForm.arcDate.$touched">
+                            <div ng-message="required">Необходимо заполнить</div>
+                        </div>
+
+
+                    </div>
 
 
                 </div>
@@ -120,12 +146,12 @@
                                        class="form-control"
                                        uib-datepicker-popup="dd.MM.yyyy"
                                        ng-model="calcData.insuredBirthDate"
-                                       is-open="dtCalendar.opened"
+                                       is-open="dtCalendar.openedInsuredBirthDate"
                                        datepicker-options="dateOptions"
                                        ng-required="true"
                                        close-text="Close"/>
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="open1()">
+                                    <button type="button" class="btn btn-default" ng-click="openInsuredBirthDate()">
                                         <i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
                             </p>
@@ -159,8 +185,8 @@
                         ng-click="setSelectedRisk(risk)"
                         ng-class="{selected : isRiskSelected(risk)}"
                     >
-                        <td>{{risk.forIndividualTypeName}}</td>
-                        <td>{{risk.riskTypeName}}</td>
+                        <td>{{risk.forIndividualType.name}}</td>
+                        <td>{{risk.riskType.name}}</td>
                         <td>{{risk.riskAmount}}</td>
                         <td>{{risk.payAmount}}</td>
                         <td>{{risk.payTerm}}</td>
@@ -170,6 +196,7 @@
                 </table>
 
             </div>
+            <!-- Операции  -->
             <div class="panel-footer">
                 <button type="button" class="btn btn-warning" ng-click="deleteInsRisk()" ng-disabled="!selectedRisk">
                     Удалить риск
@@ -185,7 +212,7 @@
         <!--редактирование риска-->
         <div class="panel panel-default">
             <div class="panel-heading">
-                {{selectedRisk.riskTypeName + " [ " + selectedRisk.forIndividualTypeName +" ]"}}
+                {{selectedRisk.riskType.name + " [ " + selectedRisk.forIndividualType.name +" ]"}}
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -266,26 +293,7 @@
 
     </form>
 
-    <script type="text/ng-template" id="myModalContent.html">
-        <div class="modal-header">
-            <h3 class="modal-title">Выберите риск</h3>
-        </div>
-        <div class="modal-body">
-            <ul>
-                <li ng-repeat="item in items">
-                    <p ng-click="$event.preventDefault(); selected.item = item"
-                       ng-class="{selected : selected.item == item}">
-                        {{ item.insurancerisktypename + ' ' + item.forindividualtypename }}
-                    </p>
-                </li>
-            </ul>
-        </div>
 
-        <div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="ok()">Выбрать</button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()">Отмена</button>
-        </div>
-    </script>
 
 
 </main>

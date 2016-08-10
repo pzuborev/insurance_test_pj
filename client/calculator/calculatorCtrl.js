@@ -12,8 +12,14 @@
                 paymentFrequency: null,
                 region: null,
                 insuredGender: null,
-                insuredBirthDate: null
+                insuredBirthDate: null,
+                arcDate: null
             };
+
+            $scope.calcData.arcDate = new Date();
+        //  for quick test
+            $scope.calcData.insuredBirthDate = new Date();
+
 
             $scope.setSelectedRisk = function (risk) {
                 $scope.selectedRisk = risk;
@@ -48,6 +54,7 @@
             calcService.getInsuranceSchemes(function (data) {
                     console.log("** calcService.getInsuranceSchemes");
                     $scope.insuranceSchemes = data;
+                    $scope.calcData.insuranceScheme = $scope.insuranceSchemes[0];
                 }
             );
             calcService.getInsuranceSchemeRules(function (data) {
@@ -79,7 +86,8 @@
             /*** Date picker popup ***/
 
             $scope.dtCalendar = {
-                opened: false
+                openedArcDate: false,
+                openedInsuredBirthDate: false
             };
             $scope.dateOptions = {
                 dateDisabled: disabled,
@@ -94,8 +102,11 @@
                 return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
             }
 
-            $scope.open1 = function () {
-                $scope.dtCalendar.opened = true;
+            $scope.openInsuredBirthDate = function () {
+                $scope.dtCalendar.openedInsuredBirthDate = true;
+            };
+            $scope.openArcDate = function () {
+                $scope.dtCalendar.openedArcDate = true;
             };
 
             /*** Actions ***/
@@ -126,7 +137,7 @@
                         // todo add progress bar
                         var modalInstance = $uibModal.open({
                             animation: true,
-                            templateUrl: 'myModalContent.html',
+                            templateUrl: 'view/risksListForm.tpl.html',
                             controller: 'ModalInstanceCtrl',
                             size: size,
                             resolve: {
@@ -142,10 +153,8 @@
                             var newItem =
                             {
                                 rowNo: $scope.riskData.length + 1,
-                                riskTypeId: selectedItem.insurancerisktypeid,
-                                forIndividualTypeId: selectedItem.forindividualtypeid,
-                                riskTypeName: selectedItem.insurancerisktypecode,
-                                forIndividualTypeName: selectedItem.forindividualtypename,
+                                riskType: {id: selectedItem.insurancerisktypeid, name: selectedItem.insurancerisktypename},
+                                forIndividualType: {id: selectedItem.forindividualtypeid, name: selectedItem.forindividualtypename},
                                 payTerm: null,
                                 term: null,
                                 riskAmount: null,
@@ -165,19 +174,35 @@
             };
 
             $scope.performCalc = function () {
-               calcService.performCalc($scope.calcData, $scope.riskData);
+               calcService.performCalc($scope.calcData, $scope.riskData,
+                   function success (risks) {
+                       $scope.riskData = risks;
+                       $scope.selectedRisk = $scope.riskData[0];
+                   }
+               );
             };
 
             // при изменении программы страхования, определяем программу страхования
             // todo: добавить фильтрацию списка
-            $scope.InsSchemeChange = function () {
+            //$scope.InsSchemeChange = function () {
+            //    var ix = $scope.calcData.insuranceScheme.id;
+            //    if (ix > $scope.insuranceSchemeRules.length) $scope.calcData.insuranceSchemeRule = $scope.insuranceSchemeRules[0];
+            //    else $scope.calcData.insuranceSchemeRule = $scope.insuranceSchemeRules[ix - 1];
+            //
+            //};
+
+            /*** Watch ***/
+
+            $scope.$watchGroup(['calcData.insuranceScheme', 'insuranceSchemeRules'], function (newValue, oldValue) {
+                if ($scope.calcData.insuranceScheme == null || $scope.insuranceSchemeRules.length == 0) return;
+                $log.debug("*** calcData.insuranceScheme changed");
                 var ix = $scope.calcData.insuranceScheme.id;
                 if (ix > $scope.insuranceSchemeRules.length) $scope.calcData.insuranceSchemeRule = $scope.insuranceSchemeRules[0];
                 else $scope.calcData.insuranceSchemeRule = $scope.insuranceSchemeRules[ix - 1];
 
-            };
 
-            /*** Watch ***/
+            });
+
             $scope.$watch('selectedRisk.payTerm', function (newValue, oldValue) {
                 $log.debug("*** selectedRisk.payTerm changed");
                 if ($scope.selectedRisk != null) {

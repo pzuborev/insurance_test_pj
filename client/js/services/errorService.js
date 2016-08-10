@@ -7,7 +7,7 @@ app.factory('errorService', ['$log', '$q', '$http', '$uibModal',
             showError: function (errorMessage, size) {
                 var modalInstance = $uibModal.open({
                     animation: true,
-                    templateUrl: 'view/errorForm.tmpl.html',
+                    templateUrl: 'view/errorForm.tpl.html',
                     controller: 'errorFormCtrl',
                     size: size,
                     resolve: {
