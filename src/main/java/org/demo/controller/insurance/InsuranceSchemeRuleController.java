@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping(value = "/api")
 @CrossOrigin(value = "*")
 public class InsuranceSchemeRuleController {
     @Autowired
@@ -23,7 +24,7 @@ public class InsuranceSchemeRuleController {
         return modelMapper.map(entity, SchemeRuleLookupDto.class);
     }
 
-    @RequestMapping(path = "lookup/insuranceschemerule", method = RequestMethod.GET)
+    @RequestMapping(value = "/lookup/insuranceschemerule", method = RequestMethod.GET)
     @ResponseBody
     public List<SchemeRuleLookupDto> getListForLookup() {
         List<InsuranceSchemeRule> list = service.getAll();

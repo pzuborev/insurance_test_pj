@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping(value = "/api")
 @CrossOrigin(value = "*")
 public class CurrencyController {
 
@@ -24,7 +25,7 @@ public class CurrencyController {
         return modelMapper.map(entity, CurrencyLookupDto.class);
     }
 
-    @RequestMapping(path = "lookup/currency", method = RequestMethod.GET)
+    @RequestMapping(value = "/lookup/currency", method = RequestMethod.GET)
     @ResponseBody
     public List<CurrencyLookupDto> getListForLookup() {
         List<Currency> list = service.getAll();

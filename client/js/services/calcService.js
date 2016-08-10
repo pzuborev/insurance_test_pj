@@ -95,7 +95,7 @@ app.service('calcService', function ($http, $log) {
         },
 
         getEventRisksForScheme: function (schemeId, success) {
-            $http.get('http://localhost:8080/lookup/insurancescheme/' + schemeId + '/risk'
+            $http.get('/api/lookup/insurancescheme/' + schemeId + '/risk'
             ).then(
                 function (response) {
                     $log.log('got risk for scheme ' + schemeId + ' from rest.');
@@ -107,7 +107,7 @@ app.service('calcService', function ($http, $log) {
 
         getInsuranceSchemes: function (success) {
             console.log("*** getInsuranceSchemes");
-            $http.get('http://localhost:8080/lookup/insurancescheme/', {
+            $http.get('/api/lookup/insurancescheme/', {
                     //params: {'username': 'admin', 'password': 'admin'}
                     // params: {'token': securityService.getToken()}
                 }
@@ -121,7 +121,7 @@ app.service('calcService', function ($http, $log) {
         },
 
         getInsuranceSchemeRules: function (success) {
-            $http.get('http://localhost:8080/lookup/insuranceschemerule/').then(
+            $http.get('/api/lookup/insuranceschemerule/').then(
                 function (response) {
                     $log.log('got schemerule from rest.');
                     $log.log(response);
@@ -131,7 +131,7 @@ app.service('calcService', function ($http, $log) {
         },
 
         getCurrencies: function (success) {
-            $http.get('http://localhost:8080/lookup/currency/').then(
+            $http.get('/api/lookup/currency/').then(
                 function (response) {
                     $log.log('got currency from rest.');
                     $log.log(response);
@@ -141,7 +141,7 @@ app.service('calcService', function ($http, $log) {
         },
 
         getFrequencies: function (success) {
-            $http.get('http://localhost:8080/lookup/frequency/').then(
+            $http.get('/api/lookup/frequency/').then(
                 function (response) {
                     $log.log('got frequency from rest.');
                     $log.log(response);
@@ -151,7 +151,7 @@ app.service('calcService', function ($http, $log) {
         },
 
         getRegions: function (success) {
-            $http.get('http://localhost:8080/lookup/region/').then(
+            $http.get('/api/lookup/region/').then(
                 function (response) {
                     $log.log('got region from rest.');
                     $log.log(response);
@@ -161,7 +161,7 @@ app.service('calcService', function ($http, $log) {
         },
 
         getGenders: function (success) {
-            $http.get('http://localhost:8080/lookup/gender/').then(
+            $http.get('/api/lookup/gender/').then(
                 function (response) {
                     $log.log('got gender from rest.');
                     $log.log(response);

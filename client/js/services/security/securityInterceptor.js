@@ -1,10 +1,17 @@
 app.factory('securityInterceptor',
-    ['$injector', '$log', 'securityRetryQueue', 'sessionHolder',
-        function ($injector, $log, securityRetryQueue, sessionHolder) {
+    ['$injector', '$log', 'securityRetryQueue', 'sessionHolder', 'serverConfig',
+        function ($injector, $log, securityRetryQueue, sessionHolder, serverConfig) {
             $log.info('init securityInterceptor');
 
             var securityInterceptor = {
                 request: function(config) {
+                    var prefix = serverConfig.url + ':' + serverConfig.port;
+
+                    if (config.url.indexOf('/api/') != -1) {
+                        config.url = prefix + config.url;
+                        //$log.debug('changed config.url =' + config.url);
+                    }
+
                     if (sessionHolder.isAuthorized()){
                         config.headers['token'] = sessionHolder.getToken();
                     }
@@ -14,7 +21,6 @@ app.factory('securityInterceptor',
                 responseError: function(response) {
 
                         var $http = $injector.get('$http');
-                        $log.info('response.status = ' + response.status);
                         var promise = null;
                         if (response.status === 401) {
                             promise = securityRetryQueue.pushRetryFn('unauthorized-server',
@@ -30,7 +36,5 @@ app.factory('securityInterceptor',
             };
             return securityInterceptor;
 
-            //return function (promise) {
-            //
-            //};
+
         }]);

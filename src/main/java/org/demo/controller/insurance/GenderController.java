@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping(value = "/api")
 @CrossOrigin(value = "*")
 public class GenderController {
     @Autowired
@@ -23,7 +24,7 @@ public class GenderController {
         return modelMapper.map(entity, GenderLookupDto.class);
     }
 
-    @RequestMapping(path = "lookup/gender", method = RequestMethod.GET)
+    @RequestMapping(value = "/lookup/gender", method = RequestMethod.GET)
     @ResponseBody
     public List<GenderLookupDto> getListForLookup() {
         List<Gender> list = service.getAll();

@@ -16,7 +16,7 @@ app.factory('securityService', ['$log', '$q', '$http', '$uibModal', 'securityRet
             authentication: function (username, password) {
                 var deferred = $q.defer();
                 $http
-                    .get("http://localhost:8080/user/" + username, {
+                    .get("/api/user/" + username, {
                         headers: {
                             'username': 'admin',
                             'password': 'admin'
@@ -38,7 +38,7 @@ app.factory('securityService', ['$log', '$q', '$http', '$uibModal', 'securityRet
             logout: function () {
                 var deferred = $q.defer();
                 $http
-                    .get("http://localhost:8080/logout/")
+                    .get("/api/logout/")
                     .success(function (response, status, headers, config) {
                         sessionHolder.setToken(null);
                         deferred.resolve(response, status, headers, config);

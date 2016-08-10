@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping(value = "/api")
 @CrossOrigin(value = "*")
 public class RegionController {
     @Autowired
@@ -23,7 +24,7 @@ public class RegionController {
         return modelMapper.map(entity, RegionLookupDto.class);
     }
 
-    @RequestMapping(path = "lookup/region", method = RequestMethod.GET)
+    @RequestMapping(value = "/lookup/region", method = RequestMethod.GET)
     @ResponseBody
     public List<RegionLookupDto> getListForLookup() {
         List<Region> list = service.getAll();

@@ -6,7 +6,11 @@ app.config(['$httpProvider', function ($httpProvider) {
         'securityInterceptor');
 }]);
 //-------------------------------------------------------------------------------
-//
+app.constant ('serverConfig', {
+   'url': 'http://localhost',
+   'port': '8080'
+});
+//-------------------------------------------------------------------------------
 app.config(function ($routeProvider) {
     $routeProvider
         .when("/first", {
@@ -22,19 +26,6 @@ app.config(function ($routeProvider) {
             controller: "CalcController"
         })
 });
-
-//-------------------------------------------------------------------------------
-//app.directive('toNumber', function () {
-//        return {
-//            require: 'ngModel',
-//            link: function (scope, elem, attrs, ctrl) {
-//                ctrl.$parsers.push(function (value) {
-//                    return parseFloat(value || '');
-//                });
-//            }
-//        }
-//    }
-//);
 //-------------------------------------------------------------------------------
 // контролер главной страницы
 app.controller('mainInsuranceCtrl',

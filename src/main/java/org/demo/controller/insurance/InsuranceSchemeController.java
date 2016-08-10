@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping(value = "/api")
 @CrossOrigin(value = "*")
 public class InsuranceSchemeController {
     @Autowired
@@ -20,14 +21,14 @@ public class InsuranceSchemeController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @RequestMapping(path = "/insurancescheme", method = RequestMethod.GET)
+    @RequestMapping(value = "/insurancescheme", method = RequestMethod.GET)
     @ResponseBody
     public List<InsuranceScheme> getAll() {
         System.out.println("********* InsuranceSchemeController.getAll");
         return schemeService.getAll();
     }
 
-    @RequestMapping(path = "lookup/insurancescheme", method = RequestMethod.GET)
+    @RequestMapping(value = "/lookup/insurancescheme", method = RequestMethod.GET)
     @ResponseBody
     public List<SchemeLookupDto> getListForLookup() {
         List<InsuranceScheme> schemes = schemeService.getAll();
@@ -35,7 +36,7 @@ public class InsuranceSchemeController {
                 .map(item -> convertToDto(item)).collect(Collectors.toList());
     }
 
-    @RequestMapping(path = "lookup/insurancescheme/{insuranceschemeid}/risk", method = RequestMethod.GET)
+    @RequestMapping(value = "/lookup/insurancescheme/{insuranceschemeid}/risk", method = RequestMethod.GET)
     @ResponseBody
     public List<SchemeRiskDto> getRiskForScheme (@PathVariable("insuranceschemeid") int insuranceSchemeId){
         return schemeService.getRiskForScheme(insuranceSchemeId);
