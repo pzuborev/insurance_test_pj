@@ -4,10 +4,11 @@ app.factory('securityInterceptor',
             $log.info('init securityInterceptor');
 
             var securityInterceptor = {
+
                 request: function(config) {
                     var prefix = serverConfig.url + ':' + serverConfig.port;
-
-                    if (config.url.indexOf('/api/') != -1) {
+                    //$log.debug('request config.url =' + config.url);
+                    if (config.url.indexOf('/api/') != -1 && config.url.indexOf(prefix) == -1) {
                         config.url = prefix + config.url;
                         //$log.debug('changed config.url =' + config.url);
                     }
