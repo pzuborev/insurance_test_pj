@@ -152,7 +152,6 @@
 
                             var newItem =
                             {
-                                rowNo: $scope.riskData.length + 1,
                                 riskType: {id: selectedItem.insurancerisktypeid, name: selectedItem.insurancerisktypename},
                                 forIndividualType: {id: selectedItem.forindividualtypeid, name: selectedItem.forindividualtypename},
                                 payTerm: null,

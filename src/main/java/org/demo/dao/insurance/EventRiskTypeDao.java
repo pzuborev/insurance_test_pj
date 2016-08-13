@@ -1,7 +1,7 @@
 package org.demo.dao.insurance;
 
 import org.demo.dao.AbstractDao;
-import org.demo.entity.insurance.EventRiskType;
+import org.demo.entity.insurance.refs.EventRiskType;
 import org.springframework.stereotype.Repository;
 
 @Repository

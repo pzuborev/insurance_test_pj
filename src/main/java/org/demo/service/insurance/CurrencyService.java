@@ -1,7 +1,7 @@
 package org.demo.service.insurance;
 
 import org.demo.dao.insurance.CurrencyDao;
-import org.demo.entity.insurance.Currency;
+import org.demo.entity.insurance.refs.Currency;
 import org.demo.service.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

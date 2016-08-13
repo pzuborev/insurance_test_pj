@@ -1,7 +1,7 @@
 package org.demo.dao.insurance;
 
 import org.demo.dao.AbstractDao;
-import org.demo.entity.insurance.Currency;
+import org.demo.entity.insurance.refs.Currency;
 import org.springframework.stereotype.Repository;
 
 @Repository

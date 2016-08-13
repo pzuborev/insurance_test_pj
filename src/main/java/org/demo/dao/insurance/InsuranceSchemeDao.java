@@ -1,8 +1,8 @@
 package org.demo.dao.insurance;
 
 import org.demo.dao.AbstractDao;
-import org.demo.dto.lookup.SchemeRiskDto;
-import org.demo.entity.insurance.InsuranceScheme;
+import org.demo.dto.refs.SchemeRiskLookupDto;
+import org.demo.entity.insurance.refs.InsuranceScheme;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
@@ -18,9 +18,9 @@ public class InsuranceSchemeDao extends AbstractDao<InsuranceScheme> {
 
 
 
-    public List<SchemeRiskDto> getRiskForScheme (int insuranceSchemeId) {
+    public List<SchemeRiskLookupDto> getRiskForScheme (int insuranceSchemeId) {
         // todo create view
-        List<SchemeRiskDto> objectList =
+        List<SchemeRiskLookupDto> objectList =
                 getSession().createSQLQuery(
                 "select sr.insuranceschemeid, sr.insurancerisktypeid, sr.forindividualtypeid, " +
                         "      r.name as insurancerisktypename, r.code as insurancerisktypecode, " +
@@ -31,7 +31,7 @@ public class InsuranceSchemeDao extends AbstractDao<InsuranceScheme> {
                         "    where sr.insuranceschemeid = :insuranceschemeid"
                 )
                 .setParameter("insuranceschemeid", insuranceSchemeId)
-                .setResultTransformer(Transformers.aliasToBean(SchemeRiskDto.class))
+                .setResultTransformer(Transformers.aliasToBean(SchemeRiskLookupDto.class))
                 .list();
 
         return objectList;

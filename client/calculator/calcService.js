@@ -3,7 +3,6 @@ app.service('calcService', function ($http, $log) {
     var riskDataSet = {
         data: [
             {
-                rowNo: 1,
                 riskType: {id: "1", "name": "Д"},
                 forIndividualType: {id: "1", name: "Застрахованное лицо"},
                 riskAmount: "2000",
@@ -14,7 +13,6 @@ app.service('calcService', function ($http, $log) {
                 payCount: 1
             },
             {
-                rowNo: 2,
                 riskType: {id: "2", "name": "C"},
                 forIndividualType: {id: "1", name: "Застрахованное лицо"},
                 riskAmount: "2000",
@@ -25,7 +23,6 @@ app.service('calcService', function ($http, $log) {
                 payCount: 1
             },
             {
-                rowNo: 3,
                 riskType: {id: "3", "name": "C(НС)"},
                 forIndividualType: {id: "1", name: "Застрахованное лицо"},
                 riskAmount: "200",
@@ -36,7 +33,6 @@ app.service('calcService', function ($http, $log) {
                 payCount: 1
             },
             {
-                rowNo: 4,
                 riskType: {id: "4", "name": "С(ДТП)"},
                 forIndividualType: {id: "1", name: "Застрахованное лицо"},
                 riskAmount: "1000",
