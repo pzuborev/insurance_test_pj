@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Страхование</title>
+
+    <link rel="stylesheet" href="../assets/libs/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/libs/ui-bootstrap/ui-bootstrap-1.3.3-csp.css">
+    <link rel="stylesheet" href="../assets/css/calculator.css">
+
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="../assets/libs/angularjs/1.5.7/angular.js"></script>
+    <script src="../assets/libs/angularjs/1.5.7/angular-animate.js"></script>
+    <script src="../assets/libs/angularjs/1.5.7/angular-aria.js"></script>
+    <script src="../assets/libs/angularjs/1.5.7/angular-messages.js"></script>
+    <script src="../assets/libs/angularjs/1.5.7/angular-route.js"></script>
+    <script src="../assets/libs/angularjs/1.5.7/angular-cookies.js"></script>
+    <script src="../assets/libs/angularJs/1.5.7/angular-cookies.js"></script>
+    <script src="../assets/libs/angularJs/1.5.7/angular-cookies.js"></script>
+
+    <script src="../assets/libs/ui-bootstrap/ui-bootstrap-1.3.3.js"></script>
+    <script src="../assets/libs/ui-bootstrap/ui-bootstrap-tpls-1.3.3.js"></script>
+
+    <!-- App -->
+    <script src="insuranceApp.js"></script>
+    <!-- Services -->
+    <script src="components/security/sessionHolder.js"></script>
+    <script src="components/security/securityInterceptor.js"></script>
+    <script src="components/security/securityRetryQueue.js"></script>
+    <script src="components/security/securityService.js"></script>
+    <script src="components/calculator/calcService.js"></script>
+    <script src="components/second/serviceTest.js"></script>
+
+    <!-- Controllers -->
+    <script src="shared/modalForms/riskList/riskListModalFormCtrl.js"></script>
+    <script src="shared/modalForms/loginForm/loginModalFormCtrl.js"></script>
+    <script src="components/calculator/calculatorCtrl.js"></script>
+    <script src="components/first/firstController.js"></script>
+    <script src="components/second/secondController.js"></script>
+
+</head>
+<body ng-app="insuranceApp">
+
+
+<nav class="navbar navbar-default" ng-controller="mainInsuranceCtrl">
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" ng-init="navCollapsed = true"
+                    ng-click="navCollapsed = !navCollapsed">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <a class="navbar-brand" href="#/home">
+                <!--<span class="glyphicon glyphicon-leaf" aria-hidden="true"> </span>-->
+               <img class="brand" src="../assets/img/insurance-symbol-of-a-shield-with-dollar-sign.png "/>
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'">
+            <ul class="nav navbar-nav">
+                <li ng-class="navClass('first')"><a href="#/first">First page</a></li>
+                <li ng-class="navClass('second')"><a href="#/second">Second page</a></li>
+                <li ng-class="navClass('calculator')"><a href="#/calculator">Калькулятор</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-show="!isAuthorized"><a ng-href="#" ng-click="login()" >Войти</a></li>
+                <li uib-dropdown on-toggle="toggled(open)" ng-show="isAuthorized">
+                    <a href uib-dropdown-toggle ng-show="isAuthorized">
+                        Аккаунт: {{authorizedUserName}} <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                        <li>
+                            <a href ng-click="logout()">Выйти</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+<div ng-view></div>
+</body>
+</html>
