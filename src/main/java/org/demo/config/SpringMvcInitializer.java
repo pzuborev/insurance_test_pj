@@ -7,10 +7,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 import javax.servlet.Filter;
 
-public class SpringMvcInitializer
-        extends AbstractAnnotationConfigDispatcherServletInitializer {
-
-
+public class SpringMvcInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class[]{MyAppConfig.class};
@@ -25,16 +22,5 @@ public class SpringMvcInitializer
     protected String[] getServletMappings() {
         return new String[]{"/"};
     }
-
-//    @Autowired
-//    private MyAuthenticationService authenticationService;
-//    @Override
-//    protected Filter[] getServletFilters() {
-//        RestTokenAuthenticationFilter filter = new RestTokenAuthenticationFilter();
-//        System.out.println("******** getFilter");
-//        System.out.println(authenticationService);
-//        filter.setAuthenticationService(authenticationService);
-//        return new Filter[]{ filter };
-//    }
 
 }

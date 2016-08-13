@@ -24,8 +24,6 @@ import java.util.Properties;
 public class MyAppConfig {
     @Bean
     public InternalResourceViewResolver viewResolver() {
-        System.out.println("********************** MyAppConfig.viewResolver()");
-
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setViewClass(JstlView.class);
         viewResolver.setPrefix("/WEB-INF/pages/");

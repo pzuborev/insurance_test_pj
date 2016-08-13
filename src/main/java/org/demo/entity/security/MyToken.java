@@ -6,9 +6,6 @@ import java.util.Calendar;
 
 @Entity(name = "tokens")
 public class MyToken {
-//    @ManyToOne
-//    @JoinColumn(name = "username")
-//    private MyUser user;
     @Column(name="username")
     private String username;
 
@@ -18,8 +15,6 @@ public class MyToken {
 
     @Column(name = "lastused")
     private Date lastUsed;
-
-
 
     public String getToken() {
         return token;

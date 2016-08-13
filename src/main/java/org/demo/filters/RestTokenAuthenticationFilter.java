@@ -1,5 +1,6 @@
 package org.demo.filters;
 
+import org.apache.log4j.Logger;
 import org.demo.exception.ApiException;
 import org.demo.service.security.MyAuthenticationService;
 import org.demo.service.security.TokenDetails;
@@ -19,6 +20,8 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
     @Autowired
     private MyAuthenticationService authenticationService;
 
+    final static Logger logger = Logger.getLogger(RestTokenAuthenticationFilter.class);
+
     public void setAuthenticationService(MyAuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
@@ -26,17 +29,18 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
-        System.out.println("*** doFilter ***");
+
+        logger.debug(" *** doFilter ");
 
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
-
-        System.out.println("httpRequest Method = " + httpRequest.getMethod());
-        System.out.println("httpRequest  Origin = " + httpRequest.getHeader("Origin"));
-        System.out.println("httpRequest Access-Control-Request-Method = " + httpRequest.getHeader("Access-Control-Request-Method"));
-        System.out.println("httpRequest Access-Control-Request-Headers = " + httpRequest.getHeader("Access-Control-Request-Headers"));
-        System.out.println("httpRequest Content-Type = " + httpRequest.getHeader("Content-Type"));
-
+        if (logger.isDebugEnabled()) {
+            logger.debug("httpRequest Method = " + httpRequest.getMethod());
+            logger.debug("httpRequest  Origin = " + httpRequest.getHeader("Origin"));
+            logger.debug("httpRequest Access-Control-Request-Method = " + httpRequest.getHeader("Access-Control-Request-Method"));
+            logger.debug("httpRequest Access-Control-Request-Headers = " + httpRequest.getHeader("Access-Control-Request-Headers"));
+            logger.debug("httpRequest Content-Type = " + httpRequest.getHeader("Content-Type"));
+        }
         if (httpRequest.getHeader("Origin") != null) {
             String origin = httpRequest.getHeader("Origin");
             httpResponse.addHeader("Access-Control-Allow-Origin", origin);
@@ -48,13 +52,14 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
             httpResponse.addHeader("Access-Control-Expose-Headers", "token, username, password, content-type");
         }
         if (httpRequest.getMethod().equals("OPTIONS")) {
-
-            System.out.println("  ");
-            System.out.println("httpResponse Access-Control-Allow-Headers: " + httpResponse.getHeader("Access-Control-Allow-Headers"));
-            System.out.println("httpResponse Access-Control-Allow-Methods: " + httpResponse.getHeader("Access-Control-Allow-Methods"));
-            System.out.println("httpResponse Access-Control-Allow-Method: " + httpResponse.getHeader("Access-Control-Allow-Method"));
-            System.out.println("httpResponse Access-Control-Allow-Origin: " + httpResponse.getHeader("Access-Control-Allow-Origin"));
-            System.out.println("return " + httpResponse.getStatus());
+            if (logger.isDebugEnabled()) {
+                logger.debug("  ");
+                logger.debug("httpResponse Access-Control-Allow-Headers: " + httpResponse.getHeader("Access-Control-Allow-Headers"));
+                logger.debug("httpResponse Access-Control-Allow-Methods: " + httpResponse.getHeader("Access-Control-Allow-Methods"));
+                logger.debug("httpResponse Access-Control-Allow-Method: " + httpResponse.getHeader("Access-Control-Allow-Method"));
+                logger.debug("httpResponse Access-Control-Allow-Origin: " + httpResponse.getHeader("Access-Control-Allow-Origin"));
+                logger.debug("return " + httpResponse.getStatus());
+            }
             httpResponse.setStatus(HttpServletResponse.SC_OK);
 
             return;
@@ -65,13 +70,13 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
         if (token == null) token = httpRequest.getParameter("token");
         String path = httpRequest.getServletPath() + httpRequest.getPathInfo();
 
-        System.out.println("** PATH :: " + path);
-
-        System.out.println("*** header username :: " + httpRequest.getHeader("username"));
-        System.out.println("*** header token    :: " + httpRequest.getHeader("token"));
-        System.out.println("*** param  username :: " + httpRequest.getParameter("username"));
-        System.out.println("*** param  token    :: " + httpRequest.getParameter("token"));
-
+        if (logger.isDebugEnabled()) {
+            logger.debug("***** PATH :: " + path);
+            logger.debug("*** header username :: " + httpRequest.getHeader("username"));
+            logger.debug("*** header token    :: " + httpRequest.getHeader("token"));
+            logger.debug("*** param  username :: " + httpRequest.getParameter("username"));
+            logger.debug("*** param  token    :: " + httpRequest.getParameter("token"));
+        }
         try {
             if (token == null) {
                 authenticated = checkPassword(httpRequest, httpResponse);
@@ -80,10 +85,10 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
             }
 
             if (authenticated) {
-                System.out.println("doFilter");
+                logger.debug("*** perform next filter");
                 filterChain.doFilter(httpRequest, httpResponse);
             } else {
-                System.out.println("*** auth failed");
+                logger.debug("*** auth failed");
                 httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             }
 
@@ -99,7 +104,7 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
     }
 
     private boolean checkPassword(HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
-        System.out.println("*** do checkPassword ***");
+        logger.debug("*** do checkPassword ***");
 
         TokenDetails tokenInfo = null;
         String username = httpRequest.getHeader("username");
@@ -116,16 +121,16 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
         }
 
         if (username != null && password != null) {
-            System.out.println("*** username = " + username + " password = " + password);
+            logger.debug("*** username = " + username + " password = " + password);
             tokenInfo = authenticationService.authenticate(username, password);
 
-            System.out.println("*** tokenInfo = " + tokenInfo);
+            logger.debug("*** tokenInfo = " + tokenInfo);
             if (tokenInfo != null) {
                 httpResponse.setHeader("token", tokenInfo.getToken());
                 return true;
             }
         } else {
-            System.out.println("***** username or password is null");
+            logger.debug("***** username or password is null");
         }
 
         return false;

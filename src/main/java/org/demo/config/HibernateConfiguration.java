@@ -32,16 +32,6 @@ public class HibernateConfiguration {
         return sessionFactory;
     }
 
-//    @Bean
-//    public DataSource dataSource() {
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName(env.getRequiredProperty("jdbc.driverClassName"));
-//        dataSource.setUrl(env.getRequiredProperty("jdbc.url"));
-//        dataSource.setUsername(env.getRequiredProperty("jdbc.username"));
-//        dataSource.setPassword(env.getRequiredProperty("jdbc.password"));
-//        return dataSource;
-//    }
-
     @Bean
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();

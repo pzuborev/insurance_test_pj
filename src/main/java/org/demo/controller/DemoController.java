@@ -1,5 +1,6 @@
 package org.demo.controller;
 
+import org.apache.log4j.Logger;
 import org.demo.dto.UserDto;
 import org.demo.entity.security.MyUser;
 import org.demo.entity.security.MyUserRole;
@@ -36,14 +37,16 @@ public class DemoController {
     @Autowired
     private AuthenticationManagerBuilder auth;
 
+    final static Logger logger = Logger.getLogger(DemoController.class);
+
     @PostConstruct
     public void init() {
-        System.out.println("******************************* init DemoController");
+        logger.debug("*** init DemoController");
     }
 
     @RequestMapping(path = "/api/hi")
     public ModelAndView helloPublic() {
-        System.out.println("****************************** helloPublic");
+        logger.debug("*** helloPublic");
         ModelAndView model = new ModelAndView();
         model.addObject("title", "Hello");
         model.addObject("message", "Public content");
@@ -87,7 +90,7 @@ public class DemoController {
 
     @RequestMapping(path = "/register", method = RequestMethod.GET)
     public String register(Model model) {
-        System.out.println("******************* register");
+        logger.debug("*** register");
         return "register";
     }
 
@@ -97,12 +100,12 @@ public class DemoController {
                              @RequestParam String password,
                              @RequestParam String userRoleName,
                              HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("****************** createuser");
 
-        System.out.println("username = " + username);
-        System.out.println("password = " + password);
-        System.out.println("role = " + userRoleName);
-        System.out.println(passwordEncoder.encode(password));
+        logger.debug("****************** createuser");
+        logger.debug("username = " + username);
+        logger.debug("password = " + password);
+        logger.debug("role = " + userRoleName);
+        logger.debug(passwordEncoder.encode(password));
 
         HashSet<MyUserRole> myUserRoles = new HashSet<>(1);
         myUserRoles.add(myUserRoleService.getUserRoleByName(userRoleName));

@@ -57,7 +57,8 @@ public class MyAuthenticationServiceImpl implements MyAuthenticationService {
 
                 MyToken tokenObj = new MyToken(username, newToken.getToken());
                 tokenDao.persist(tokenObj);
-                System.out.println("******** authentication successful has finished ");
+
+                logger.debug("*** authentication successful has finished ");
                 return newToken;
             }
        /* } catch (AuthenticationException e) {
@@ -69,11 +70,10 @@ public class MyAuthenticationServiceImpl implements MyAuthenticationService {
 
     @Override
     public boolean checkToken(String token) {
-        System.out.println("*** checkToken :: " + token);
+        logger.debug("*** checkToken :: " + token);
 
         Assert.notNull(tokenDao, "tokenDao is null");
 
-        System.out.println(myUserService);
         UserDetails userDetails = myUserService.loadUserByToken(token); //TODO: find user by token in DB;
         if (userDetails == null) {
             throw new TokenNotFoundException(token);
@@ -88,7 +88,7 @@ public class MyAuthenticationServiceImpl implements MyAuthenticationService {
 
     @Override
     public void logout(String token) {
-        System.out.println("******* logout");
+        logger.debug("*** logout");
         //todo delete token from DB
         SecurityContextHolder.clearContext();
     }

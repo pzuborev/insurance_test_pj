@@ -1,7 +1,6 @@
 package org.demo.config;
 
 import org.demo.filters.RestTokenAuthenticationFilter;
-import org.demo.service.MyUserDetailsService;
 import org.demo.service.security.MyAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,9 +15,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -67,21 +63,13 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/secured/**").access("hasRole('ROLE_ADMIN')")
                 .and().formLogin()
                 .and().addFilterAfter(restTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-//        http
-//                .headers().frameOptions().sameOrigin()
-//                .and()
-//       //         .addFilterBefore(restTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-//                .addFilterAfter(restTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-//                .authorizeRequests()
-//                .antMatchers("/rest/*").authenticated();
 
     }
 
     @Bean(name = "restTokenAuthenticationFilter")
     public RestTokenAuthenticationFilter restTokenAuthenticationFilter() {
         RestTokenAuthenticationFilter restTokenAuthenticationFilter = new RestTokenAuthenticationFilter();
-       // tokenAuthenticationManager.setUserDetailsService(userDetailsService);
-        restTokenAuthenticationFilter.setAuthenticationService(authenticationService);// setAuthenticationManager(tokenAuthenticationManager);
+        restTokenAuthenticationFilter.setAuthenticationService(authenticationService);
         return restTokenAuthenticationFilter;
     }
 

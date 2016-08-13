@@ -1,5 +1,6 @@
 package org.demo.controller;
 
+import org.apache.log4j.Logger;
 import org.demo.exception.ApiException;
 import org.demo.exception.ResourceNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -17,6 +18,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class ExceptionController extends ResponseEntityExceptionHandler {
+    final static Logger logger = Logger.getLogger(ExceptionController.class);
+
     private ResponseEntity<ErrorResource> getResponseDataInternal (Throwable throwable, HttpStatus statusCode) {
         return new ResponseEntity(new ErrorResource(throwable.getMessage()), statusCode);
     }
@@ -25,7 +28,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ResponseEntity<ErrorResource> apiExceptionResolver(Throwable throwable) {
-        System.out.println("****************** ExceptionController.apiExceptionResolver");
+        logger.debug("*** apiExceptionResolver");
         return getResponseDataInternal(throwable, HttpStatus.BAD_REQUEST);
 
     }
@@ -34,16 +37,13 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     @org.springframework.web.bind.annotation.ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ResponseEntity<ErrorResource> hibernateExceptionResolver(Throwable throwable) {
-        System.out.println("****************** ExceptionController.hibernateExceptionResolver");
+        logger.debug("*** hibernateExceptionResolver");
         return getResponseDataInternal(throwable, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
     @ResponseBody
     public ResponseEntity<Object> userNotFoundExceptionResolver(Exception ex, WebRequest request) {
-//        System.out.println("****************** ExceptionController.userNotFoundExceptionResolver");
-//        return getResponseDataInternal(throwable);
-//        String bodyOfResponse = "This should be application specific " + ex.getMessage();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         return handleExceptionInternal(ex, new ErrorResource(String.format("User %s not found", ex.getMessage())),
@@ -54,7 +54,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ResponseEntity<ErrorResource> resourceNotFoundExceptionResolver(Throwable throwable) {
-        System.out.println("****************** ExceptionController.resourceNotFoundExceptionResolver");
+        logger.debug("*** resourceNotFoundExceptionResolver");
         return getResponseDataInternal(throwable, HttpStatus.BAD_REQUEST);
     }
 }
