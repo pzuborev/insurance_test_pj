@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    app.controller('CalcController', function ($scope, $rootScope, $uibModal, $log, $q, calcService) {
+    app.controller('CalcController', function ($scope, $rootScope, $uibModal, $log, $q, calcService, messageService) {
             $log.info("*** init CalcController");
 
             /*** Данные для расчета ***/
@@ -17,7 +17,8 @@
             };
 
             $scope.calcData.arcDate = new Date();
-        //  for quick test
+
+            //  for quick test
             $scope.calcData.insuredBirthDate = new Date();
 
 
@@ -37,7 +38,7 @@
 
             /*** Lookup списки ***/
 
-                // Программы страхования
+            // Программы страхования
             $scope.insuranceSchemes = [];
             // Правила страхования
             $scope.insuranceSchemeRules = [];
@@ -176,19 +177,13 @@
                calcService.performCalc($scope.calcData, $scope.riskData,
                    function success (risks) {
                        $scope.riskData = risks;
-                       $scope.selectedRisk = $scope.riskData[0];
+                       $scope.selectedRisk = $scope.riskData && $scope.riskData[0];
+                   },
+                   function failure (error) {
+                       messageService.show(error && error.message, messageService.ERROR);
                    }
                );
             };
-
-            // при изменении программы страхования, определяем программу страхования
-            // todo: добавить фильтрацию списка
-            //$scope.InsSchemeChange = function () {
-            //    var ix = $scope.calcData.insuranceScheme.id;
-            //    if (ix > $scope.insuranceSchemeRules.length) $scope.calcData.insuranceSchemeRule = $scope.insuranceSchemeRules[0];
-            //    else $scope.calcData.insuranceSchemeRule = $scope.insuranceSchemeRules[ix - 1];
-            //
-            //};
 
             /*** Watch ***/
 

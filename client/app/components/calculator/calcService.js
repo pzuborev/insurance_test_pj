@@ -153,7 +153,7 @@ app.service('calcService', function ($http, $log) {
             );
         },
 
-        performCalc: function (calcData, riskData, onSuccess) {
+        performCalc: function (calcData, riskData, onSuccess, onFailure) {
             var data = calcData;
             data.risks = riskData;
             $log.debug(riskData);
@@ -164,10 +164,18 @@ app.service('calcService', function ($http, $log) {
                 data: data,
                 headers: {'Content-Type': 'application/json'}
             }).then(function (result) {
-                $log.debug(result && result.data && result.data.risks);
-                onSuccess(result && result.data && result.data.risks);
-            }, function (error) {
-                $log.error(error);
+                $log.debug('finished calculation, status = ' + result.status);
+                if (result.status == 400) {
+                    $log.error(result && result.data && result.data.message);
+                    onFailure (result && result.data);
+                } else {
+                    onSuccess(result && result.data && result.data.risks);
+                }
+
+            }, function (result) {
+                $log.debug('failure calculation');
+                $log.error(result && result.data);
+                onFailure (result && result.data);
             });
 
         }
