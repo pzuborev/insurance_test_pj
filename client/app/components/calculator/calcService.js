@@ -165,8 +165,8 @@ app.service('calcService', function ($http, $log) {
                 headers: {'Content-Type': 'application/json'}
             }).then(function (result) {
                 $log.debug('finished calculation, status = ' + result.status);
-                if (result.status == 400) {
-                    $log.error(result && result.data && result.data.message);
+                if (result.status == 400 || result.status == 500) {
+                    $log.debug(result && result.data && result.data.message);
                     onFailure (result && result.data);
                 } else {
                     onSuccess(result && result.data && result.data.risks);

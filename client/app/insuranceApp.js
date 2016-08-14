@@ -30,6 +30,7 @@ app.config(function ($routeProvider) {
 // контролер главной страницы
 app.controller('mainInsuranceCtrl',
     function ($scope, $rootScope, $uibModal, $log, $q, $location, sessionHolder, securityService) {
+        $log.debug('*** initialize mainInsuranceCtrl');
         $scope.isAuthorized = sessionHolder.isAuthorized();
         $scope.authorizedUserName = sessionHolder.getUserName();
 

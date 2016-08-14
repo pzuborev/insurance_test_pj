@@ -23,6 +23,7 @@ app.factory('securityService', ['$log', '$q', '$http', '$uibModal', 'securityRet
                         }
                     })
                     .success(function (response, status, headers, config) {
+                        $log.debug('*** success authentication');
                         sessionHolder.setUserName(username);
                         sessionHolder.setToken(headers()['token']);
 

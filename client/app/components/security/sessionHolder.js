@@ -7,7 +7,7 @@ app.factory('sessionHolder', ['$log', '$rootScope', '$cookies', function ($log, 
     return {
         isAuthorized: function () {
             var token_ = $cookies.get('token');
-            $log.debug('isAuthorized token = ' + token_);
+            //$log.debug('isAuthorized token = ' + token_);
             return !(token_ == null);
         },
 
@@ -16,7 +16,7 @@ app.factory('sessionHolder', ['$log', '$rootScope', '$cookies', function ($log, 
             if (value == null) {
                 $cookies.remove('token');
                 $cookies.remove('username');
-                $log.debug('*** check  token = ' + $cookies.get('token'));
+                //$log.debug('*** check  token = ' + $cookies.get('token'));
 
             } else {
                 $cookies.put('token', value,{expires: tokenExpire});
@@ -27,8 +27,6 @@ app.factory('sessionHolder', ['$log', '$rootScope', '$cookies', function ($log, 
 
         getToken: function () {
             var token_ = $cookies.get('token');
-
-            $log.debug('setToken = ' + token_);
             return token_;
         },
 
