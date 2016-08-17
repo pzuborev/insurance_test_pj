@@ -3,7 +3,7 @@ package org.demo.controller.security;
 import org.apache.log4j.Logger;
 import org.demo.dto.UserDto;
 import org.demo.entity.security.MyUser;
-import org.demo.service.MyUserService;
+import org.demo.service.security.MyUserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

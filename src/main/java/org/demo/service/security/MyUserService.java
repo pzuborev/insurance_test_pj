@@ -1,10 +1,11 @@
-package org.demo.service;
+package org.demo.service.security;
 
 import org.demo.dao.security.UserDao;
 import org.demo.dto.UserDto;
 import org.demo.entity.security.MyUser;
 import org.demo.entity.security.MyUserRole;
 import org.demo.exception.ApiException;
+import org.demo.service.security.MyUserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

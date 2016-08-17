@@ -1,4 +1,4 @@
-package org.demo.service;
+package org.demo.service.security;
 
 import org.demo.dao.security.UserRoleDao;
 import org.demo.entity.security.MyUserRole;

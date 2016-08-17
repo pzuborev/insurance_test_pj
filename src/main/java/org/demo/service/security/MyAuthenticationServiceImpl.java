@@ -3,7 +3,6 @@ package org.demo.service.security;
 import org.demo.dao.security.TokenDao;
 import org.demo.entity.security.MyToken;
 import org.demo.exception.TokenNotFoundException;
-import org.demo.service.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
