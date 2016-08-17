@@ -1,8 +1,6 @@
 package org.demo.dao.insurance.tariff;
 
 import org.demo.dao.AbstractDao;
-import org.demo.entity.insurance.TableTariff;
-import org.demo.entity.insurance.refs.EventRiskType;
 import org.demo.entity.insurance.refs.InsuranceScheme;
 import org.demo.entity.insurance.refs.Region;
 import org.hibernate.SQLQuery;
