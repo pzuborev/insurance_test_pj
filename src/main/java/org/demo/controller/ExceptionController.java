@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class ExceptionController extends ResponseEntityExceptionHandler {
     final static Logger logger = Logger.getLogger(ExceptionController.class);
 
-    private ResponseEntity<ErrorResource> getResponseDataInternal (Throwable throwable, HttpStatus statusCode) {
+    private ResponseEntity<ErrorResource> getResponseDataInternal(Throwable throwable, HttpStatus statusCode) {
         return new ResponseEntity(new ErrorResource(throwable.getMessage()), statusCode);
     }
 
