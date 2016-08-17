@@ -17,8 +17,9 @@ app.factory('securityInterceptor',
                             $log.debug("added rest domain prefix to url");
                             config.url = prefix + config.url;
                         }
-                        if (sessionHolder.isAuthorized()){
-                            $log.debug("added token to header");
+                        if (sessionHolder.isAuthorized() && !urlContains(config.url, '/login')){
+                            $log.debug("added token to header; url = "+config.url);
+
                             config.headers['token'] = sessionHolder.getToken();
                         }
                     }
@@ -31,7 +32,10 @@ app.factory('securityInterceptor',
 
                     var $http = $injector.get('$http');
                     var promise = null;
-                    if (response.status === 401) {
+                    var url = response.config.url;
+                    //$log.debug("status = " + response.status );
+                    if (response.status === 401 && !urlContains(url, '/login')) {
+                        $log.debug(response.config.url);
                         promise = securityRetryQueue.pushRetryFn('unauthorized-server',
                             function () {
                                 return $http(response.config);

@@ -74,7 +74,7 @@ public class MyAuthenticationServiceImpl implements MyAuthenticationService {
 
         Assert.notNull(tokenDao, "tokenDao is null");
 
-        UserDetails userDetails = myUserService.loadUserByToken(token); //TODO: find user by token in DB;
+        UserDetails userDetails = myUserService.loadUserByToken(token);
         if (userDetails == null) {
             throw new TokenNotFoundException(token);
         }
@@ -87,9 +87,10 @@ public class MyAuthenticationServiceImpl implements MyAuthenticationService {
     }
 
     @Override
+    @Transactional
     public void logout(String token) {
         logger.debug("*** logout");
-        //todo delete token from DB
+        tokenDao.delete(new MyToken(token));
         SecurityContextHolder.clearContext();
     }
 

@@ -25,6 +25,10 @@ app.config(function ($routeProvider) {
             templateUrl: "components/calculator/calculator.html",
             controller: "CalcController"
         })
+        .otherwise("/first", {
+            templateUrl: "components/first/first.html",
+            controller: "firstController"
+        })
 });
 //-------------------------------------------------------------------------------
 // контролер главной страницы
@@ -56,11 +60,11 @@ app.controller('mainInsuranceCtrl',
     });
 
 //pz test
-app.controller('DropdownCtrl', function($scope) {
-
-    $scope.items = [
-        "The first choice!",
-        "And another choice for you.",
-        "but wait! A third!"
-    ];
-});
+//app.controller('DropdownCtrl', function($scope) {
+//
+//    $scope.items = [
+//        "1",
+//        "2",
+//        "3"
+//    ];
+//});

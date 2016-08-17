@@ -41,6 +41,10 @@ public class MyToken {
     public MyToken() {
     }
 
+    public MyToken(String token) {
+        this.token = token;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

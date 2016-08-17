@@ -16,22 +16,35 @@ app.factory('securityService', ['$log', '$q', '$http', '$uibModal', 'securityRet
             authentication: function (username, password) {
                 var deferred = $q.defer();
                 $http
-                    .get("/api/user/" + username, {
-                        headers: {
-                            'username': 'admin',
-                            'password': 'admin'
-                        }
-                    })
-                    .success(function (response, status, headers, config) {
-                        $log.debug('*** success authentication');
-                        sessionHolder.setUserName(username);
-                        sessionHolder.setToken(headers()['token']);
+                    .get("/api/user/login",
+                        {headers: {'username': username, 'password': password || username}}
+                    )
+                    .then(function (response) {
+                            $log.debug('*** finished authentication');
 
-                        deferred.resolve(response, status, headers, config);
-                    })
-                    .error(function (response, status, headers, config) {
-                        deferred.reject(response, status, headers, config);
-                    });
+                            var token = response && response.headers && response.headers()['token'];
+                            $log.debug(response);
+                            $log.debug(token);
+                            $log.debug(response.status);
+                            if (response.status == 401) {
+                                $log.error("authentication failed. response = " + response);
+                                sessionHolder.setToken(null);
+                            } else if (token == null) {
+                                $log.error("authentication failed. response = " + response);
+                                sessionHolder.setToken(null);
+                            } else {
+                                $log.debug('authentication success token = ' + token);
+                                sessionHolder.setUserName(username);
+                                sessionHolder.setToken(token);
+                            }
+
+                            deferred.resolve(response);
+                        },
+                        function (response) {
+                            $log.debug('*** failure authentication');
+                            deferred.reject(response);
+                        })
+                ;
 
                 return deferred.promise;
             },
@@ -73,9 +86,8 @@ app.factory('securityService', ['$log', '$q', '$http', '$uibModal', 'securityRet
                 });
 
                 modalInstance.result.then(
-                    function (result) {
-                        $log.debug('showLogin : username: ' + result.username);
-                        $log.debug('showLogin : password: ' + result.password);
+                    function () {
+                        //todo return to previous page
                         loginInProgress = false;
                         securityRetryQueue.retryAll();
                     },

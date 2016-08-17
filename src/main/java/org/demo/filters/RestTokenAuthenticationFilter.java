@@ -1,6 +1,9 @@
 package org.demo.filters;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
+import org.demo.controller.ErrorResource;
 import org.demo.exception.ApiException;
 import org.demo.service.security.MyAuthenticationService;
 import org.demo.service.security.TokenDetails;
@@ -17,10 +20,9 @@ import java.io.IOException;
 
 public class RestTokenAuthenticationFilter extends GenericFilterBean {
 
+    final static Logger logger = Logger.getLogger(RestTokenAuthenticationFilter.class);
     @Autowired
     private MyAuthenticationService authenticationService;
-
-    final static Logger logger = Logger.getLogger(RestTokenAuthenticationFilter.class);
 
     public void setAuthenticationService(MyAuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
@@ -79,6 +81,7 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
         }
         try {
             if (token == null) {
+
                 authenticated = checkPassword(httpRequest, httpResponse);
             } else {
                 authenticated = checkToken(token);
@@ -94,9 +97,20 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
 
         } catch (Exception e) {
             e.printStackTrace();
-            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
+
+//          httpResponse.sendError(, new ErrorResource(e.getMessage()));
+            httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            httpResponse.getWriter().write(convertObjectToJson(new ErrorResource(e.getMessage())));
         }
 
+    }
+
+    public String convertObjectToJson(Object object) throws JsonProcessingException {
+        if (object == null) {
+            return null;
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(object);
     }
 
     private boolean checkToken(String token) {

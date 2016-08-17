@@ -1,5 +1,6 @@
 package org.demo.controller.security;
 
+import org.apache.log4j.Logger;
 import org.demo.dto.UserDto;
 import org.demo.entity.security.MyUser;
 import org.demo.service.MyUserService;
@@ -8,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @CrossOrigin(value = "*")
@@ -18,12 +22,14 @@ public class UserController {
 
     @Autowired
     private ModelMapper modelMapper;
+    
+    private final static Logger logger = Logger.getLogger(UserController.class);
 
     @RequestMapping(method = RequestMethod.POST)
     @org.springframework.web.bind.annotation.ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public ResponseEntity<Object> create(@RequestBody UserDto userDto) {
-        System.out.println("******************* create");
+        logger.debug("******************* create");
 
         userService.create(userDto);
         return new ResponseEntity(HttpStatus.CREATED);
@@ -34,7 +40,7 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<Object> updateUser(@PathVariable("username") String userName,
                                              @RequestBody UserDto userDto) {
-        System.out.println("******************* update");
+        logger.debug("******************* update");
         userService.update(userName, userDto);
 
         return new ResponseEntity(HttpStatus.OK);
@@ -44,7 +50,7 @@ public class UserController {
     @org.springframework.web.bind.annotation.ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public ResponseEntity<Object> deleteUser(@PathVariable("username") String userName) {
-        System.out.println("******************* delete");
+        logger.debug("******************* delete");
         userService.delete(userName);
 
         return new ResponseEntity(HttpStatus.OK);
@@ -54,8 +60,17 @@ public class UserController {
     @org.springframework.web.bind.annotation.ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public UserDto getUser(@PathVariable("username") String userName) {
-        System.out.println("******************* get user");
+        logger.debug("******************* get user");
         return convertToDto(userService.getByUserName(userName));
+    }
+    @RequestMapping(value = "/login")
+    @org.springframework.web.bind.annotation.ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public UserDto login(HttpServletRequest request,
+                         HttpServletResponse response) {
+        logger.debug("******************* login");
+        logger.debug(response.getHeader("token"));
+        return convertToDto(userService.getByUserName("admin"));
     }
 
     private UserDto convertToDto(MyUser user) {
