@@ -30,6 +30,13 @@ public class Region {
         this.name = name;
     }
 
+    public Region() {
+    }
+
+    public Region(int id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

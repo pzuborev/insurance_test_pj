@@ -41,6 +41,13 @@ public class InsuranceScheme {
         this.name = name;
     }
 
+    public InsuranceScheme() {
+    }
+
+    public InsuranceScheme(int id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

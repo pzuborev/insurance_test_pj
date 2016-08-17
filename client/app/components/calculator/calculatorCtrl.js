@@ -173,6 +173,19 @@
 
             };
 
+            $scope.selectedRiskAmountChange = function (){
+                $log.debug('************************');
+                if ($scope.selectedRisk != null) {
+                    $scope.selectedRisk.payAmount = null;
+                }
+            }
+
+            $scope.selectedPayAmountChange = function (){
+                if ($scope.selectedRisk != null) {
+                    $scope.selectedRisk.riskAmount = null;
+                }
+            }
+
             $scope.performCalc = function () {
                calcService.performCalc($scope.calcData, $scope.riskData,
                    function success (risks) {
@@ -180,7 +193,8 @@
                        $scope.selectedRisk = $scope.riskData && $scope.riskData[0];
                    },
                    function failure (error) {
-                       messageService.show(error && error.message, messageService.ERROR);
+                       var defaultErrorMessage = 'При расчете произошла непредвиденная ошибка';
+                       messageService.show((error && error.message) || defaultErrorMessage, messageService.ERROR);
                    }
                );
             };

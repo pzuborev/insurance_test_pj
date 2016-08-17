@@ -30,15 +30,15 @@ public class CalculatorController {
         if (modelMapper == null) {
             modelMapper = new ModelMapper();
             // конверация из гривны в копейки (double to int)
-            Converter<Double, Integer> toCurrency = new AbstractConverter<Double, Integer>() {
-                protected Integer convert(Double source) {
-                    int intValue = (int) (source * 100);
-                    return source == null ? null : Integer.valueOf(intValue);
+            Converter<Double, Long> toCurrency = new AbstractConverter<Double, Long>() {
+                protected Long convert(Double source) {
+                    long intValue = (long) (source * 100);
+                    return source == null ? null : Long.valueOf(intValue);
                 }
             };
             //конвертация из копеек в гривны (int to double)
-            Converter<Integer, Double> fromCurrency = new AbstractConverter<Integer, Double>() {
-                protected Double convert(Integer source) {
+            Converter<Long, Double> fromCurrency = new AbstractConverter<Long, Double>() {
+                protected Double convert(Long source) {
                     double doubleValue = (double)source / 100;
                     return source == null ? null : Double.valueOf(doubleValue);
                 }

@@ -1,6 +1,6 @@
 package org.demo.service.insurance;
 
-import org.demo.dao.insurance.GenderDao;
+import org.demo.dao.insurance.refs.GenderDao;
 import org.demo.entity.insurance.refs.Gender;
 import org.demo.service.AbstractService;
 import org.springframework.stereotype.Service;

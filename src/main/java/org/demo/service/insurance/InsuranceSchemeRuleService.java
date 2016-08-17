@@ -1,6 +1,6 @@
 package org.demo.service.insurance;
 
-import org.demo.dao.insurance.InsuranceSchemeRuleDao;
+import org.demo.dao.insurance.refs.InsuranceSchemeRuleDao;
 import org.demo.entity.insurance.refs.InsuranceSchemeRule;
 import org.demo.service.AbstractService;
 import org.springframework.stereotype.Service;

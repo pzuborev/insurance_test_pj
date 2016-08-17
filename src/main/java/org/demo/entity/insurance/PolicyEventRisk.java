@@ -3,13 +3,15 @@ package org.demo.entity.insurance;
 import org.demo.entity.insurance.refs.EventRiskType;
 import org.demo.entity.insurance.refs.ForIndividualType;
 
+import java.math.BigDecimal;
+
 public class PolicyEventRisk {
 
     private EventRiskType riskType;
     private ForIndividualType forIndividualType;
-    private int riskAmount;
-    private int payAmount;
-    private double nettoTariff;
+    private long riskAmount;
+    private long payAmount;
+    private BigDecimal nettoTariff;
     private int payCount;
     private int payTerm;
     private int term;
@@ -30,27 +32,27 @@ public class PolicyEventRisk {
         this.forIndividualType = forIndividualType;
     }
 
-    public int getRiskAmount() {
+    public long getRiskAmount() {
         return riskAmount;
     }
 
-    public void setRiskAmount(int riskAmount) {
+    public void setRiskAmount(long riskAmount) {
         this.riskAmount = riskAmount;
     }
 
-    public int getPayAmount() {
+    public long getPayAmount() {
         return payAmount;
     }
 
-    public void setPayAmount(int payAmount) {
+    public void setPayAmount(long payAmount) {
         this.payAmount = payAmount;
     }
 
-    public double getNettoTariff() {
+    public BigDecimal getNettoTariff() {
         return nettoTariff;
     }
 
-    public void setNettoTariff(double nettoTariff) {
+    public void setNettoTariff(BigDecimal nettoTariff) {
         this.nettoTariff = nettoTariff;
     }
 

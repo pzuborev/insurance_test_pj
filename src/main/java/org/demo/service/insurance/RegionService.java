@@ -1,6 +1,6 @@
 package org.demo.service.insurance;
 
-import org.demo.dao.insurance.RegionDao;
+import org.demo.dao.insurance.refs.RegionDao;
 import org.demo.entity.insurance.refs.Region;
 import org.demo.service.AbstractService;
 import org.springframework.stereotype.Service;

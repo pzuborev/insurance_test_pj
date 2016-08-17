@@ -1,5 +1,4 @@
 import org.demo.controller.insurance.calculator.CalculatorController;
-import org.demo.dao.insurance.InsuranceSchemeDao;
 import org.demo.dto.calculator.CalcDataDto;
 import org.demo.dto.calculator.RiskForCalcDto;
 import org.demo.dto.refs.*;
@@ -11,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.modelmapper.ModelMapper;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.Calendar;
 
@@ -30,7 +30,7 @@ public class TestMapper {
         riskDto.setPayCount(10);
         riskDto.setPayTerm(10);
         riskDto.setTerm(10);
-        riskDto.setNettoTariff(amount / 10000);
+        riskDto.setNettoTariff(new BigDecimal(amount / 10000));
 
         return riskDto;
     }
@@ -48,7 +48,7 @@ public class TestMapper {
 
         risk.setRiskType(riskType);
         risk.setForIndividualType(forIndividualType);
-        risk.setRiskAmount(2533);
+        risk.setRiskAmount(9999999999999L);
         risk.setPayAmount(2001);
         risk.setPayCount(10);
         risk.setPayTerm(10);
@@ -79,7 +79,7 @@ public class TestMapper {
             Assert.assertEquals("payterm not equal", risk.getPayTerm(), riskDto.getPayTerm());
             Assert.assertEquals("term not equal", risk.getTerm(), riskDto.getTerm());
             Assert.assertEquals("payCount not equal", risk.getPayCount(), riskDto.getPayCount());
-            Assert.assertEquals("nt not equal", risk.getNettoTariff(), riskDto.getNettoTariff(), 10e-15);
+            Assert.assertEquals("nt not equal", risk.getNettoTariff().doubleValue(), riskDto.getNettoTariff().doubleValue(), 10e-15);
 
 //            System.out.println(risk.toString());
             RiskForCalcDto riskDto2 = getModelMapper().map(risk, RiskForCalcDto.class);

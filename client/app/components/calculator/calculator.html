@@ -225,6 +225,7 @@
                                ng-model="selectedRisk.riskAmount"
                                class="form-control"
                                ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                               ng-change="selectedRiskAmountChange()"
 
                         />
                         <div class="help-block" ng-messages="calcForm.selectedRiskAmount.$error"
@@ -243,7 +244,8 @@
                         <input id="selectedPayAmount" name="selectedPayAmount" type="text"
                                ng-model="selectedRisk.payAmount"
                                class="form-control"
-                               ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"/>
+                               ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/"
+                        ng-change="selectedPayAmountChange()"/>
                         <div class="help-block" ng-messages="calcForm.selectedPayAmount.$error"
                              ng-show="calcForm.selectedPayAmount.$touched">
                             <div ng-message="pattern">Только число</div>

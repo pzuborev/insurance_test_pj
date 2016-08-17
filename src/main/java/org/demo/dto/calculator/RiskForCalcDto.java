@@ -3,6 +3,8 @@ package org.demo.dto.calculator;
 import org.demo.dto.refs.EventRiskTypeLookupDto;
 import org.demo.dto.refs.ForIndividualTypeDto;
 
+import java.math.BigDecimal;
+
 
 public class RiskForCalcDto {
     private int rowNo;
@@ -10,7 +12,7 @@ public class RiskForCalcDto {
     private ForIndividualTypeDto forIndividualType;
     private double riskAmount;
     private double payAmount;
-    private double nettoTariff;
+    private BigDecimal nettoTariff;
     private int payCount;
     private int payTerm;
     private int term;
@@ -55,11 +57,11 @@ public class RiskForCalcDto {
         this.payAmount = payAmount;
     }
 
-    public double getNettoTariff() {
+    public BigDecimal getNettoTariff() {
         return nettoTariff;
     }
 
-    public void setNettoTariff(double nettoTariff) {
+    public void setNettoTariff(BigDecimal nettoTariff) {
         this.nettoTariff = nettoTariff;
     }
 

@@ -81,26 +81,25 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
         }
         try {
             if (token == null) {
-
                 authenticated = checkPassword(httpRequest, httpResponse);
             } else {
                 authenticated = checkToken(token);
             }
 
-            if (authenticated) {
-                logger.debug("*** perform next filter");
-                filterChain.doFilter(httpRequest, httpResponse);
-            } else {
-                logger.debug("*** auth failed");
-                httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-            }
-
         } catch (Exception e) {
             e.printStackTrace();
 
-//          httpResponse.sendError(, new ErrorResource(e.getMessage()));
+            logger.debug("*** set status SC_UNAUTHORIZED");
             httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             httpResponse.getWriter().write(convertObjectToJson(new ErrorResource(e.getMessage())));
+        }
+
+        if (authenticated) {
+            logger.debug("*** perform next filter");
+            filterChain.doFilter(httpRequest, httpResponse);
+        } else {
+            logger.debug("*** auth failed");
+            httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
         }
 
     }

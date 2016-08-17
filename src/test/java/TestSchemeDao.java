@@ -1,4 +1,4 @@
-import org.demo.dao.insurance.InsuranceSchemeDao;
+import org.demo.dao.insurance.refs.InsuranceSchemeDao;
 import org.demo.dto.refs.SchemeRiskLookupDto;
 import org.demo.entity.insurance.refs.InsuranceScheme;
 import org.junit.Assert;

@@ -33,9 +33,10 @@ app.factory('securityInterceptor',
                     var $http = $injector.get('$http');
                     var promise = null;
                     var url = response.config.url;
-                    //$log.debug("status = " + response.status );
+                    $log.debug("status = " + response.status );
                     if (response.status === 401 && !urlContains(url, '/login')) {
                         $log.debug(response.config.url);
+                        $log.debug('*** push request into queue');
                         promise = securityRetryQueue.pushRetryFn('unauthorized-server',
                             function () {
                                 return $http(response.config);

@@ -21,6 +21,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     final static Logger logger = Logger.getLogger(ExceptionController.class);
 
     private ResponseEntity<ErrorResource> getResponseDataInternal(Throwable throwable, HttpStatus statusCode) {
+        System.out.println(" ***** getResponseDataInternal ");
         return new ResponseEntity(new ErrorResource(throwable.getMessage()), statusCode);
     }
 

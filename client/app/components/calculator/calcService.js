@@ -163,19 +163,19 @@ app.service('calcService', function ($http, $log) {
                 url: '/api/calculator/',
                 data: data,
                 headers: {'Content-Type': 'application/json'}
-            }).then(function (result) {
-                $log.debug('finished calculation, status = ' + result.status);
-                if (result.status == 400 || result.status == 500) {
-                    $log.debug(result && result.data && result.data.message);
-                    onFailure (result && result.data);
+            }).then(function (response) {
+                $log.debug('finished calculation, status = ' + response.status);
+                if (response.status == 400 || response.status == 500) {
+                    $log.debug(response);
+                    onFailure (response && response.data);
                 } else {
-                    onSuccess(result && result.data && result.data.risks);
+                    onSuccess(response && response.data && response.data.risks);
                 }
 
-            }, function (result) {
+            }, function (response) {
                 $log.debug('failure calculation');
-                $log.error(result && result.data);
-                onFailure (result && result.data);
+                $log.error(response);
+                onFailure (response && response.data);
             });
 
         }
