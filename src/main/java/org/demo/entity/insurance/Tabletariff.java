@@ -5,8 +5,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
-public class Tabletariff {
+@Entity(name = "tabletariff")
+public class TableTariff {
     private int id;
     private String name;
 
@@ -35,7 +35,7 @@ public class Tabletariff {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Tabletariff that = (Tabletariff) o;
+        TableTariff that = (TableTariff) o;
 
         if (id != that.id) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
