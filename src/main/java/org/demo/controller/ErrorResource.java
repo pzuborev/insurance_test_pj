@@ -2,7 +2,6 @@ package org.demo.controller;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-//@JsonIgnoreProperties(ignoreUnknown = true)
 public class ErrorResource {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String code;

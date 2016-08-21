@@ -4,8 +4,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 
 public class TestDemo {
-
-
     @Test
     public void testPass() throws Exception {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(0);
@@ -16,5 +14,3 @@ public class TestDemo {
         Assert.assertTrue(passwordEncoder.matches("admin", s));
     }
 }
-//$2a$10$Gb.KJ1UiAcuCZofyVoT/j.S.eexS/r4gr3NMEedJdYOBZJRF9qz/W
-//

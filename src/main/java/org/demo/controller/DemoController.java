@@ -78,15 +78,6 @@ public class DemoController {
         return "secured";
     }
 
-//    @RequestMapping(path = "/logout")
-//    public String logout(HttpServletRequest request, HttpServletResponse response) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        if (auth != null) {
-//            new SecurityContextLogoutHandler().logout(request, response, auth);
-//        }
-//        return "redirect:/hi";
-//    }
-
     @RequestMapping(path = "/register", method = RequestMethod.GET)
     public String register(Model model) {
         logger.debug("*** register");

@@ -19,8 +19,6 @@ import java.util.List;
 @ContextConfiguration(locations = {"classpath:dispatcher-context.xml"})
 @Transactional
 public class TestDao {
-    //private static ApplicationContext context;
-
     @Autowired
     private UserRoleDao userRoleDao;
 
@@ -30,8 +28,6 @@ public class TestDao {
     @Test
     public void testGetAllUserRoles() throws Exception {
         System.out.println("************************ testGetAllUserRoles");
-        // context = new ClassPathXmlApplicationContext("dispatcher-context.xml");
-        // userRoleDao = (UserRoleDao) context.getBean("userRoleDao");
 
         Assert.assertNotNull("userRoleDao is null", userRoleDao);
         List<MyUserRole> userRoles = userRoleDao.getAll();

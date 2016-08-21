@@ -24,8 +24,6 @@
 
             $scope.setSelectedRisk = function (risk) {
                 $scope.selectedRisk = risk;
-                //$scope.selectedRisk.payCount = calcService.getPayCount($scope.selectedRisk.payTerm,
-                //    $scope.calcData.paymentFrequency);
             };
             $scope.isRiskSelected = function (risk) {
                 return ($scope.selectedRisk == risk);
@@ -134,7 +132,6 @@
                 calcService.getEventRisksForScheme(
                     $scope.calcData.insuranceScheme.id,
                     function (schemeRisks) {
-                        //$scope.setEventRisks (schemeRisks);
                         // todo add progress bar
                         var modalInstance = $uibModal.open({
                             animation: true,

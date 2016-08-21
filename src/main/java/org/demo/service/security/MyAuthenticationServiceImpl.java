@@ -44,7 +44,6 @@ public class MyAuthenticationServiceImpl implements MyAuthenticationService {
     public TokenDetails authenticate(String username, String password) {
         Authentication authentication =
                 new UsernamePasswordAuthenticationToken(username, password);
-        /*try {*/
             authentication = authenticationManager.authenticate(authentication);
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -60,9 +59,6 @@ public class MyAuthenticationServiceImpl implements MyAuthenticationService {
                 logger.debug("*** authentication successful has finished ");
                 return newToken;
             }
-       /* } catch (AuthenticationException e) {
-            e.printStackTrace();
-        }*/
         return null;
 
     }

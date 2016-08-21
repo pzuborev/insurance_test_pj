@@ -81,7 +81,6 @@ public class TestMapper {
             Assert.assertEquals("payCount not equal", risk.getPayCount(), riskDto.getPayCount());
             Assert.assertEquals("nt not equal", risk.getNettoTariff().doubleValue(), riskDto.getNettoTariff().doubleValue(), 10e-15);
 
-//            System.out.println(risk.toString());
             RiskForCalcDto riskDto2 = getModelMapper().map(risk, RiskForCalcDto.class);
             Assert.assertEquals("dto1 != dto2, payAmount", riskDto.getPayAmount(), riskDto2.getPayAmount(), 10e-15);
 
@@ -132,26 +131,6 @@ public class TestMapper {
         Assert.assertEquals("not equal region id", calcDataDto.getRegion().getId(), calcData.getRegion().getId());
         Assert.assertEquals("not equal region name", calcDataDto.getRegion().getName(), calcData.getRegion().getName());
         Assert.assertEquals("not equal region code", calcDataDto.getCurrency().getCode(), calcData.getCurrency().getCode());
-
-//        calcDataDto = getModelMapper().map(calcData, CalcDataDto.class);
-//
-//        Assert.assertEquals("not equal currency code", calcDataDto.getCurrency().getCode(), calcData.getCurrency().getCode());
-//        Assert.assertEquals("not equal currency name", calcDataDto.getCurrency().getName(), calcData.getCurrency().getName());
-//        Assert.assertEquals("not equal arcdate", calcDataDto.getArcDate(), calcData.getArcDate());
-//        Assert.assertEquals("not equal scheme id", calcDataDto.getInsuranceScheme().getId(), calcData.getInsuranceScheme().getId());
-//        Assert.assertEquals("not equal scheme name", calcDataDto.getInsuranceScheme().getName(), calcData.getInsuranceScheme().getName());
-//        Assert.assertEquals("not equal rule id", calcDataDto.getInsuranceSchemeRule().getId(), calcData.getInsuranceSchemeRule().getId());
-//        Assert.assertEquals("not equal rule name", calcDataDto.getInsuranceSchemeRule().getName(), calcData.getInsuranceSchemeRule().getName());
-//        Assert.assertEquals("not equal birthdate", calcDataDto.getInsuredBirthDate(), calcData.getInsuredBirthDate());
-//        Assert.assertEquals("not equal gender code", calcDataDto.getInsuredGender().getCode(), calcData.getInsuredGender().getCode());
-//        Assert.assertEquals("not equal gender name", calcDataDto.getInsuredGender().getName(), calcData.getInsuredGender().getName());
-//        Assert.assertEquals("not equal payment frequency", calcDataDto.getPaymentFrequency().getCode(), calcData.getPaymentFrequency().getCode());
-//        Assert.assertEquals("not equal payment frequency name", calcDataDto.getPaymentFrequency().getName(), calcData.getPaymentFrequency().getName());
-//        Assert.assertEquals("not equal region id", calcDataDto.getRegion().getId(), calcData.getRegion().getId());
-//        Assert.assertEquals("not equal region name", calcDataDto.getRegion().getName(), calcData.getRegion().getName());
-//        Assert.assertEquals("not equal region code", calcDataDto.getCurrency().getCode(), calcData.getCurrency().getCode());
-
-
 
     }
 }

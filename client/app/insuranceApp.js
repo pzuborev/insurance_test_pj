@@ -58,13 +58,3 @@ app.controller('mainInsuranceCtrl',
             $scope.authorizedUserName = sessionHolder.getUserName();
         });
     });
-
-//pz test
-//app.controller('DropdownCtrl', function($scope) {
-//
-//    $scope.items = [
-//        "1",
-//        "2",
-//        "3"
-//    ];
-//});

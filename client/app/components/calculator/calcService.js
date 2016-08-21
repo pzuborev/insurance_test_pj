@@ -44,7 +44,6 @@ app.service('calcService', function ($http, $log) {
             }
         ]
     };
-    //riskDataSet.selectedRisk = riskDataSet.data[0];
 
     function getPayFreqCount(payFreq) {
         var payFreqCount = null;
@@ -86,7 +85,6 @@ app.service('calcService', function ($http, $log) {
             ).then(
                 function (response) {
                     $log.log('got risk for scheme ' + schemeId + ' from rest.');
-                    //$log.log(response);
                     success(response.data);
                 }
             );
