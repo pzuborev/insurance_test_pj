@@ -1,7 +1,7 @@
 package org.demo.service.security;
 
 import org.demo.dao.security.TokenDao;
-import org.demo.entity.security.MyToken;
+import org.demo.entity.security.InsToken;
 import org.demo.exception.TokenNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,18 +21,18 @@ import java.util.UUID;
 
 @Service
 @Qualifier("authenticationService")
-public class MyAuthenticationServiceImpl implements MyAuthenticationService {
+public class InsAuthenticationServiceImpl implements InsAuthenticationService {
 
     @Autowired
     TokenDao tokenDao;
     @Autowired
-    MyUserService myUserService;
+    InsUserService insUserService;
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    final static Logger logger = Logger.getLogger(MyAuthenticationServiceImpl.class);
+    final static Logger logger = Logger.getLogger(InsAuthenticationServiceImpl.class);
 
 
     private String newTokenValue () {
@@ -53,7 +53,7 @@ public class MyAuthenticationServiceImpl implements MyAuthenticationService {
 
                 if (newToken == null) return null;
 
-                MyToken tokenObj = new MyToken(username, newToken.getToken());
+                InsToken tokenObj = new InsToken(username, newToken.getToken());
                 tokenDao.persist(tokenObj);
 
                 logger.debug("*** authentication successful has finished ");
@@ -69,7 +69,7 @@ public class MyAuthenticationServiceImpl implements MyAuthenticationService {
 
         Assert.notNull(tokenDao, "tokenDao is null");
 
-        UserDetails userDetails = myUserService.loadUserByToken(token);
+        UserDetails userDetails = insUserService.loadUserByToken(token);
         if (userDetails == null) {
             throw new TokenNotFoundException(token);
         }
@@ -85,7 +85,7 @@ public class MyAuthenticationServiceImpl implements MyAuthenticationService {
     @Transactional
     public void logout(String token) {
         logger.debug("*** logout");
-        tokenDao.delete(new MyToken(token));
+        tokenDao.delete(new InsToken(token));
         SecurityContextHolder.clearContext();
     }
 

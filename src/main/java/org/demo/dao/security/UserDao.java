@@ -1,36 +1,35 @@
 package org.demo.dao.security;
 
 import org.demo.dao.AbstractDao;
-import org.demo.entity.security.MyUser;
-import org.hibernate.transform.Transformers;
+import org.demo.entity.security.InsUser;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public class UserDao extends AbstractDao<MyUser> {
-    public MyUser getByUserName(String username) {
-        MyUser myUser = (MyUser) getSession().get(MyUser.class, username);
-        if (myUser == null)
+public class UserDao extends AbstractDao<InsUser> {
+    public InsUser getByUserName(String username) {
+        InsUser insUser = (InsUser) getSession().get(InsUser.class, username);
+        if (insUser == null)
             throw new UsernameNotFoundException(username);
-        return myUser;
+        return insUser;
     }
 
     @Override
-    public Class<MyUser> getEntityType() {
-        return MyUser.class;
+    public Class<InsUser> getEntityType() {
+        return InsUser.class;
     }
 
-    public MyUser getByToken(String token) {
-        List<MyUser> myUsers = getSession().createSQLQuery(
+    public InsUser getByToken(String token) {
+        List<InsUser> insUsers = getSession().createSQLQuery(
                 "select u.* from users u\n" +
                         "join tokens t on t.username = u.username\n" +
                         "where t.token = :token")
-                .addEntity(MyUser.class)
+                .addEntity(InsUser.class)
                 .setParameter("token", token)
                 .list();
-        if (myUsers.size() > 0) return myUsers.iterator().next();
+        if (insUsers.size() > 0) return insUsers.iterator().next();
         else return null;
     }
 }

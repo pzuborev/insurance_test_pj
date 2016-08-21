@@ -5,7 +5,7 @@ import java.lang.annotation.Annotation;
 import java.util.Set;
 
 @Entity(name = "users")
-public class MyUser implements Entity {
+public class InsUser implements Entity {
 
     @Id
     @Column (name = "username")
@@ -16,7 +16,7 @@ public class MyUser implements Entity {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name="userrolelink", joinColumns = @JoinColumn(name = "username"),
             inverseJoinColumns = @JoinColumn(name="userroleid"))
-    Set<MyUserRole> myUserRole;
+    Set<InsUserRole> insUserRole;
 
     public String getUsername() {
         return username;
@@ -34,22 +34,22 @@ public class MyUser implements Entity {
         this.password = password;
     }
 
-    public Set<MyUserRole> getMyUserRole() {
-        return myUserRole;
+    public Set<InsUserRole> getInsUserRole() {
+        return insUserRole;
     }
 
-    public void setMyUserRole(Set<MyUserRole> myUserRole) {
-        this.myUserRole = myUserRole;
+    public void setInsUserRole(Set<InsUserRole> insUserRole) {
+        this.insUserRole = insUserRole;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof MyUser)) return false;
+        if (!(o instanceof InsUser)) return false;
 
-        MyUser myUser = (MyUser) o;
+        InsUser insUser = (InsUser) o;
 
-        return getUsername().equals(myUser.getUsername());
+        return getUsername().equals(insUser.getUsername());
 
     }
 
@@ -65,13 +65,13 @@ public class MyUser implements Entity {
         return null;
     }
 
-    public MyUser(String username, String password, Set<MyUserRole> myUserRoles) {
+    public InsUser(String username, String password, Set<InsUserRole> insUserRoles) {
         setUsername(username);
         setPassword(password);
-        setMyUserRole(myUserRoles);
+        setInsUserRole(insUserRoles);
     }
 
-    public MyUser() {
+    public InsUser() {
     }
 
     @Override

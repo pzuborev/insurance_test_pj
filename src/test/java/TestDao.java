@@ -1,7 +1,7 @@
 import org.demo.dao.security.UserDao;
 import org.demo.dao.security.UserRoleDao;
-import org.demo.entity.security.MyUser;
-import org.demo.entity.security.MyUserRole;
+import org.demo.entity.security.InsUser;
+import org.demo.entity.security.InsUserRole;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,19 +30,19 @@ public class TestDao {
         System.out.println("************************ testGetAllUserRoles");
 
         Assert.assertNotNull("userRoleDao is null", userRoleDao);
-        List<MyUserRole> userRoles = userRoleDao.getAll();
+        List<InsUserRole> userRoles = userRoleDao.getAll();
 
         Assert.assertNotNull("user role list is null", userRoles);
         Assert.assertTrue("user role list empty", (userRoles.size() > 0));
     }
 
-    private MyUser getFakeUser(String username, String role) {
-        MyUser user = new MyUser();
+    private InsUser getFakeUser(String username, String role) {
+        InsUser user = new InsUser();
         user.setUsername(username);
         user.setPassword(username + "_psw");
-        HashSet<MyUserRole> myUserRoles = new HashSet<>(1);
-        myUserRoles.add(userRoleDao.getRoleByName(role));
-        user.setMyUserRole(myUserRoles);
+        HashSet<InsUserRole> insUserRoles = new HashSet<>(1);
+        insUserRoles.add(userRoleDao.getRoleByName(role));
+        user.setInsUserRole(insUserRoles);
         return user;
     }
 
@@ -50,7 +50,7 @@ public class TestDao {
     public void testCreateUser() throws Exception {
         System.out.println("************************* testCreateUser");
         Assert.assertNotNull("userDao is null", userDao);
-        MyUser user = getFakeUser("test", "ADMIN");
+        InsUser user = getFakeUser("test", "ADMIN");
 
         userDao.persist(user);
         userDao.flush();
@@ -63,7 +63,7 @@ public class TestDao {
     public void testUpdateUser() throws Exception {
         String testUserName = "admin";
         System.out.println("************************ testUpdateUser");
-        MyUser user = getFakeUser(testUserName, "ADMIN");
+        InsUser user = getFakeUser(testUserName, "ADMIN");
         userDao.update(user);
 
 
@@ -71,8 +71,8 @@ public class TestDao {
         Assert.assertNotNull("user is null", user);
         Assert.assertEquals("user name password", user.getPassword(), testUserName + "_psw");
         userDao.flush();
-        ArrayList<MyUser> myUsers = (ArrayList<MyUser>) userDao.getAll();
-        for (MyUser u : myUsers) {
+        ArrayList<InsUser> insUsers = (ArrayList<InsUser>) userDao.getAll();
+        for (InsUser u : insUsers) {
             System.out.println(u.getUsername() + " " + u.getPassword());
         }
     }
@@ -80,11 +80,11 @@ public class TestDao {
     @Test
     public void testDeleteUser() throws Exception {
         System.out.println("************************* testDeleteUser");
-        MyUser user = getFakeUser("admin", "ADMIN");
+        InsUser user = getFakeUser("admin", "ADMIN");
         userDao.delete(user);
         userDao.flush();
-        ArrayList<MyUser> myUsers = (ArrayList<MyUser>) userDao.getAll();
-        for (MyUser u : myUsers) {
+        ArrayList<InsUser> insUsers = (ArrayList<InsUser>) userDao.getAll();
+        for (InsUser u : insUsers) {
             System.out.println(u.getUsername() + " " + u.getPassword());
         }
 
@@ -93,16 +93,16 @@ public class TestDao {
 
     @Test
     public void testGetUserByName() throws Exception {
-        MyUser myUser = userDao.getByUserName("admin");
-        Assert.assertNotNull("myUser is null", myUser);
-        System.out.println("********* "+myUser.getUsername());
+        InsUser insUser = userDao.getByUserName("admin");
+        Assert.assertNotNull("insUser is null", insUser);
+        System.out.println("********* "+ insUser.getUsername());
     }
 
     @Test
     public void testGetUserByToken() throws Exception {
-        MyUser myUser = userDao.getByToken("1");
-        Assert.assertNotNull("myUser is null", myUser);
-        System.out.println("********* "+myUser.getUsername());
+        InsUser insUser = userDao.getByToken("1");
+        Assert.assertNotNull("insUser is null", insUser);
+        System.out.println("********* "+ insUser.getUsername());
 
     }
 }

@@ -5,7 +5,7 @@ import java.sql.Date;
 import java.util.Calendar;
 
 @Entity(name = "tokens")
-public class MyToken {
+public class InsToken {
     @Column(name="username")
     private String username;
 
@@ -32,25 +32,25 @@ public class MyToken {
         this.lastUsed = lastUsed;
     }
 
-    public MyToken(String username, String token) {
+    public InsToken(String username, String token) {
         this.username = username;
         this.token = token;
         this.lastUsed = new Date(Calendar.getInstance().getTimeInMillis());
     }
 
-    public MyToken() {
+    public InsToken() {
     }
 
-    public MyToken(String token) {
+    public InsToken(String token) {
         this.token = token;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof MyToken)) return false;
+        if (!(o instanceof InsToken)) return false;
 
-        MyToken token1 = (MyToken) o;
+        InsToken token1 = (InsToken) o;
 
         return getToken().equals(token1.getToken());
 

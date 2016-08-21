@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import org.demo.controller.ErrorResource;
 import org.demo.exception.ApiException;
-import org.demo.service.security.MyAuthenticationService;
+import org.demo.service.security.InsAuthenticationService;
 import org.demo.service.security.TokenDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.filter.GenericFilterBean;
@@ -22,9 +22,9 @@ public class RestTokenAuthenticationFilter extends GenericFilterBean {
 
     final static Logger logger = Logger.getLogger(RestTokenAuthenticationFilter.class);
     @Autowired
-    private MyAuthenticationService authenticationService;
+    private InsAuthenticationService authenticationService;
 
-    public void setAuthenticationService(MyAuthenticationService authenticationService) {
+    public void setAuthenticationService(InsAuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 

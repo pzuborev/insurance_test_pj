@@ -1,7 +1,7 @@
 package org.demo.config;
 
 import org.demo.filters.RestTokenAuthenticationFilter;
-import org.demo.service.security.MyAuthenticationService;
+import org.demo.service.security.InsAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-public class MySecurityConfig extends WebSecurityConfigurerAdapter {
+public class InsSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     @Qualifier("userDetailsService")
@@ -26,7 +26,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     @Qualifier("authenticationService")
-    private MyAuthenticationService authenticationService;
+    private InsAuthenticationService authenticationService;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

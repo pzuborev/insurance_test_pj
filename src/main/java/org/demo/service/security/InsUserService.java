@@ -2,10 +2,9 @@ package org.demo.service.security;
 
 import org.demo.dao.security.UserDao;
 import org.demo.dto.UserDto;
-import org.demo.entity.security.MyUser;
-import org.demo.entity.security.MyUserRole;
+import org.demo.entity.security.InsUser;
+import org.demo.entity.security.InsUserRole;
 import org.demo.exception.ApiException;
-import org.demo.service.security.MyUserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,11 +19,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class MyUserService {
+public class InsUserService {
     @Autowired
     private UserDao userDao;
     @Autowired
-    private MyUserRoleService userRoleService;
+    private InsUserRoleService userRoleService;
 
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
@@ -32,18 +31,18 @@ public class MyUserService {
 
     @Transactional
     public void create(UserDto userDto) {
-        MyUser myUser = new MyUser();
-        myUser.setUsername(userDto.getUsername());
-        myUser.setPassword(userDto.getPassword());
+        InsUser insUser = new InsUser();
+        insUser.setUsername(userDto.getUsername());
+        insUser.setPassword(userDto.getPassword());
         if (userDto.getRoles() != null)
-            myUser.setMyUserRole(userRoleService.getMyRolesByName(userDto.getRoles()));
+            insUser.setInsUserRole(userRoleService.getInsRolesByName(userDto.getRoles()));
 
-        userDao.persist(myUser);
+        userDao.persist(insUser);
     }
 
     @Transactional
     public void update(String userName, UserDto userDto) {
-        MyUser user = userDao.getByUserName(userName);
+        InsUser user = userDao.getByUserName(userName);
         if (user == null) throw new UsernameNotFoundException(userName);
 
         if (userDto.getUsername() == "") userDto.setUsername(userName);
@@ -53,7 +52,7 @@ public class MyUserService {
 
         //обновляем только то, что задано для обновления
         if (userDto.getRoles() != null)
-            user.setMyUserRole(userRoleService.getMyRolesByName(userDto.getRoles()));
+            user.setInsUserRole(userRoleService.getInsRolesByName(userDto.getRoles()));
 
         if (userDto.getPassword() != null)
             user.setPassword(userDto.getPassword());
@@ -63,22 +62,22 @@ public class MyUserService {
 
     @Transactional
     public void delete(String username) {
-        MyUser user = new MyUser();
+        InsUser user = new InsUser();
         user.setUsername(username);
         userDao.delete(user);
     }
 
     @Transactional(readOnly = true)
-    public MyUser getByUserName(String username) {
+    public InsUser getByUserName(String username) {
         return userDao.getByUserName(username);
     }
 
     @Transactional(readOnly = true)
     public UserDetails loadUserByToken(String token) {
         UserDetails userDetails = null;
-        MyUser user = userDao.getByToken(token);
+        InsUser user = userDao.getByToken(token);
         if (user != null) {
-            List<GrantedAuthority> authorities = buildUserAuthority(user.getMyUserRole());
+            List<GrantedAuthority> authorities = buildUserAuthority(user.getInsUserRole());
             userDetails = buildUserForAuthentication(user, authorities);
         }
         return userDetails;
@@ -86,18 +85,18 @@ public class MyUserService {
 
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(final String username) {
-        MyUser user = userDao.getByUserName(username);
+        InsUser user = userDao.getByUserName(username);
 
-        List<GrantedAuthority> authorities = buildUserAuthority(user.getMyUserRole());
+        List<GrantedAuthority> authorities = buildUserAuthority(user.getInsUserRole());
         return buildUserForAuthentication(user, authorities);
     }
 
-    private User buildUserForAuthentication(MyUser user, List<GrantedAuthority> authorities) {
+    private User buildUserForAuthentication(InsUser user, List<GrantedAuthority> authorities) {
         return new User(user.getUsername(), user.getPassword(), true, true, true, true, authorities);
     }
 
-    private List<GrantedAuthority> buildUserAuthority(Set<MyUserRole> myUserRoles) {
-        return myUserRoles.stream()
+    private List<GrantedAuthority> buildUserAuthority(Set<InsUserRole> insUserRoles) {
+        return insUserRoles.stream()
                 .map(userRole -> new SimpleGrantedAuthority("ROLE_"+userRole.getName()))
                 .collect(Collectors.toList());
     }

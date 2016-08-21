@@ -2,8 +2,8 @@ package org.demo.controller.security;
 
 import org.apache.log4j.Logger;
 import org.demo.dto.UserDto;
-import org.demo.entity.security.MyUser;
-import org.demo.service.security.MyUserService;
+import org.demo.entity.security.InsUser;
+import org.demo.service.security.InsUserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping(value = "/api/user")
 public class UserController {
     @Autowired
-    private MyUserService userService;
+    private InsUserService userService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -73,7 +73,7 @@ public class UserController {
         return convertToDto(userService.getByUserName("admin"));
     }
 
-    private UserDto convertToDto(MyUser user) {
+    private UserDto convertToDto(InsUser user) {
         return modelMapper.map(user, UserDto.class);
     }
 

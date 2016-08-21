@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Qualifier("userDetailsService")
-public class MyUserDetailsService implements UserDetailsService{
+public class InsUserDetailsService implements UserDetailsService{
     @Autowired
-    private MyUserService myUserService;
+    private InsUserService insUserService;
 
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return myUserService.loadUserByUsername(s);
+        return insUserService.loadUserByUsername(s);
     }
 }
